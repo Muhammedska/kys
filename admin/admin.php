@@ -16,7 +16,7 @@
             <div class="container-fluid d-flex flex-column p-0">
                 <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
                     <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-                    <div class="sidebar-brand-text mx-3"><span>Brand</span></div>
+                    <div class="sidebar-brand-text mx-3"><span>Walle</span></div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
@@ -355,7 +355,7 @@
     </div>
     <footer class="bg-white sticky-footer">
         <div class="container my-auto">
-            <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+            <div class="text-center my-auto copyright"><span>Copyright © Walle 2022</span></div>
         </div>
     </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
