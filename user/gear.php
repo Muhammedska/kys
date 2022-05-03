@@ -35,6 +35,9 @@ if ($_SESSION['isactive']) {
         }else{
             echo "<script>window.location.href='../user/user.php?ret=false&reqtype=changepp'</script>";
         }
+    }if($_GET['reqtype'] == 'lesson'){
+        $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        echo "<script>window.location.href='../user/user.php?ret=true&reqtype=lesson'</script>";
     }
     //echo "<script>window.location.href='../user/user.php'</script>";
 } else {

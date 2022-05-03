@@ -181,7 +181,11 @@ while ($row = $res->fetchArray()) {
                     <?php
                     if (!empty($_GET["ret"])) {
                         if ($_GET['ret'] == "true") {
-                            echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Profil resminiz başarıyle değiştirildi. 👍</div>";
+                            if ($_GET['reqtype'] == 'changepp') {
+                                echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Profil resminiz başarıyle değiştirildi. 👍</div>";
+                            }else if($_GET['reqtype'] == 'lesson'){
+                                echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Soru çözüm randevu talebiniz başarıyla alınmıştır. 👍</div>";
+                            }
                         }
                     }
                     ?>
