@@ -14,6 +14,7 @@ function detectMob() {
     });
 }
 
+
 /* System Runners */
 
 if (detectMob() == true) {

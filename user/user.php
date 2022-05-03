@@ -25,7 +25,10 @@
                     <li class="nav-item"><a class="nav-link active" href="../user/user.php"><i class="fas fa-user"></i><span>Profil</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../logout.php"><i class="fa fa-arrow-circle-left"></i><span>Çıkış</span></a></li>
                 </ul>
-                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+                <div class="text-center d-none d-md-inline">
+                    <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+
+                </div>
             </div>
         </nav>
         <div class="d-flex flex-column" id="content-wrapper">
@@ -135,7 +138,7 @@
                                         <span class=" d-lg-inline mr-2 text-gray-600 small">User Name</span>
                                         <img class="border rounded-circle img-profile d-none" src="../assets/img/avatars/avatar1.jpeg">
                                     </a>
-                                    <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">                                        
+                                    <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
                                         <a class="dropdown-item" href="../logout.php">
                                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Çıkış</a>
                                     </div>
@@ -150,9 +153,86 @@
                         <div class="col-lg-4">
                             <div class="card mb-3">
                                 <div class="card-body text-center shadow">
-                                    <img class="rounded-circle mb-3 mt-4" src="../assets/img/dogs/image2.jpeg" width="160" height="160">
+                                    <img class="rounded-circle mb-3 mt-4" src="../assets/img/dogs/image7.jpeg" width="160" height="160">
                                     <div class="mb-3">User Name</div>
-                                    <div class="mb-3"><button class="btn btn-primary btn-sm" type="button">Resmi Değiştir</button></div>
+                                    <div class="mb-3">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modelId">
+                                            Resmi Değiştir
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Profil Resimleri</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div class=" align-center card-body shadow mb-3 p-2">
+                                                                    <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image2.jpeg" alt="peter" width="160" height="160">
+                                                                    <div class="mb-3">
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=peter'"> Ayarla</button>
+                                                                    </div>
+                                                                </div>
+                                                                &nbsp;&nbsp;
+                                                                <div class="text-center card-body shadow mb-3 p-2">
+                                                                    <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image3.jpeg" alt="franko" width="160" height="160">
+                                                                    <div class="mb-3">
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=franko'"> Ayarla</button>
+                                                                    </div>
+                                                                </div>
+                                                                &nbsp;&nbsp;
+                                                                <div class=" text-center card-body shadow mb-3 p-2">
+                                                                    <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image4.jpeg" alt="ralph" width="160" height="160">
+                                                                    <div class="mb-3">
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=ralph'"> Ayarla</button>
+                                                                    </div>
+                                                                </div>
+                                                                &nbsp;&nbsp;
+                                                                <div class=" align-center card-body shadow mb-3 p-2">
+                                                                    <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image5.jpeg" alt="jessi" width="160" height="160">
+                                                                    <div class="mb-3">
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=jessi'"> Ayarla</button>
+                                                                    </div>
+                                                                </div>
+                                                                &nbsp;&nbsp;
+                                                                <div class="text-center card-body shadow mb-3 p-2">
+                                                                    <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image6.jpeg" alt="leo" width="160" height="160">
+                                                                    <div class="mb-3">
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=leo'"> Ayarla</button>
+                                                                    </div>
+                                                                </div>
+                                                                &nbsp;&nbsp;
+                                                                <div class=" text-center card-body shadow mb-3 p-2">
+                                                                    <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image7.jpeg" alt="mike" width="160" height="160">
+                                                                    <div class="mb-3">
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=mike'"> Ayarla</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            $('#exampleModal').on('show.bs.modal', event => {
+                                                var button = $(event.relatedTarget);
+                                                var modal = $(this);
+                                                // Use above variables to manipulate the DOM
+
+                                            });
+                                        </script>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card shadow mb-4">
@@ -173,13 +253,22 @@
                                             <p class="text-primary m-0 font-weight-bold">Kullanıcı Detayları</p>
                                         </div>
                                         <div class="card-body">
-                                            <div class="d-inline-flex">
-                                                <strong>Kullanıcı Adı :</strong>&nbsp;Lorem Ipsum
-                                            </div>
-                                            <hr>
-                                            <div class="d-inline-flex">
-                                                <strong>Kullanıcı ID &nbsp;:</strong>&nbsp;Lorem Ipsum
-                                            </div>
+                                            <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;">
+                                                <tbody class="text-left">
+                                                    <tr>
+                                                        <td>Kullanıcı Adı</td>
+                                                        <td>User Name</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kullanıcı Id</td>
+                                                        <td>Id</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sınıf Düzeyi</td>
+                                                        <td>graduate</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="card shadow">
