@@ -1,4 +1,6 @@
 <?php
+
+
 session_start();
 
 $ppnames = ["peter", "franko", "ralph", "jessi", "leo", "mike"];
@@ -36,7 +38,22 @@ if ($_SESSION['isactive']) {
             echo "<script>window.location.href='../user/user.php?ret=false&reqtype=changepp'</script>";
         }
     }if($_GET['reqtype'] == 'lesson'){
-        $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        $analysis = new DbConnecter('../src/database/lessonsw.db');
+        $sql = "SELECT * FROM inlist WHERE stid = '{$ID}';";
+        $results = $analysis->prepare($sql);
+        $res = $results -> execute();
+        $row = $res->fetchArray(SQLITE3_NUM);
+        
+        if($row != false){
+            $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");    
+            $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        }
+        else{
+            $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+            $analysis->exec("CREATE TABLE l{$ID} (lesson TEXT)")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+            $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+            $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        }
         echo "<script>window.location.href='../user/user.php?ret=true&reqtype=lesson'</script>";
     }
     //echo "<script>window.location.href='../user/user.php'</script>";

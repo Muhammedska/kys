@@ -183,7 +183,7 @@ while ($row = $res->fetchArray()) {
                         if ($_GET['ret'] == "true") {
                             if ($_GET['reqtype'] == 'changepp') {
                                 echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Profil resminiz başarıyle değiştirildi. 👍</div>";
-                            }else if($_GET['reqtype'] == 'lesson'){
+                            } else if ($_GET['reqtype'] == 'lesson') {
                                 echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Soru çözüm randevu talebiniz başarıyla alınmıştır. 👍</div>";
                             }
                         }
@@ -294,23 +294,42 @@ while ($row = $res->fetchArray()) {
                                         <div class="card-header py-3">
                                             <p class="text-primary m-0 font-weight-bold">Kullanıcı Detayları</p>
                                         </div>
-                                        <div class="card-body">
-                                            <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;">
-                                                <tbody class="text-left">
-                                                    <tr>
-                                                        <td>Kullanıcı Adı</td>
-                                                        <td><?php echo $_SESSION['username']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Kullanıcı Id</td>
-                                                        <td><?php echo $_SESSION['userid']; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Sınıf Düzeyi</td>
-                                                        <td><?php echo ($_SESSION['graduate'] == 13) ? "Mezun" : $_SESSION['graduate']; ?></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="card-body text-center">
+                                                    <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;">
+                                                        <tbody class="text-left">
+                                                            <tr>
+                                                                <td>Kullanıcı Adı</td>
+                                                                <td><?php echo $_SESSION['username']; ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Kullanıcı Id</td>
+                                                                <td><?php echo $_SESSION['userid']; ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sınıf Düzeyi</td>
+                                                                <td><?php echo ($_SESSION['graduate'] == 13) ? "Mezun" : $_SESSION['graduate']; ?></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="d-flex">
+                                                    <canvas id='lessonGraph' width=300></canvas>
+                                                </div>
+                                                <div class="text-center small mt-4">
+                                                    <span class="mr-2"><i class="fas fa-circle text-primary"></i>&nbsp;Matematik</span>
+                                                    <span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Türkçe</span>
+                                                    <span class="mr-2"><i class="fas fa-circle text-info"></i>&nbsp;Geometri</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#BDE4A7;"></i>&nbsp;Kimya</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#7A9CC6;"></i>&nbsp;Fizik</span>                                                    
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#9B2226;"></i>&nbsp;Biyoloji</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#BB3E03;"></i>&nbsp;Tarih</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#005F73;"></i>&nbsp;Coğrafya</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card shadow">
@@ -319,9 +338,6 @@ while ($row = $res->fetchArray()) {
                                         </div>
                                         <div class="card-body text-center">
                                             <div class="container flex-wrap">
-                                                <?PHP
-
-                                                ?>
                                                 <a id="matematik" class="btn mb-3 btn-primary" style="width:120px">Matematik</a>
                                                 <a id="turkce" class="btn mb-3 btn-primary" style="width:120px">Türkçe</a>
                                                 <a id="geometri" class="btn mb-3 btn-primary" style="width:120px">Geometri</a>
@@ -364,16 +380,49 @@ while ($row = $res->fetchArray()) {
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
+    <script src="../assets/js/chart.min.js"></script>
     <script>
         <?php
         $echolist = "const dis = [";
-        for ($i = 0; $i < count($waitlist); $i++) {
-            if ($i + 1 == count($waitlist)) {
-                $echolist .= "'" . $waitlist[$i] . "']";
-            } else {
-                $echolist .= "'{$waitlist[$i]}',";
+        if (count($waitlist) == 0) {
+            $echolist .= "]";
+        } else {
+            for ($i = 0; $i < count($waitlist); $i++) {
+                if ($i + 1 == count($waitlist)) {
+                    $echolist .= "'" . $waitlist[$i] . "']";
+                } else {
+                    $echolist .= "'{$waitlist[$i]}',";
+                }
             }
         }
+        $lesanalysis = "const lesanly = [";
+        $analysisGraph = new DbConnecter('../src/database/lessonsw.db');
+        $asql = "SELECT * FROM l{$_SESSION['userid']} ORDER BY lesson";
+        $aresults = $analysisGraph->query($asql);
+        $uniqlist = [];
+
+        while ($row = $aresults->fetchArray()) {
+            array_push($uniqlist, $row['lesson']);
+        }
+        $detialVal = [];
+        for ($i = 0; $i < count($lessons); $i++) {
+            $indix = 0;
+            for ($n = 0; $n < count($uniqlist); $n++) {
+                if ($lessons[$i] == $uniqlist[$n]) {
+                    $indix++;
+                }
+            }
+            array_push($detialVal, $indix);
+        }
+        for ($i = 0; $i < count($detialVal); $i++) {
+            if ($i + 1 == count($detialVal)) {
+                $lesanalysis .= $detialVal[$i] . "]";
+            } else {
+                $lesanalysis .= $detialVal[$i] . ",";
+            }
+        }
+        echo $lesanalysis . ";";
+
         echo $echolist . ';';
         ?>
     </script>
@@ -387,16 +436,38 @@ while ($row = $res->fetchArray()) {
             }
             console.log(i);
         };
-        for(i of lessons){
-            if(dis.indexOf(i) == -1){
-                document.getElementById(i).href = "./gear.php?reqtype=lesson&lesson="+i;
+        for (i of lessons) {
+            if (dis.indexOf(i) == -1) {
+                document.getElementById(i).href = "./gear.php?reqtype=lesson&lesson=" + i;
+                console.log("tika")
             }
         }
+
+        var ctx = document.getElementById("lessonGraph");
+
+        var mychart2 = new Chart(ctx, {
+            "type": "doughnut",
+            "data": {
+                "labels": lessons,
+                "datasets": [{
+                    "label": "",
+                    "backgroundColor": ["#4e73df", "#1cc88a", "#36b9cc","#BDE4A7","#7A9CC6","#9B2226","#BB3E03","#005F73"],
+                    "borderColor": ["#ffffff", "#ffffff", "#ffffff"],
+                    "data": lesanly
+                }]
+            },
+            "options": {
+                "maintainAspectRatio": false,
+                "legend": {
+                    "display": false
+                },
+                "title": {}
+            }
+        })
     </script>
     <script src="../src/js/winset.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/chart.min.js"></script>
     <script src="../assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="../assets/js/theme.js"></script>
