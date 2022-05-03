@@ -1,3 +1,23 @@
+<?php
+session_start();
+if ($_SESSION['isactive'] == true) {
+    if ($_SESSION['type'] == 'student') {
+    }
+} else {
+    echo "<script>window.location.href = '../index.php'</script>";
+}
+class DbConnecter extends SQLite3
+{
+    function __construct($path)
+    {
+        $this->open($path);
+    }
+}
+$ID = $_SESSION['userid'];
+$agent = new DbConnecter('../src/database/users.db');
+$lessons = ["matematik","turkce","geometri","kimya","fizik","biyoloji","tarih","cografya"]
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -135,8 +155,8 @@
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow">
                                     <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">
-                                        <span class=" d-lg-inline mr-2 text-gray-600 small">User Name</span>
-                                        <img class="border rounded-circle img-profile d-none" src="../assets/img/avatars/avatar1.jpeg">
+                                        <span class=" d-lg-inline mr-2 text-gray-600 small"><?php echo $_SESSION['username']; ?></span>
+                                        <img class="border rounded-circle img-profile " src=<?php echo $_SESSION['pp']; ?>>
                                     </a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
                                         <a class="dropdown-item" href="../logout.php">
@@ -148,13 +168,21 @@
                     </div>
                 </nav>
                 <div class="container-fluid">
+                    <?php
+                    if (!empty($_GET["ret"])) {
+                        if ($_GET['ret'] == "true") {
+                            echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Profil resminiz başarıyle değiştirildi. 👍</div>";
+                        }
+                    }
+                    ?>
+
                     <h3 class="text-dark mb-4">Profil</h3>
                     <div class="row mb-3">
                         <div class="col-lg-4">
                             <div class="card mb-3">
                                 <div class="card-body text-center shadow">
-                                    <img class="rounded-circle mb-3 mt-4" src="../assets/img/dogs/image7.jpeg" width="160" height="160">
-                                    <div class="mb-3">User Name</div>
+                                    <img class="rounded-circle mb-3 mt-4" src=<?php echo $_SESSION['pp'] ?> width="160" height="160">
+                                    <div class="mb-3"><?php echo $_SESSION['username']; ?></div>
                                     <div class="mb-3">
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modelId">
@@ -176,42 +204,42 @@
                                                                 <div class=" align-center card-body shadow mb-3 p-2">
                                                                     <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image2.jpeg" alt="peter" width="160" height="160">
                                                                     <div class="mb-3">
-                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=peter'"> Ayarla</button>
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?imname=peter&reqtype=changepp'"> Ayarla</button>
                                                                     </div>
                                                                 </div>
                                                                 &nbsp;&nbsp;
                                                                 <div class="text-center card-body shadow mb-3 p-2">
                                                                     <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image3.jpeg" alt="franko" width="160" height="160">
                                                                     <div class="mb-3">
-                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=franko'"> Ayarla</button>
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?imname=franko&reqtype=changepp'"> Ayarla</button>
                                                                     </div>
                                                                 </div>
                                                                 &nbsp;&nbsp;
                                                                 <div class=" text-center card-body shadow mb-3 p-2">
                                                                     <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image4.jpeg" alt="ralph" width="160" height="160">
                                                                     <div class="mb-3">
-                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=ralph'"> Ayarla</button>
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?imname=ralph&reqtype=changepp'"> Ayarla</button>
                                                                     </div>
                                                                 </div>
                                                                 &nbsp;&nbsp;
                                                                 <div class=" align-center card-body shadow mb-3 p-2">
                                                                     <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image5.jpeg" alt="jessi" width="160" height="160">
                                                                     <div class="mb-3">
-                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=jessi'"> Ayarla</button>
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?imname=jessi&reqtype=changepp'"> Ayarla</button>
                                                                     </div>
                                                                 </div>
                                                                 &nbsp;&nbsp;
                                                                 <div class="text-center card-body shadow mb-3 p-2">
                                                                     <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image6.jpeg" alt="leo" width="160" height="160">
                                                                     <div class="mb-3">
-                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=leo'"> Ayarla</button>
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?imname=leo&reqtype=changepp'"> Ayarla</button>
                                                                     </div>
                                                                 </div>
                                                                 &nbsp;&nbsp;
                                                                 <div class=" text-center card-body shadow mb-3 p-2">
                                                                     <img class="rounded-circle mb-3 mt-4 shadow" src="../assets/img/dogs/image7.jpeg" alt="mike" width="160" height="160">
                                                                     <div class="mb-3">
-                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?userid=UserID&imname=mike'"> Ayarla</button>
+                                                                        <button class="btn btn-primary btn-sm" onclick="window.location.href='./gear.php?imname=mike&reqtype=changepp'"> Ayarla</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -257,15 +285,15 @@
                                                 <tbody class="text-left">
                                                     <tr>
                                                         <td>Kullanıcı Adı</td>
-                                                        <td>User Name</td>
+                                                        <td><?php echo $_SESSION['username']; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <td>Kullanıcı Id</td>
-                                                        <td>Id</td>
+                                                        <td><?php echo $_SESSION['userid']; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <td>Sınıf Düzeyi</td>
-                                                        <td>graduate</td>
+                                                        <td><?php echo ($_SESSION['graduate'] == 13) ? "Mezun" : $_SESSION['graduate']; ?></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -273,21 +301,22 @@
                                     </div>
                                     <div class="card shadow">
                                         <div class="card-header py-3">
-                                            <p class="text-primary m-0 font-weight-bold">Contact Settings</p>
+                                            <p class="text-primary m-0 font-weight-bold">Soru Çözüm Randevusu Al</p>
                                         </div>
-                                        <div class="card-body">
-                                            <form>
-                                                <div class="form-group"><label for="address"><strong>Address</strong></label><input class="form-control" type="text" placeholder="Sunset Blvd, 38" name="address"></div>
-                                                <div class="form-row">
-                                                    <div class="col">
-                                                        <div class="form-group"><label for="city"><strong>City</strong></label><input class="form-control" type="text" placeholder="Los Angeles" name="city"></div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-group"><label for="country"><strong>Country</strong></label><input class="form-control" type="text" placeholder="USA" name="country"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save&nbsp;Settings</button></div>
-                                            </form>
+                                        <div class="card-body text-center">
+                                            <div class="container flex-wrap">
+                                                <?PHP
+
+                                                ?>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Matematik</button>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Türkçe</button>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Geometri</button>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Fizik</button>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Kimya</button>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Biyoloji</button>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Tarih</button>
+                                                <button class="btn mb-3 btn-primary" style="width:120px">Coğrafya</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
