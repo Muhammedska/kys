@@ -15,7 +15,17 @@ class DbConnecter extends SQLite3
 }
 $ID = $_SESSION['userid'];
 $agent = new DbConnecter('../src/database/users.db');
-$lessons = ["matematik","turkce","geometri","kimya","fizik","biyoloji","tarih","cografya"]
+$lessons = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"];
+$sql = "SELECT * FROM teacherreq WHERE stid = '{$ID}';";
+$results = $agent->prepare($sql);
+$res = $results->execute();
+//$row = $res->fetchArray(SQLITE3_NUM);
+//var_dump($row);
+$waitlist = [];
+while ($row = $res->fetchArray()) {
+    //var_dump($row);    
+    array_push($waitlist, $row[2]);
+}
 ?>
 
 <!DOCTYPE html>
@@ -308,14 +318,14 @@ $lessons = ["matematik","turkce","geometri","kimya","fizik","biyoloji","tarih","
                                                 <?PHP
 
                                                 ?>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Matematik</button>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Türkçe</button>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Geometri</button>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Fizik</button>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Kimya</button>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Biyoloji</button>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Tarih</button>
-                                                <button class="btn mb-3 btn-primary" style="width:120px">Coğrafya</button>
+                                                <a id="matematik" class="btn mb-3 btn-primary" style="width:120px">Matematik</a>
+                                                <a id="turkce" class="btn mb-3 btn-primary" style="width:120px">Türkçe</a>
+                                                <a id="geometri" class="btn mb-3 btn-primary" style="width:120px">Geometri</a>
+                                                <a id="fizik" class="btn mb-3 btn-primary" style="width:120px">Fizik</a>
+                                                <a id="kimya" class="btn mb-3 btn-primary" style="width:120px">Kimya</a>
+                                                <a id="biyoloji" class="btn mb-3 btn-primary" style="width:120px">Biyoloji</a>
+                                                <a id="tarih" class="btn mb-3 btn-primary" style="width:120px">Tarih</a>
+                                                <a id="cografya" class="btn mb-3 btn-primary" style="width:120px">Coğrafya</a>
                                             </div>
                                         </div>
                                     </div>
@@ -350,6 +360,35 @@ $lessons = ["matematik","turkce","geometri","kimya","fizik","biyoloji","tarih","
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
+    <script>
+        <?php
+        $echolist = "const dis = [";
+        for ($i = 0; $i < count($waitlist); $i++) {
+            if ($i + 1 == count($waitlist)) {
+                $echolist .= "'" . $waitlist[$i] . "']";
+            } else {
+                $echolist .= "'{$waitlist[$i]}',";
+            }
+        }
+        echo $echolist . ';';
+        ?>
+    </script>
+    <script>
+        let lessons = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"];
+        console.log(dis)
+        for (i of dis) {
+            document.getElementById(i).classList.add('disabled');
+            document.getElementById(i).onclick = () => {
+                alert('Bu derslerden kapatılmamış randevunuz bulunmaktadır.');
+            }
+            console.log(i);
+        };
+        for(i of lessons){
+            if(dis.indexOf(i) == -1){
+                document.getElementById(i).href = "./gear.php?reqtype=lesson&lesson="+i;
+            }
+        }
+    </script>
     <script src="../src/js/winset.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

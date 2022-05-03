@@ -36,7 +36,7 @@ if ($_SESSION['isactive']) {
             echo "<script>window.location.href='../user/user.php?ret=false&reqtype=changepp'</script>";
         }
     }
-    echo "<script>window.location.href='../user/user.php'</script>";
+    //echo "<script>window.location.href='../user/user.php'</script>";
 } else {
     echo "<script>window.location.href='../index.php'</script>";
 }
