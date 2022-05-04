@@ -297,7 +297,7 @@ while ($row = $res->fetchArray()) {
                                         <div class="row">
                                             <div class="col">
                                                 <div class="card-body text-center">
-                                                    <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;">
+                                                    <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;margin:center;">
                                                         <tbody class="text-left">
                                                             <tr>
                                                                 <td>Kullanıcı Adı</td>
@@ -324,7 +324,7 @@ while ($row = $res->fetchArray()) {
                                                     <span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Türkçe</span>
                                                     <span class="mr-2"><i class="fas fa-circle text-info"></i>&nbsp;Geometri</span>
                                                     <span class="mr-2"><i class="fas fa-circle " style="color:#BDE4A7;"></i>&nbsp;Kimya</span>
-                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#7A9CC6;"></i>&nbsp;Fizik</span>                                                    
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#7A9CC6;"></i>&nbsp;Fizik</span>
                                                     <span class="mr-2"><i class="fas fa-circle " style="color:#9B2226;"></i>&nbsp;Biyoloji</span>
                                                     <span class="mr-2"><i class="fas fa-circle " style="color:#BB3E03;"></i>&nbsp;Tarih</span>
                                                     <span class="mr-2"><i class="fas fa-circle " style="color:#005F73;"></i>&nbsp;Coğrafya</span>
@@ -353,7 +353,7 @@ while ($row = $res->fetchArray()) {
                             </div>
                         </div>
                     </div>
-                    <div class="card shadow mb-5">
+                    <div class="card shadow mb-5 d-none">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 font-weight-bold">Forum Settings</p>
                         </div>
@@ -442,7 +442,6 @@ while ($row = $res->fetchArray()) {
                 console.log("tika")
             }
         }
-
         var ctx = document.getElementById("lessonGraph");
 
         var mychart2 = new Chart(ctx, {
@@ -451,7 +450,7 @@ while ($row = $res->fetchArray()) {
                 "labels": lessons,
                 "datasets": [{
                     "label": "",
-                    "backgroundColor": ["#4e73df", "#1cc88a", "#36b9cc","#BDE4A7","#7A9CC6","#9B2226","#BB3E03","#005F73"],
+                    "backgroundColor": ["#4e73df", "#1cc88a", "#36b9cc", "#BDE4A7", "#7A9CC6", "#9B2226", "#BB3E03", "#005F73"],
                     "borderColor": ["#ffffff", "#ffffff", "#ffffff"],
                     "data": lesanly
                 }]
