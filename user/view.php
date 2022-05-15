@@ -39,7 +39,11 @@ while ($row = $res->fetchArray()) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="../assets/fonts/fontawesome-all.min.css">
     <link rel="shortcut icon" href="../favicon.svg" type="image/x-icon">
-
+    <style>
+        html{
+            user-select: none;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -179,6 +183,7 @@ while ($row = $res->fetchArray()) {
                     </div>
                 </nav>
                 <div class="container-fluid">
+                
                     <?php
                     if (!empty($_GET["ret"])) {
                         if ($_GET['ret'] == "true") {
@@ -204,7 +209,8 @@ while ($row = $res->fetchArray()) {
                                 <div class="card-body">
                                     <video controls style="width:100%;" src="<?php echo $_GET['dir'] . $_GET['name'] . '/' . $_GET['file'] ?>"></video>
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer p-2">
+                                    
                                     <a href="<?php echo $_GET['dir'] . $_GET['name'] . '/' . $_GET['file'] ?>" class="btn btn-primary" download><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;Videoyu İndir</a>
                                 </div>
                             </div>
@@ -221,6 +227,7 @@ while ($row = $res->fetchArray()) {
                                     $examname = $_GET['examname'];
                                     $finder = scandir($dirname . "{$lection}");
                                     array_diff($finder, [".", ".."]);
+                                    sort($finder);
                                     for ($i = 0; $i < count($finder); $i++) {
                                         $checkdir = $dirname . "/{$lection}" . "/" . $finder[$i];
                                         if (is_file($checkdir)) {
