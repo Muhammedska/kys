@@ -1,3 +1,12 @@
+<?PHP
+session_start();
+if ($_SESSION['isactive'] == true) {
+    if ($_SESSION['type'] == 'kurum') {
+    }
+} else {
+    echo "<script>window.location.href = '../index.php'</script>";
+}
+?>
 <!DOCTYPE html>
 <html>
 

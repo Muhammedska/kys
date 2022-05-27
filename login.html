@@ -27,9 +27,9 @@
                                     <div class="text-center">
                                         <h4 class="text-dark mb-4">Hoşgeldiniz!</h4>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" method="get" action="login.php">
                                         <div class="form-group">
-                                            <input class="form-control form-control-user" type="email"
+                                            <input class="form-control form-control-user" type="text"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Kullanıcı ID" name="userid">
                                         </div>
@@ -38,18 +38,25 @@
                                                 id="exampleInputPassword" placeholder="Şifre" name="password">
                                         </div>
 
-                                        <div class="form-check">
-                                            
-                                                <label class="form-check-label mb-2 my-3">
-                                                    <input type="radio" class="form-check-input" name="logintype"
-                                                        id="logintype" value="checkedValue" checked>
-                                                    Display value
-                                                </label>
-                                            
-                                            
+                                        <div class="form-check flex-wrap container">
+                                            <label class="form-check-label mb-2 my-3 " style="margin-right:30px;">
+                                                <input type="radio" class="form-check-input" name="logintype"
+                                                    id="logintypestudent" value="student" checked>
+                                                Öğrenci
+                                            </label>
+                                            <label class="form-check-label mb-2 my-3 " style="margin-right:30px;">
+                                                <input type="radio" class="form-check-input" name="logintype"
+                                                    id="logintypeteacher" value="teacher">
+                                                Öğretmen
+                                            </label>
+                                            <label class="form-check-label mb-2 my-3 " style="margin-right:30px;">
+                                                <input type="radio" class="form-check-input" name="logintype"
+                                                    id="logintypekurum" value="kurum">
+                                                Kurum
+                                            </label>
                                         </div>
                                         <button class="btn btn-primary btn-block text-white btn-user"
-                                            type="submit">Login</button>
+                                            type="submit">Giriş</button>
 
                                     </form>
                                     <!--<div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>-->
