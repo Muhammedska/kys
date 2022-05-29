@@ -207,7 +207,9 @@ while ($row = $res->fetchArray()) {
                                     <?php
                                     $examdir = "../src/video/exams/";
                                     $folders = scandir($examdir);
+                                    sort($folders);
                                     array_reverse($folders);
+                                    array_diff($folders, [".", ".."]);
                                     $firstexam = "";
                                     $istakefe = false;
                                     for ($i = 0; $i < count($folders); $i++) {

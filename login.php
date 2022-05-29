@@ -47,9 +47,10 @@ if ($_GET['logintype'] == "student") {
     if($_GET['password'] == "kurum" && $_GET['userid'] == "kurum"){
         $_SESSION['isactive'] = true;
         $_SESSION['type'] = 'kurum';
-        $_SESSION['userid'] = $row[0];
-        $_SESSION['username'] = $row[1];
-        $_SESSION['graduate'] = $row[2];
+        $_SESSION['userid'] = "kurum";
+        $_SESSION['username'] = "kurum";
+        $_SESSION['graduate'] = "kurum";
+        $_SESSION['pp'] = "../assets/img/dogs/image8.jpeg";
         echo "<script>window.location.href='./admin/admin.php'</script>";
     }
 }
