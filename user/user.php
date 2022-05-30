@@ -266,14 +266,7 @@ while ($row = $res->fetchArray()) {
                                             </div>
                                         </div>
 
-                                        <script>
-                                            $('#exampleModal').on('show.bs.modal', event => {
-                                                var button = $(event.relatedTarget);
-                                                var modal = $(this);
-                                                // Use above variables to manipulate the DOM
 
-                                            });
-                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -470,6 +463,14 @@ while ($row = $res->fetchArray()) {
     <script src="../assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="../assets/js/theme.js"></script>
+    <script>
+        $('#exampleModal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            // Use above variables to manipulate the DOM
+
+        });
+    </script>
 </body>
 
 </html>

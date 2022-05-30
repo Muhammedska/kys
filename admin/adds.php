@@ -2,6 +2,8 @@
 session_start();
 if ($_SESSION['isactive'] == true) {
     if ($_SESSION['type'] == 'kurum') {
+    }else{
+        echo "<script>window.location.href='../index.php'</script>";
     }
 } else {
     echo "<script>window.location.href = '../index.php'</script>";
@@ -19,9 +21,12 @@ $sql = "SELECT * FROM student ORDER BY ID";
 $results = $db->query($sql);
 $datar = [];
 $IDS = '[';
+$NS = '[';
 while ($row = $results->fetchArray()) {
-    $datar += [array($row['ID'], $row['name'], $row['grade'], $row['pp'])];
-    $IDS .= $row['ID'] . ',';
+    array_push($datar, array($row['ID'], $row['name'], $row['grade'], $row['pp']));
+    //$datar += [];
+    $IDS .= '"'.$row['ID'] . '",';
+    $NS .= '"'.strtolower($row['name']) . '",';
 };
 
 $sql = "SELECT * FROM teacher ORDER BY ID";
@@ -30,9 +35,10 @@ $datat = [];
 while ($row = $results->fetchArray()) {
     $datat += [$row['ID'] => array($row['ID'], $row['name'], $row['lesson'])];
 };
-echo $IDS;
+
 $IDS .= ']';
-echo "<script>var IDS = $IDS;</script>";
+$NS .= ']';
+echo "<script>const IDS = $IDS; const NS = $NS;</script>";
 
 $examdir = "../src/video/exams/";
 $folders = scandir($examdir);
@@ -115,10 +121,16 @@ $folders = array_diff($folders, [".", ".."]);
                     <?php
                     if (!empty($_GET["ret"])) {
                         if ($_GET['ret'] == "true") {
-                            if ($_GET['reqtype'] == 'changepp') {
-                                echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Profil resminiz başarıyle değiştirildi. 👍</div>";
-                            } else if ($_GET['reqtype'] == 'lesson') {
-                                echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Soru çözüm randevu talebiniz başarıyla alınmıştır. 👍</div>";
+                            if ($_GET['reqtype'] == 'adds') {
+                                echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Yeni öğrenci başarıyla eklendi. 👍</div>";
+                            } else if ($_GET['reqtype'] == 'del') {
+                                echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Öğrenci başarıyla silindi. 👍</div>";
+                            }
+                        }else{
+                            if ($_GET['reqtype'] == 'adds') {
+                                echo "<div class='alert alert-danger fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Yeni öğrenci eklenemedi. 🤔</div>";
+                            } else if ($_GET['reqtype'] == 'del') {
+                                echo "<div class='alert alert-danger fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Öğrenci silinemedi. 🤔</div>";
                             }
                         }
                     }
@@ -130,16 +142,17 @@ $folders = array_diff($folders, [".", ".."]);
                         <div class="col-lg-4">
                             <div class="card mb-3">
                                 <div class="card-body text-left shadow">
-                                    <form action="/action_page.php" class="was-validated">
+                                    <form action="./gear.php" class="was-validated">
                                         <div class="form-group">
                                             <label for="uname">Öğrenci İsmi:</label>
                                             <input type="text" class="form-control" id="uname" placeholder="Öğrencinin Adı ve Soyadı" name="uname" required>
                                             <div class="valid-feedback">Geçerli.</div>
                                             <div class="invalid-feedback">Bu alan doldurulmalı.</div>
+                                            <div id="crashn" style="display:none;">Bu öğrenci ismi önceden kayıt edilmiş.</div>
                                         </div>
                                         <div class="form-group">
                                             <label for="pwd">Öğrenci ID:</label>
-                                            <input type="text" class="form-control" id="pwd" placeholder="Öğrenci Numarası" name="pswd" required onforminput="checkval()">
+                                            <input type="text" class="form-control" id="pwd" placeholder="Öğrenci Numarası" name="pswd" required>
                                             <div class="valid-feedback">Geçerli.</div>
                                             <div class="invalid-feedback">Bu alan doldurulmalı.</div>
                                             <div id="crash" style="display:none;">Bu öğrenci numarası daha öncesinde eklenmiş.</div>
@@ -155,6 +168,7 @@ $folders = array_diff($folders, [".", ".."]);
                                             </select>
                                         </div>
                                         <input type="text" value="franko" name="pp" style="display:none;">
+                                        <input type="text" value="add" name="reqtype" style="display:none;">
                                         <button type="submit" class="btn btn-primary" id="addstd">Öğrenci Ekle</button>
                                     </form>
                                 </div>
@@ -177,6 +191,7 @@ $folders = array_diff($folders, [".", ".."]);
                                         </thead>
                                         <tbody>
                                             <?php
+                                            
                                             for ($i = 0; $i < count($datar); $i++) {
                                                 if ($datar[$i][3] == 'peter') {
                                                     $pp = "../assets/img/dogs/image2.jpeg";
@@ -242,17 +257,29 @@ $folders = array_diff($folders, [".", ".."]);
                 });
             });
             $("#pwd").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                if (IDS.indexOf(value) != -1) {
+                var valuex = $(this).val().toLowerCase();                
+                if (IDS.indexOf(valuex) != -1) {
+                    console.log('found');
                     document.getElementById("crash").style.display = "";
                     document.getElementById("addstd").disabled = true;
                 } else {
                     document.getElementById("crash").style.display = "none";
                     document.getElementById("addstd").disabled = false;
-                }
+                }                
+            });
+            $("#uname").on("keyup", function() {
+                var valuey = $(this).val().toLowerCase();                
+                if (NS.indexOf(valuey) != -1) {
+                    console.log('found');
+                    document.getElementById("crashn").style.display = "";
+                    document.getElementById("addstd").disabled = true;
+                } else {
+                    document.getElementById("crashn").style.display = "none";
+                    document.getElementById("addstd").disabled = false;
+                }                
             });
         });
-        console.log(IDS)
+        console.log(IDS,NS)
 
         function checkval() {
             var value = document.getElementById("pwd").value;
