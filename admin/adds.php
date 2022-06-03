@@ -169,6 +169,7 @@ $folders = array_diff($folders, [".", ".."]);
                                         </div>
                                         <input type="text" value="franko" name="pp" style="display:none;">
                                         <input type="text" value="add" name="reqtype" style="display:none;">
+                                        <input type="text" value="st" name="type" style="display:none;">
                                         <button type="submit" class="btn btn-primary" id="addstd">Öğrenci Ekle</button>
                                     </form>
                                 </div>
@@ -210,7 +211,7 @@ $folders = array_diff($folders, [".", ".."]);
                                                 echo "<td>" . '<img class="rounded-circle mr-2" width="30" height="30" src=' . $pp . '>' . "{$datar[$i][1]}</td>";
                                                 echo "<td>{$datar[$i][0]}</td>";
                                                 echo "<td>{$datar[$i][2]}</td>";
-                                                echo "<td><a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a></td>";
+                                                echo "<td><a href='./gear.php?id={$datar[$i][0]}&reqtype=del&type=st' class='text-danger'><i class='fa fa-trash'></i></a></td>";
                                                 echo "</tr>";
                                             }
                                             ?>
