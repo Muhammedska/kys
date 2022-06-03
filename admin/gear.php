@@ -26,13 +26,12 @@ if ($_SESSION['isactive']) {
             $res = $results->execute();
             $row = $res->fetchArray(SQLITE3_NUM);
 
-            if ($row != false) {                
-                $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+            if ($row != false) {
             } else {
-                $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-                $analysis->exec("CREATE TABLE l{$ID} (lesson TEXT)") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-                $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-                $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+
+                $analysis->exec("CREATE TABLE l{$ID} (lesson TEXT)") or die("<script>window.location.href='../admin/adds.php?ret=false&reqtype=lesson'</script>");
+
+                $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ") or die("<script>window.location.href='../admin/adds.php?ret=false&reqtype=lesson'</script>");
             }
 
 
@@ -42,9 +41,21 @@ if ($_SESSION['isactive']) {
             $sql = "DELETE FROM student WHERE ID = '{$_GET['id']}';";
             $results = $agent->prepare($sql);
             $res = $results->execute() or die("<script>window.location.href='./adds.php?ret=false&reqtype=del&q=120'</script>");
+
+            $analysis = new DbConnecter('../src/database/lessonsw.db');
+            $sql = "SELECT * FROM inlist WHERE stid = '{$_GET['id']}';";
+            $results = $analysis->prepare($sql);
+            $res = $results->execute();
+            $row = $res->fetchArray(SQLITE3_NUM);
+            if ($row != false) {
+                $com = $analysis->prepare("DROP TABLE l{$_GET['id']}") or die("<script>//window.location.href='../admin/adds.php?ret=false&reqtype=del&q=121'</script>");
+                $com->execute();
+                $analysis->exec("DELETE FROM inlist WHERE stid = '{$_GET['id']}';") or die("<script>//window.location.href='../admin/adds.php?ret=false&reqtype=del&q=121'</script>");
+            } else {
+            }
             echo "<script>window.location.href='./adds.php?ret=true&reqtype=del'</script>";
         } else {
-            # code...
+            echo "<script>window.location.href='./adds.php?ret=true&reqtype=del'</script>";
         }
     } else {
         echo "<script>window.location.href='../index.php'</script>";
