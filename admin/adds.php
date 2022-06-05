@@ -72,21 +72,9 @@ $folders = array_diff($folders, [".", ".."]);
                     <li class="nav-item"><a class="nav-link" href="./admin.php"><i class="fas fa-home"></i><span>Ana Sayfa</span></a></li>
                     <li class="nav-item"><a class="nav-link active" href="./adds.php"><i class="fas fa-user-plus"></i><span>Öğrenci Ekle</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="./addt.php"><i class="fas fa-user-plus"></i><span>Öğretmen Ekle</span></a></li>
-                    <div id="accordion">
-                        <div class="nav-item bg-transparent">
-                            <div class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#collapseOne">
-                                    Kullanıcı listesi
-                                </a>
-                            </div>
-                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                <div class="nav-item">
-                                    <li class="nav-item"><a class="nav-link" href="./table.php?list=student"><i class="fas fa-table"></i><span>Öğrenci</span></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="./table.php?list=teacher"><i class="fas fa-table"></i><span>Öğretmen</span></a></li>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <hr class="sidebar-divider my-0">
+                    <li class="nav-item"><a class="nav-link" href="./table.php?list=student"><i class="fas fa-table"></i><span>Öğrenci</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="./table.php?list=teacher"><i class="fas fa-table"></i><span>Öğretmen</span></a></li>                    
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -136,7 +124,7 @@ $folders = array_diff($folders, [".", ".."]);
                     }
                     ?>
 
-                    <h3 class="text-dark mb-4">Profil</h3>
+                    <h3 class="text-dark mb-4">Öğrenci Ekle</h3>
 
                     <div class="row mb-3">
                         <div class="col-lg-4">

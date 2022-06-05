@@ -1,0 +1,17 @@
+<div class='media'>
+                                        <span class='align-self-center dropdown no-arrow ' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                            <a class='btn btn-link btn-sm dropdown-toggle' data-toggle='dropdown' aria-expanded='false' type='button'>
+                                                <img src='../assets/img/dogs/image8.jpeg' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                            </a>
+                                            <div class='dropdown-menu shadow dropdown-menu-right animated--fade-in'>
+                                                <p class='text-center dropdown-header'>İşlemler:</p>
+                                                <a class='dropdown-item' href='#'>&nbsp;Sil</a>
+                                                <div class='dropdown-divider'></div><a class='dropdown-item' href='#'>&nbsp;Something else here</a>
+                                            </div>
+
+                                        </span>
+                                        <div class='media-body p-4'>
+                                            <h4>Media Middle</h4>
+                                            <p>Lorem ipsum...</p>
+                                        </div>
+                                    </div>

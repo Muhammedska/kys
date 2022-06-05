@@ -35,14 +35,13 @@ if ($_SESSION['isactive']) {
                     $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ") or die("<script>window.location.href='../admin/adds.php?ret=false&reqtype=lesson'</script>");
                 }
                 echo "<script>window.location.href='./adds.php?ret=true&reqtype=adds'</script>";
-            }else if($_GET['type'] == "tea"){
+            } else if ($_GET['type'] == "tea") {
                 $agent = new DbConnecter('../src/database/users.db');
                 $sql = "INSERT INTO teacher (ID, name, lesson, pp) VALUES ('{$_GET['pswd']}', '{$_GET['uname']}', '{$_GET['teachersubject']}', '{$_GET['pp']}');";
                 $results = $agent->prepare($sql);
                 $res = $results->execute() or die("<script>window.location.href='./addt.php?ret=false&reqtype=adds&q=120'</script>");
                 echo "<script>window.location.href='./addt.php?ret=true&reqtype=addt'</script>";
             }
-
         } else if ($_GET['reqtype'] == "del") {
             if ($_GET['type'] == 'st') {
                 $agent = new DbConnecter('../src/database/users.db');
@@ -62,15 +61,29 @@ if ($_SESSION['isactive']) {
                 } else {
                 }
                 echo "<script>window.location.href='./adds.php?ret=true&reqtype=del'</script>";
-            }else if($_GET['type'] == "tea"){
+            } else if ($_GET['type'] == "tea") {
                 $agent = new DbConnecter('../src/database/users.db');
                 $sql = "DELETE FROM teacher WHERE ID = '{$_GET['id']}';";
                 $results = $agent->prepare($sql);
                 $res = $results->execute() or die("<script>window.location.href='./addt.php?ret=false&reqtype=del&q=120'</script>");
                 echo "<script>window.location.href='./addt.php?ret=true&reqtype=del'</script>";
             }
+        } else if ($_GET['reqtype'] == "notify") {
+            if ($_GET['type'] == 'del') {
+                $analysis = new DbConnecter('../src/database/users.db');
+                $sql = "DELETE FROM `notify` WHERE `mass` = '{$_GET['mass']}' AND `notify` = '{$_GET['text']}' AND `sender` = '{$_GET['sender']}';";
+                $results = $analysis->prepare($sql);
+                $res = $results->execute();
+                echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=delreq'</script>";
+            } else if ($_GET['type'] == 'add') {
+                $analysis = new DbConnecter('../src/database/users.db');
+                $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '.".str_replace($_GET['notifytext'],"'",'"')."', 'kurum');";
+                $results = $analysis->prepare($sql);
+                $res = $results->execute();
+                echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=addnotify'</script>";
+            }
         } else {
-            echo "<script>window.location.href='./adds.php?ret=true&reqtype=del'</script>";
+            echo "<script>window.location.href='./admin.php'</script>";
         }
     } else {
         echo "<script>window.location.href='../index.php'</script>";

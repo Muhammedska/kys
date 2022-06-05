@@ -2,7 +2,7 @@
 session_start();
 if ($_SESSION['isactive'] == true) {
     if ($_SESSION['type'] == 'kurum') {
-    }else{
+    } else {
         echo "<script>window.location.href='../index.php'</script>";
     }
 } else {
@@ -25,15 +25,17 @@ $NS = '[';
 while ($row = $results->fetchArray()) {
     array_push($datar, array($row['ID'], $row['name'], $row['grade'], $row['pp']));
     //$datar += [];
-    $IDS .= '"'.$row['ID'] . '",';
-    $NS .= '"'.strtolower($row['name']) . '",';
+    $IDS .= '"' . $row['ID'] . '",';
+    $NS .= '"' . strtolower($row['name']) . '",';
 };
 
 $sql = "SELECT * FROM teacher ORDER BY ID";
 $results = $db->query($sql);
 $datat = [];
+$datam = [];
 while ($row = $results->fetchArray()) {
-    $datat += [$row['ID'] => array($row['ID'], $row['name'], $row['lesson'])];
+    $datat += [$row['ID'] => array($row['ID'], $row['name'], $row['lesson'],$row['pp'])];
+    array_push($datam, array($row['ID'], $row['name'], $row['lesson'],$row['pp']));
 };
 
 $IDS .= ']';
@@ -45,6 +47,9 @@ $folders = scandir($examdir);
 sort($folders);
 array_reverse($folders);
 $folders = array_diff($folders, [".", ".."]);
+if (empty($_GET['list'])) {
+    $_GET['list'] = 'student';
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,23 +75,12 @@ $folders = array_diff($folders, [".", ".."]);
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link" href="./admin.php"><i class="fas fa-home"></i><span>Ana Sayfa</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="./adds.php"><i class="fas fa-user-plus"></i><span>Öğrenci Ekle</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="./adds.php"><i class="fas fa-user-plus"></i><span>Öğrenci Ekle</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="./addt.php"><i class="fas fa-user-plus"></i><span>Öğretmen Ekle</span></a></li>
-                    <div id="accordion">
-                        <div class="nav-item bg-transparent">
-                            <div class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#collapseOne">
-                                    Kullanıcı listesi
-                                </a>
-                            </div>
-                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                <div class="nav-item">
-                                    <li class="nav-item"><a class="nav-link" href="./table.php?list=student"><i class="fas fa-table"></i><span>Öğrenci</span></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="./table.php?list=teacher"><i class="fas fa-table"></i><span>Öğretmen</span></a></li>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <hr class="sidebar-divider my-0">
+                    <li class="nav-item"><a class="nav-link <?php echo ($_GET['list'] == 'student') ? 'active' : ''; ?>" href="./table.php?list=student"><i class="fas fa-table"></i><span>Öğrenci</span></a></li>
+                    <li class="nav-item"><a class="nav-link <?php echo ($_GET['list'] == 'teacher') ? 'active' : ''; ?>" href="./table.php?list=teacher"><i class="fas fa-table"></i><span>Öğretmen</span></a></li>
+
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -126,7 +120,7 @@ $folders = array_diff($folders, [".", ".."]);
                             } else if ($_GET['reqtype'] == 'del') {
                                 echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Öğrenci başarıyla silindi. 👍</div>";
                             }
-                        }else{
+                        } else {
                             if ($_GET['reqtype'] == 'adds') {
                                 echo "<div class='alert alert-danger fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert'>&times;</button> <strong>{$_SESSION['username']}</strong> Yeni öğrenci eklenemedi. 🤔</div>";
                             } else if ($_GET['reqtype'] == 'del') {
@@ -136,90 +130,87 @@ $folders = array_diff($folders, [".", ".."]);
                     }
                     ?>
 
-                    <h3 class="text-dark mb-4">Profil</h3>
+                    <h3 class="text-dark mb-4">Listeler</h3>
 
                     <div class="row mb-3">
-                        <div class="col-lg-4">
-                            <div class="card mb-3">
-                                <div class="card-body text-left shadow">
-                                    <form action="./gear.php" class="was-validated">
-                                        <div class="form-group">
-                                            <label for="uname">Öğrenci İsmi:</label>
-                                            <input type="text" class="form-control" id="uname" placeholder="Öğrencinin Adı ve Soyadı" name="uname" required>
-                                            <div class="valid-feedback">Geçerli.</div>
-                                            <div class="invalid-feedback">Bu alan doldurulmalı.</div>
-                                            <div id="crashn" style="display:none;">Bu öğrenci ismi önceden kayıt edilmiş.</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pwd">Öğrenci ID:</label>
-                                            <input type="text" class="form-control" id="pwd" placeholder="Öğrenci Numarası" name="pswd" required>
-                                            <div class="valid-feedback">Geçerli.</div>
-                                            <div class="invalid-feedback">Bu alan doldurulmalı.</div>
-                                            <div id="crash" style="display:none;">Bu öğrenci numarası daha öncesinde eklenmiş.</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="studentstatus">Öğrenci Sınıf Düzeyi:</label>
-                                            <select class="form-control" id="studentstatus" placeholder="Öğrenci Numarasını Giriniz" name="studentstatus" required>
-                                                <option value="9">9.Sınıf</option>
-                                                <option value="10">10.Sınıf</option>
-                                                <option value="11">11.Sınıf</option>
-                                                <option value="12">12.Sınıf</option>
-                                                <option value="13">Mezun</option>
-                                            </select>
-                                        </div>
-                                        <input type="text" value="franko" name="pp" style="display:none;">
-                                        <input type="text" value="add" name="reqtype" style="display:none;">
-                                        <button type="submit" class="btn btn-primary" id="addstd">Öğrenci Ekle</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
+
+                        <div class="col-lg-12">
                             <div class="card mb-3" style="min-height:382px;">
                                 <div class="card-header">
                                     <input type="text" id="filters" class="form-control " placeholder="Aranan İsim">
                                 </div>
-                                <div class="card-body text-left shadow">
+                                <div class="card-body text-left shadow" style="overflow-x:scroll;">
                                     <table class="table my-0" id="dataTable">
                                         <thead>
                                             <tr>
                                                 <th>İsim</th>
                                                 <th>ID</th>
-                                                <th>Sınıf</th>
+                                                <th>Sınıf / Branş</th>
                                                 <th>İşlem</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            
-                                            for ($i = 0; $i < count($datar); $i++) {
-                                                if ($datar[$i][3] == 'peter') {
-                                                    $pp = "../assets/img/dogs/image2.jpeg";
-                                                } else if ($datar[$i][3] == 'franko') {
-                                                    $pp = "../assets/img/dogs/image3.jpeg";
-                                                } else if ($datar[$i][3] == 'ralph') {
-                                                    $pp = "../assets/img/dogs/image4.jpeg";
-                                                } else if ($datar[$i][3] == 'jessi') {
-                                                    $pp = "../assets/img/dogs/image5.jpeg";
-                                                } else if ($datar[$i][3] == 'leo') {
-                                                    $pp = "../assets/img/dogs/image6.jpeg";
-                                                } else if ($datar[$i][3] == 'mike') {
-                                                    $pp = "../assets/img/dogs/image7.jpeg";
+                                            if ($_GET['list'] == 'student' || empty($_GET['list'])) {
+
+                                                for ($i = 0; $i < count($datar); $i++) {
+                                                    if ($datar[$i][3] == 'peter') {
+                                                        $pp = "../assets/img/dogs/image2.jpeg";
+                                                    } else if ($datar[$i][3] == 'franko') {
+                                                        $pp = "../assets/img/dogs/image3.jpeg";
+                                                    } else if ($datar[$i][3] == 'ralph') {
+                                                        $pp = "../assets/img/dogs/image4.jpeg";
+                                                    } else if ($datar[$i][3] == 'jessi') {
+                                                        $pp = "../assets/img/dogs/image5.jpeg";
+                                                    } else if ($datar[$i][3] == 'leo') {
+                                                        $pp = "../assets/img/dogs/image6.jpeg";
+                                                    } else if ($datar[$i][3] == 'mike') {
+                                                        $pp = "../assets/img/dogs/image7.jpeg";
+                                                    }
+                                                    echo "<tr>";
+                                                    echo "<td>" . '<img class="rounded-circle mr-2" width="30" height="30" src=' . $pp . '>' . "{$datar[$i][1]}</td>";
+                                                    echo "<td>{$datar[$i][0]}</td>";
+                                                    echo "<td>{$datar[$i][2]}</td>";
+                                                    echo "<td>
+                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a> &nbsp;
+                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-success'><i class='fas fa-chart-line'></i></a>
+                                                    </td>";
+                                                    echo "</tr>";
                                                 }
-                                                echo "<tr>";
-                                                echo "<td>" . '<img class="rounded-circle mr-2" width="30" height="30" src=' . $pp . '>' . "{$datar[$i][1]}</td>";
-                                                echo "<td>{$datar[$i][0]}</td>";
-                                                echo "<td>{$datar[$i][2]}</td>";
-                                                echo "<td><a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a></td>";
-                                                echo "</tr>";
+                                            } else {
+                                                for ($i = 0; $i < count($datam); $i++) {
+                                                    if ($datam[$i][3] == 'peter') {
+                                                        $pp = "../assets/img/dogs/image2.jpeg";
+                                                    } else if ($datam[$i][3] == 'franko') {
+                                                        $pp = "../assets/img/dogs/image3.jpeg";
+                                                    } else if ($datam[$i][3] == 'ralph') {
+                                                        $pp = "../assets/img/dogs/image4.jpeg";
+                                                    } else if ($datam[$i][3] == 'jessi') {
+                                                        $pp = "../assets/img/dogs/image5.jpeg";
+                                                    } else if ($datam[$i][3] == 'leo') {
+                                                        $pp = "../assets/img/dogs/image6.jpeg";
+                                                    } else if ($datam[$i][3] == 'mike') {
+                                                        $pp = "../assets/img/dogs/image7.jpeg";
+                                                    }
+                                                    echo "<tr>";
+                                                    echo "<td>" . '<img class="rounded-circle mr-2" width="30" height="30" src=' . $pp . '>' . "{$datam[$i][1]}</td>";
+                                                    echo "<td>{$datam[$i][0]}</td>";
+                                                    echo "<td>{$datam[$i][2]}</td>";
+                                                    echo "<td>
+                                                    <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a>
+                                                    <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='text-danger'><i class='fas fa-chart-line'></i></a>
+                                                    </td>";
+                                                    echo "</tr>";
+                                                }
                                             }
+
                                             ?>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <td><strong>İsim</strong></td>
                                                 <td><strong>ID</strong></td>
-                                                <td><strong>Sınıf</strong></td>
+                                                <td><strong>Sınıf / branş</strong></td>
                                                 <td><strong>İşlem</strong></td>
                                             </tr>
                                         </tfoot>
@@ -257,7 +248,7 @@ $folders = array_diff($folders, [".", ".."]);
                 });
             });
             $("#pwd").on("keyup", function() {
-                var valuex = $(this).val().toLowerCase();                
+                var valuex = $(this).val().toLowerCase();
                 if (IDS.indexOf(valuex) != -1) {
                     console.log('found');
                     document.getElementById("crash").style.display = "";
@@ -265,10 +256,10 @@ $folders = array_diff($folders, [".", ".."]);
                 } else {
                     document.getElementById("crash").style.display = "none";
                     document.getElementById("addstd").disabled = false;
-                }                
+                }
             });
             $("#uname").on("keyup", function() {
-                var valuey = $(this).val().toLowerCase();                
+                var valuey = $(this).val().toLowerCase();
                 if (NS.indexOf(valuey) != -1) {
                     console.log('found');
                     document.getElementById("crashn").style.display = "";
@@ -276,10 +267,10 @@ $folders = array_diff($folders, [".", ".."]);
                 } else {
                     document.getElementById("crashn").style.display = "none";
                     document.getElementById("addstd").disabled = false;
-                }                
+                }
             });
         });
-        console.log(IDS,NS)
+        console.log(IDS, NS)
 
         function checkval() {
             var value = document.getElementById("pwd").value;

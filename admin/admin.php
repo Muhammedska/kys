@@ -26,7 +26,7 @@ $sql = "SELECT * FROM teacher ORDER BY ID";
 $results = $db->query($sql);
 $datat = [];
 while ($row = $results->fetchArray()) {
-    $datat += [$row['ID'] => array($row['ID'], $row['name'], $row['lesson'])];
+    $datat += [$row['ID'] => array($row['ID'], $row['name'], $row['lesson'], $row['pp'])];
 };
 
 $examdir = "../src/video/exams/";
@@ -61,21 +61,9 @@ $folders = array_diff($folders, [".", ".."]);
                     <li class="nav-item"><a class="nav-link active" href="./admin.php"><i class="fas fa-home"></i><span>Ana Sayfa</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="./adds.php"><i class="fas fa-user-plus"></i><span>Öğrenci Ekle</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="./addt.php"><i class="fas fa-user-plus"></i><span>Öğretmen Ekle</span></a></li>
-                    <div id="accordion">
-                        <div class="nav-item bg-transparent">
-                            <div class="nav-item">
-                                <a class="nav-link" data-toggle="collapse" href="#collapseOne">
-                                    Kullanıcı listesi
-                                </a>
-                            </div>
-                            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                <div class="nav-item">
-                                    <li class="nav-item"><a class="nav-link" href="./table.php?list=student"><i class="fas fa-table"></i><span>Öğrenci</span></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="./table.php?list=teacher"><i class="fas fa-table"></i><span>Öğretmen</span></a></li>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <hr class="sidebar-divider my-0">
+                    <li class="nav-item"><a class="nav-link" href="./table.php?list=student"><i class="fas fa-table"></i><span>Öğrenci</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="./table.php?list=teacher"><i class="fas fa-table"></i><span>Öğretmen</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -107,11 +95,25 @@ $folders = array_diff($folders, [".", ".."]);
                 </nav>
 
                 <div class="container-fluid">
-                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0">Dashboard</h3>
-                        <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#">
-                            <i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report
-                        </a>
+                    <div class="container-fluid text-left mb-4">
+                        <?php
+                        if (!empty($_GET["ret"])) {
+                            if ($_GET['ret'] == "true") {
+                                if ($_GET['reqtype'] == 'addnotify') {
+                                    echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert' onclick='window.location.href=`#`'>&times;</button> <strong>{$_SESSION['username']}</strong> Yeni Bildirim başarıyla eklendi. 👍</div>";
+                                } else if ($_GET['reqtype'] == 'delreq') {
+                                    echo "<div class='alert alert-success fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert' onclick='window.location.href=`#`'>&times;</button> <strong>{$_SESSION['username']}</strong> Bildirim başarıyla silindi. 👍</div>";
+                                }
+                            } else {
+                                if ($_GET['reqtype'] == 'addt') {
+                                    echo "<div class='alert alert-danger fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert' onclick='window.location.href=`#`'>&times;</button> <strong>{$_SESSION['username']}</strong> Yeni Öğretmen eklenemedi. 🤔</div>";
+                                } else if ($_GET['reqtype'] == 'del') {
+                                    echo "<div class='alert alert-danger fade show alert-dismissible'><button type='button' class='close' data-dismiss='alert' onclick='window.location.href=`#`'>&times;</button> <strong>{$_SESSION['username']}</strong> Öğretmen silinemedi. 🤔</div>";
+                                }
+                            }
+                        }
+                        ?>
+                        <h3 class="text-dark mb-0">Yönetim Paneli</h3>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-xl-3 mb-4">
@@ -137,7 +139,7 @@ $folders = array_diff($folders, [".", ".."]);
                                             <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Deneme Sayısı</span></div>
                                             <div class="text-dark font-weight-bold h5 mb-0"><span><?php echo count($folders) ?></span></div>
                                         </div>
-                                        <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
+                                        <div class="col-auto"><i class="fas fa-file-alt fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +152,7 @@ $folders = array_diff($folders, [".", ".."]);
                                             <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Öğretmen Sayısı</span></div>
                                             <div class="text-dark font-weight-bold h5 mb-0"><span><?php echo count($datat) ?></span></div>
                                         </div>
-                                        <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
+                                        <div class="col-auto"><i class="fas fa-user-alt fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
@@ -159,46 +161,78 @@ $folders = array_diff($folders, [".", ".."]);
                     <div class="row">
                         <div class="col-lg-7 col-xl-8">
                             <div class="card shadow mb-4">
+                                <?php
+                                $sql = "SELECT * FROM notify ORDER BY notify";
+                                $results = $db->query($sql);
+                                $notify = [];
+                                while ($row = $results->fetchArray()) {
+                                    array_push($notify, array($row['mass'], $row['notify'], $row['sender']));
+                                };
+                                ?>
                                 <div class="card-header py-3">
-                                    <h6 class="text-primary font-weight-bold m-0">Bildirimler</h6>
+                                    <h6 class="text-primary font-weight-bold m-0">Bildirimler <span class="badge badge-primary"><?php echo (count($notify) == 0) ? 0 : count($notify); ?></span></h6>
                                 </div>
                                 <div class="card-body">
                                     <?php
+                                    if (count($notify) == 0) {
+                                        echo '<div class="text-center">
+                                            <h4 class="text-muted">Bildirim Yok</h4>
+                                        </div>';
+                                    } else {
+                                        foreach ($notify as $key => $value) {
+                                            if ($value[2] == "kurum") {
+                                                echo "<div class='media'>
+                                            <span class='align-self-center dropdown no-arrow ' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                                <a class='btn btn-link btn-sm dropdown-toggle' data-toggle='dropdown' aria-expanded='false' type='button'>
+                                                    <img src='../assets/img/dogs/image8.jpeg' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                                </a>
+                                                <div class='dropdown-menu shadow dropdown-menu-right animated--fade-in'>
+                                                    <p class='text-center dropdown-header'>İşlemler:</p>
+                                                    <a class='dropdown-item text-danger' href='./gear.php?reqtype=notify&sender={$value[2]}&text={$value[1]}&mass={$value[0]}&type=del'><i class='fa fa-trash'></i>&nbsp;Sil</a>                                                    
+                                                </div>
+    
+                                            </span>
+                                            <div class='media-body p-4'>
+                                                <h4>{$value[2]}</h4>
+                                                <p>{$value[1]}</p>
+                                            </div>
+                                        </div>";
+                                            } else {
+                                                $i = $value[2];
+                                                if ($datat[$i][3] == 'peter') {
+                                                    $pp = "../assets/img/dogs/image2.jpeg";
+                                                } else if ($datat[$i][3] == 'franko') {
+                                                    $pp = "../assets/img/dogs/image3.jpeg";
+                                                } else if ($datat[$i][3] == 'ralph') {
+                                                    $pp = "../assets/img/dogs/image4.jpeg";
+                                                } else if ($datat[$i][3] == 'jessi') {
+                                                    $pp = "../assets/img/dogs/image5.jpeg";
+                                                } else if ($datat[$i][3] == 'leo') {
+                                                    $pp = "../assets/img/dogs/image6.jpeg";
+                                                } else if ($datat[$i][3] == 'mike') {
+                                                    $pp = "../assets/img/dogs/image7.jpeg";
+                                                }
+                                                echo "<div class='media'>
+                                            <span class='align-self-center dropdown no-arrow ' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                                <a class='btn btn-link btn-sm dropdown-toggle' data-toggle='dropdown' aria-expanded='false' type='button'>
+                                                    <img src='{$pp}' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                                </a>
+                                                <div class='dropdown-menu shadow dropdown-menu-right animated--fade-in'>
+                                                    <p class='text-center dropdown-header'>İşlemler:</p>
+                                                    <a class='dropdown-item text-danger' href='./gear.php?reqtype=notify&sender={$value[2]}&text={$value[1]}&mass={$value[0]}&type=del'><i class='fa fa-trash'></i>&nbsp;Sil</a>                                                    
+                                                </div>
+    
+                                            </span>
+                                            <div class='media-body p-4'>
+                                                <h4>{$datat[$i][1]} - {$datat[$i][2]}</h4>
+                                                <p>{$value[1]}</p>
+                                            </div>
+                                        </div>";
+                                            }
+                                        }
+                                    }
+
                                     ?>
-                                    <div class="media">
-                                        <span class="align-self-center dropdown no-arrow " class="align-self-center mr-3 rounded-circle" style="width:60px;height:60px;">
-                                            <a class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">
-                                                <img src="../assets/img/dogs/image8.jpeg" class="align-self-center mr-3 rounded-circle" style="width:60px;height:60px;">
-                                            </a>
-                                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in">
-                                                <p class="text-center dropdown-header">İşlemler:</p>
-                                                <a class="dropdown-item" href="#">&nbsp;Sil</a>
-                                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Something else here</a>
-                                            </div>
-
-                                        </span>
-                                        <div class="media-body p-4">
-                                            <h4>Kurum</h4>
-                                            <p>Lorem ipsum...</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <span class="align-self-center dropdown no-arrow " class="align-self-center mr-3 rounded-circle" style="width:60px;height:60px;">
-                                            <a class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">
-                                                <img src="../assets/img/dogs/image8.jpeg" class="align-self-center mr-3 rounded-circle" style="width:60px;height:60px;">
-                                            </a>
-                                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in">
-                                                <p class="text-center dropdown-header">İşlemler:</p>
-                                                <a class="dropdown-item" href="#">&nbsp;Sil</a>
-                                                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">&nbsp;Something else here</a>
-                                            </div>
-
-                                        </span>
-                                        <div class="media-body p-4">
-                                            <h4>Media Middle</h4>
-                                            <p>Lorem ipsum...</p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -210,17 +244,23 @@ $folders = array_diff($folders, [".", ".."]);
                                 <div class="card-body">
                                     <form action="./gear.php" method="get">
                                         <label for="notifytext">Bildirim Metni :</label>
-                                        <textarea name="notifytext" id="notifytext" cols="30" rows="5" class="form-control" placeholder="Bildirim metni giriniz" required></textarea>
+                                        <textarea name="notifytext" id="text" cols="30" rows="5" class="form-control" placeholder="Bildirim metni giriniz" required></textarea>
                                         <div class="form-check flex-wrap container text-center">
                                             <label class="form-check-label mb-2 my-3 " style="margin-right:30px;">
-                                                <input type="radio" class="form-check-input" name="notifyfor" id="notifytypestudent" value="student" checked>
+                                                <input type="radio" class="form-check-input" name="mass" id="notifytypestudent" value="student" checked>
                                                 Öğrenci
                                             </label>
                                             <label class="form-check-label mb-2 my-3 " style="margin-right:30px;">
-                                                <input type="radio" class="form-check-input" name="notifyfor" id="notifytypeteacher" value="teacher">
+                                                <input type="radio" class="form-check-input" name="mass" id="notifytypeteacher" value="teacher">
                                                 Öğretmen
-                                            </label>                                           
+                                            </label>
+                                            <label class="form-check-label mb-2 my-3 " style="margin-right:30px;">
+                                                <input type="radio" class="form-check-input" name="mass" id="notifytypeall" value="all">
+                                                Genel
+                                            </label>
                                         </div>
+                                        <input type="text" name="reqtype" value="notify" style="display:none;">
+                                        <input type="text" name="type" value="add" style="display:none;">
                                         <button class="btn btn-primary" type="submit">Bildirim Oluştur</button>
                                     </form>
                                 </div>

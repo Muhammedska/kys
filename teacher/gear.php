@@ -4,7 +4,7 @@
 session_start();
 
 $ppnames = ["peter", "franko", "ralph", "jessi", "leo", "mike"];
-
+$tarih = date("Y-m-d h:i:sa");
 if ($_SESSION['isactive']) {
     class DbConnecter extends SQLite3
     {
@@ -34,14 +34,19 @@ if ($_SESSION['isactive']) {
             $results = $agent->prepare($sql);
             $res = $results->execute();
             echo "<script>window.location.href='../teacher/user.php?ret=true&reqtype=changepp'</script>";
-        }else{
+        } else {
             echo "<script>window.location.href='../teacher/user.php?ret=false&reqtype=changepp'</script>";
         }
-    }if($_GET['reqtype'] == 'del'){
-        $analysis = new DbConnecter('../src/database/users.db');        
+    }
+    if ($_GET['reqtype'] == 'del') {
+        $analysis = new DbConnecter('../src/database/users.db');
         $sql = "DELETE FROM `teacherreq` WHERE `stid` = '{$_GET['id']}' AND `subject` = '" . $_SESSION['subject'] . "'";
         $results = $analysis->prepare($sql);
-        $res = $results -> execute();       
+        $res = $results->execute();
+
+        $sql = "INSERT INTO `log` (`mission`, `logtm`) VALUES ('{$_GET['name']} - {$_SESSION['username']} - {$_SESSION['subject']} talebi tamamlandı', '{$tarih}');";
+        $results = $analysis->prepare($sql);
+        $res = $results->execute();
         echo "<script>window.location.href='../teacher/user.php?ret=true&reqtype=delreq&name={$_GET['name']}'</script>";
     }
     //echo "<script>window.location.href='../user/user.php'</script>";
