@@ -190,6 +190,27 @@ if (empty($_GET['grade'])) {
                             </div>
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
+                                    <h6 class="text-primary font-weight-bold m-0">Bildirim Oluştur</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form action="./gear.php" method="get">
+                                        <label for="notifytext">Bildirim Metni :</label>
+                                        <textarea name="notifytext" id="text" cols="30" rows="5" class="form-control" placeholder="Bildirim metni giriniz" required></textarea>
+                                        <div class="form-check flex-wrap container text-center">
+                                            <label class="form-check-label mb-2 my-3 " style="margin-right:30px;">
+                                                <input type="radio" class="form-check-input" name="mass" id="notifytypestudent" value="student" checked>
+                                                Öğrenci
+                                            </label>
+
+                                        </div>
+                                        <input type="text" name="reqtype" value="notify" style="display:none;">
+                                        <input type="text" name="type" value="add" style="display:none;">
+                                        <button class="btn btn-primary" type="submit">Bildirim Oluştur</button>
+                                    </form>
+                                </div>
+                            </div>                    
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
                                     <h6 class="text-primary font-weight-bold m-0">Bildirimler</h6>
                                 </div>
                                 <div class="card-body">

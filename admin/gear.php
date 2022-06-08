@@ -77,7 +77,7 @@ if ($_SESSION['isactive']) {
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=delreq'</script>";
             } else if ($_GET['type'] == 'add') {
                 $analysis = new DbConnecter('../src/database/users.db');
-                $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '.".str_replace($_GET['notifytext'],"'",'"')."', 'kurum');";
+                $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '".str_replace("'",'"',$_GET['notifytext'])."', 'kurum');";
                 $results = $analysis->prepare($sql);
                 $res = $results->execute();
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=addnotify'</script>";

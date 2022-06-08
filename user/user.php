@@ -2,6 +2,10 @@
 session_start();
 if ($_SESSION['isactive'] == true) {
     if ($_SESSION['type'] == 'student') {
+    }elseif ($_SESSION['type'] == 'teacher') {
+        echo "<script>window.location.href = '../teacher/user.php'</script>";
+    } elseif ($_SESSION['type'] == 'kurum') {
+        echo "<script>window.location.href = '../admin/admin.php'</script>";
     }
 } else {
     echo "<script>window.location.href = '../index.php'</script>";

@@ -38,7 +38,7 @@ if ($_SESSION['isactive']) {
             echo "<script>window.location.href='../teacher/user.php?ret=false&reqtype=changepp'</script>";
         }
     }
-    if ($_GET['reqtype'] == 'del') {
+    else if ($_GET['reqtype'] == 'del') {
         $analysis = new DbConnecter('../src/database/users.db');
         $sql = "DELETE FROM `teacherreq` WHERE `stid` = '{$_GET['id']}' AND `subject` = '" . $_SESSION['subject'] . "'";
         $results = $analysis->prepare($sql);
@@ -48,6 +48,13 @@ if ($_SESSION['isactive']) {
         $results = $analysis->prepare($sql);
         $res = $results->execute();
         echo "<script>window.location.href='../teacher/user.php?ret=true&reqtype=delreq&name={$_GET['name']}'</script>";
+    }
+    else if($_GET['reqtype'] == 'notify'){
+        $analysis = new DbConnecter('../src/database/users.db');        
+        $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '".str_replace("'",'"',$_GET['notifytext'])."', '{$_SESSION['userid']}');";
+        $results = $analysis->prepare($sql);
+        $res = $results->execute();
+        echo "<script>window.location.href='../teacher/user.php?ret=true&reqtype=addnotify'</script>";
     }
     //echo "<script>window.location.href='../user/user.php'</script>";
 } else {
