@@ -1,7 +1,11 @@
 <?PHP
 session_start();
 if ($_SESSION['isactive'] == true) {
-    if ($_SESSION['type'] == 'kurum') {
+    if ($_SESSION['type'] == 'student') {
+        echo "<script>window.location.href = '../user/user.php'</script>";
+    }elseif ($_SESSION['type'] == 'teacher') {
+        echo "<script>window.location.href = '../teacher/user.php'</script>";
+    } elseif ($_SESSION['type'] == 'kurum') {
     }
 } else {
     echo "<script>window.location.href = '../index.php'</script>";

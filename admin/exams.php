@@ -1,7 +1,11 @@
 <?PHP
 session_start();
 if ($_SESSION['isactive'] == true) {
-    if ($_SESSION['type'] == 'kurum') {
+    if ($_SESSION['type'] == 'student') {
+        echo "<script>window.location.href = '../user/user.php'</script>";
+    }elseif ($_SESSION['type'] == 'teacher') {
+        echo "<script>window.location.href = '../teacher/user.php'</script>";
+    } elseif ($_SESSION['type'] == 'kurum') {
     }
 } else {
     echo "<script>window.location.href = '../index.php'</script>";
@@ -126,10 +130,11 @@ $folders = array_diff($folders, [".", ".."]);
                                 <div class="card-body">
                                     <form action="./gear.php" method="get">
                                         <label for="examname">Sınavın İsmini Giriniz :</label>
-                                        <input name="examname" id="text" class="form-control mb-3" placeholder="Bildirim metni giriniz" required></input>
-                                        <input type="text" name="reqtype" value="exam" style="display:none;">
+                                        <input name="examname" id="examname" class="form-control mb-3" placeholder="Sınav ismini giriniz" required></input>
+                                        <input type="text" name="reqtype" value="video" style="display:none;">
                                         <input type="text" name="type" value="create" style="display:none;">
-                                        <button class="btn btn-primary" type="submit">Sınav Oluştur</button>
+                                        <div id="crash" style="display:none;">Bu sınav daha öncesinde eklenmiş.</div>
+                                        <button class="btn btn-primary" type="submit" id='addstd'>Sınav Oluştur</button>
                                     </form>
                                 </div>
                             </div>
@@ -140,7 +145,7 @@ $folders = array_diff($folders, [".", ".."]);
                                 <div class="card-header py-3">
                                     <h6 class="text-primary font-weight-bold m-0">Sınavlar <span class="badge badge-primary"></span></h6>
                                 </div>
-                                <div class="card-body" style="max-height:400px;overflow-y:auto;">
+                                <div class="card-body" style="max-height:400px;overflow-x:scroll;">
                                     <table class="table table-striped table-hover">
                                         <thead>
                                             <tr>
@@ -158,16 +163,20 @@ $folders = array_diff($folders, [".", ".."]);
                                             array_diff($folders, [".", ".."]);
                                             $firstexam = "";
                                             $istakefe = false;
+                                            $listex = '[';
                                             for ($i = 0; $i < count($folders); $i++) {
+                                                
                                                 if (!($folders[$i] == '.') && !($folders[$i] == '..' && !($folders[$i] == "active.txt"))) {
+                                                    $listex .= '"' . $folders[$i] . '",';
                                                     if (is_file($examdir . $folders[$i] . "/active.txt")) {
                                                         $activedir = fgets(fopen($examdir . $folders[$i] . "/active.txt", "r"));
+                                                        $path = $examdir . $folders[$i] . "/active.txt";
                                                         if ($activedir == "1") {
                                                             echo "<tr>";
                                                             echo "<td scope='row'>" . $folders[$i] . "</td>";
                                                             echo "<td>
-                                                            <a href='./gear.php?reqtype=video&type=0' class='text-success'><i class='fas fa-lock-open' style='font-size:20px    ;'></i></a>&nbsp;
-                                                            <a href='./statics.php?id={$folders[$i]}&type=video' class='text-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
+                                                            <a href='./gear.php?reqtype=video&type=perm&perm=0&path={$path}' class='btn btn-success'><i class='fas fa-lock-open' style='font-size:20px    ;'></i></a>&nbsp;
+                                                            <a href='./statics.php?id={$folders[$i]}&type=video' class='btn btn-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
                                                             </td>";
 
                                                             if ($istakefe == false) {
@@ -178,8 +187,8 @@ $folders = array_diff($folders, [".", ".."]);
                                                             echo "<tr>";
                                                             echo "<td scope='row'>" . $folders[$i] . "</td>";
                                                             echo "<td>
-                                                            <a href='./gear.php?reqtype=video&type=1' class='text-danger'><i class='fas fa-lock' style='font-size:20px  ;'></i></a>&nbsp;
-                                                            <a href='./statics.php?id={$folders[$i]}&type=video' class='text-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
+                                                            <a href='./gear.php?reqtype=video&type=perm&perm=1&path={$path}' class='btn btn-danger'><i class='fas fa-lock' style='font-size:20px  ;'></i></a>&nbsp;
+                                                            <a href='./statics.php?id={$folders[$i]}&type=video' class='btn btn-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
                                                             </td>";
 
                                                             if ($istakefe == false) {
@@ -201,7 +210,7 @@ $folders = array_diff($folders, [".", ".."]);
                                                 $dirname = $examdir . $_GET['examname'] . "/";
                                                 $examname = $_GET['examname'];
                                             }
-
+                                            $listex .= '""]';
                                             ?>
 
                                         </tbody>
@@ -227,6 +236,24 @@ $folders = array_diff($folders, [".", ".."]);
     <script src="../assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="../assets/js/theme.js"></script>
+    <script>
+        <?php echo "const IDS = ".$listex.";\n"?>
+        $(document).ready(function() {
+         
+            $("#examname").on("keyup", function() {
+                var valuex = $(this).val().toLowerCase();                
+                if (IDS.indexOf(valuex) != -1) {
+                    console.log('found');
+                    document.getElementById("crash").style.display = "";
+                    document.getElementById("addstd").disabled = true;
+                } else {
+                    document.getElementById("crash").style.display = "none";
+                    document.getElementById("addstd").disabled = false;
+                }                
+            });
+
+        });
+    </script>
 </body>
 
 </html>

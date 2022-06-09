@@ -77,10 +77,40 @@ if ($_SESSION['isactive']) {
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=delreq'</script>";
             } else if ($_GET['type'] == 'add') {
                 $analysis = new DbConnecter('../src/database/users.db');
-                $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '".str_replace("'",'"',$_GET['notifytext'])."', 'kurum');";
+                $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '" . str_replace("'", '"', $_GET['notifytext']) . "', 'kurum');";
                 $results = $analysis->prepare($sql);
                 $res = $results->execute();
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=addnotify'</script>";
+            }
+        } else if ($_GET['reqtype'] == "video") {
+            if ($_GET['type'] == 'perm') {
+                $apth = $_GET['path'];
+                $myfile = fopen($apth, "w") or die("Unable to open file!");
+                if ($_GET['perm'] == '1') {
+                    fwrite($myfile, "1");
+                    echo "<script>window.location.href='../admin/exams.php?ret=true&reqtype=openvideo'</script>";
+                }elseif ($_GET['perm'] == '0') {
+                    fwrite($myfile, "0");
+                    echo "<script>window.location.href='../admin/exams.php?ret=true&reqtype=closevideo'</script>";
+                }
+            }else if($_GET['type'] == 'create'){
+                $folder = '../src/video/exams/';
+                $examname = $_GET['examname'];
+                mkdir($folder.$examname, 0777, true);
+                mkdir($folder.$examname.'/biyoloji', 0777, true);
+                mkdir($folder.$examname.'/fizik', 0777, true);
+                mkdir($folder.$examname.'/kimya', 0777, true);
+                mkdir($folder.$examname.'/matematik', 0777, true);
+                $secfile = fopen($folder.$examname. "/active.txt", "w");
+                fwrite($secfile, "0");
+                fclose($secfile);
+                $createdb = fopen($folder.$examname. "/info.db", "w");
+                $infoDB = new DbConnecter($folder.$examname.'/info.db');
+                $lessons = ['biyoloji', 'fizik', 'kimya', 'matematik'];
+                for ($i=0; $i < count($lessons); $i++) {                     
+                    $infoDB->exec("CREATE TABLE `{$lessons[$i]}` (`videoname` TEXT, `watcher` TEXT, `date` TEXT);");
+                }
+                echo "<script>window.location.href='../admin/exams.php?ret=true&reqtype=createvideo'</script>";
             }
         } else {
             echo "<script>window.location.href='./admin.php'</script>";
