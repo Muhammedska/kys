@@ -41,7 +41,7 @@ if ($_GET['logintype'] == "student") {
         }
         echo "<script>window.location.href='./user/user.php'</script>";
     } else {
-        echo "Not Found";
+        echo "<script>window.location.href='./login.html'</script>";
     }
 }elseif($_GET['logintype'] == "teacher"){
     $ID = $_GET['userid'];
@@ -74,7 +74,7 @@ if ($_GET['logintype'] == "student") {
         }
         echo "<script>window.location.href='./teacher/user.php'</script>";
     } else {
-        echo "Not Found";
+        echo "<script>window.location.href='./login.html'</script>";
     }
 }else if ($_GET['logintype'] == "kurum") {
     if($_GET['password'] == "kurum" && $_GET['userid'] == "kurum"){
@@ -85,6 +85,8 @@ if ($_GET['logintype'] == "student") {
         $_SESSION['graduate'] = "kurum";
         $_SESSION['pp'] = "../assets/img/dogs/image8.jpeg";
         echo "<script>window.location.href='./admin/admin.php'</script>";
+    }else{
+        echo "<script>window.location.href='./login.html'</script>";
     }
 }
 ?>

@@ -122,6 +122,7 @@ while ($row = $res->fetchArray()) {
                                     array_diff($folders, [".", ".."]);
                                     $firstexam = "";
                                     $istakefe = false;
+                                    $isopened = [];
                                     for ($i = 0; $i < count($folders); $i++) {
                                         if (!($folders[$i] == '.') && !($folders[$i] == '..' && !($folders[$i] == "active.txt"))) {
                                             if (is_file($examdir . $folders[$i] . "/active.txt")) {
@@ -132,6 +133,7 @@ while ($row = $res->fetchArray()) {
                                                         $firstexam = $folders[$i];
                                                         $istakefe = true;
                                                     }
+                                                    array_push($isopened, $folders[$i]);
                                                 }
                                             } else {
                                                 $secfile = fopen($examdir . $folders[$i] . "/active.txt", "w");
@@ -140,6 +142,7 @@ while ($row = $res->fetchArray()) {
                                             }
                                         }
                                     }
+
                                     if (empty($_GET['examname'])) {
                                         $dirname = $examdir . $firstexam . "/";
                                         $examname = $firstexam;
@@ -173,9 +176,9 @@ while ($row = $res->fetchArray()) {
                                     <div class="card shadow mb-3">
                                         <div class="card-header py-3">
                                             <p class="text-primary m-0 font-weight-bold">
-                                                Deneme - 
+                                                Deneme -
                                                 <?PHP
-                                                echo $examname;                                               
+                                                echo $examname;
                                                 ?>
                                             </p>
                                         </div>
@@ -186,13 +189,15 @@ while ($row = $res->fetchArray()) {
                                         </div>
                                         <div class="card-body container p-2">
                                             <?PHP
-                                            $finder = scandir($dirname . "matematik");
-                                            array_diff($finder, [".", ".."]);
-                                            for ($i = 0; $i < count($finder); $i++) {
-                                                $checkdir = $dirname . "/matematik" . "/" . $finder[$i];
-                                                if (is_file($checkdir)) {
-                                                    $link = str_replace('.jpeg', "", $finder[$i]);
-                                                    echo "<a class='alert btn-primary btn text-left ' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=matematik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                            if (count($isopened) != 0) {
+                                                $finder = scandir($dirname . "matematik");
+                                                array_diff($finder, [".", ".."]);
+                                                for ($i = 0; $i < count($finder); $i++) {
+                                                    $checkdir = $dirname . "/matematik" . "/" . $finder[$i];
+                                                    if (is_file($checkdir)) {
+                                                        $link = str_replace('.jpeg', "", $finder[$i]);
+                                                        echo "<a class='alert btn-primary btn text-left ' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=matematik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                    }
                                                 }
                                             }
                                             ?>
@@ -204,13 +209,15 @@ while ($row = $res->fetchArray()) {
                                         </div>
                                         <div class="card-body container p-2">
                                             <?PHP
-                                            $finder = scandir($dirname . "fizik");
-                                            array_diff($finder, [".", ".."]);
-                                            for ($i = 0; $i < count($finder); $i++) {
-                                                $checkdir = $dirname . "/fizik" . "/" . $finder[$i];
-                                                if (is_file($checkdir)) {
-                                                    $link = str_replace('.jpeg', "", $finder[$i]);
-                                                    echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=fizik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                            if (count($isopened) != 0) {
+                                                $finder = scandir($dirname . "fizik");
+                                                array_diff($finder, [".", ".."]);
+                                                for ($i = 0; $i < count($finder); $i++) {
+                                                    $checkdir = $dirname . "/fizik" . "/" . $finder[$i];
+                                                    if (is_file($checkdir)) {
+                                                        $link = str_replace('.jpeg', "", $finder[$i]);
+                                                        echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=fizik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                    }
                                                 }
                                             }
                                             ?>
@@ -222,13 +229,15 @@ while ($row = $res->fetchArray()) {
                                         </div>
                                         <div class="card-body container p-2">
                                             <?PHP
-                                            $finder = scandir($dirname . "kimya");
-                                            array_diff($finder, [".", ".."]);
-                                            for ($i = 0; $i < count($finder); $i++) {
-                                                $checkdir = $dirname . "/kimya" . "/" . $finder[$i];
-                                                if (is_file($checkdir)) {
-                                                    $link = str_replace('.jpeg', "", $finder[$i]);
-                                                    echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=kimya&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                            if (count($isopened) != 0) {
+                                                $finder = scandir($dirname . "kimya");
+                                                array_diff($finder, [".", ".."]);
+                                                for ($i = 0; $i < count($finder); $i++) {
+                                                    $checkdir = $dirname . "/kimya" . "/" . $finder[$i];
+                                                    if (is_file($checkdir)) {
+                                                        $link = str_replace('.jpeg', "", $finder[$i]);
+                                                        echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=kimya&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                    }
                                                 }
                                             }
                                             ?>
@@ -240,13 +249,15 @@ while ($row = $res->fetchArray()) {
                                         </div>
                                         <div class="card-body container p-2">
                                             <?PHP
-                                            $finder = scandir($dirname . "biyoloji");
-                                            array_diff($finder, [".", ".."]);
-                                            for ($i = 0; $i < count($finder); $i++) {
-                                                $checkdir = $dirname . "/biyoloji" . "/" . $finder[$i];
-                                                if (is_file($checkdir)) {
-                                                    $link = str_replace('.jpeg', "", $finder[$i]);
-                                                    echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=biyoloji&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                            if (count($isopened) != 0) {
+                                                $finder = scandir($dirname . "biyoloji");
+                                                array_diff($finder, [".", ".."]);
+                                                for ($i = 0; $i < count($finder); $i++) {
+                                                    $checkdir = $dirname . "/biyoloji" . "/" . $finder[$i];
+                                                    if (is_file($checkdir)) {
+                                                        $link = str_replace('.jpeg', "", $finder[$i]);
+                                                        echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=biyoloji&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                    }
                                                 }
                                             }
                                             ?>

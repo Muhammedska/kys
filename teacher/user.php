@@ -3,8 +3,7 @@ session_start();
 if ($_SESSION['isactive'] == true) {
     if ($_SESSION['type'] == 'student') {
         echo "<script>window.location.href = '../user/user.php'</script>";
-    }elseif ($_SESSION['type'] == 'teacher') {
-        
+    } elseif ($_SESSION['type'] == 'teacher') {
     } elseif ($_SESSION['type'] == 'kurum') {
         echo "<script>window.location.href = '../admin/admin.php'</script>";
     }
@@ -34,6 +33,15 @@ while ($row = $res->fetchArray()) {
 if (empty($_GET['grade'])) {
     $_GET['grade'] = "9";
 }
+
+$db = new DbConnecter('../src/database/users.db');
+$sql = "SELECT * FROM teacher ORDER BY ID";
+$results = $db->query($sql);
+$datat = [];
+while ($row = $results->fetchArray()) {
+    $datat += [$row['ID'] => array($row['ID'], $row['name'], $row['lesson'], $row['pp'])];
+};
+
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +67,7 @@ if (empty($_GET['grade'])) {
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="../user/video.php"> <i class="fas fa-film"></i> <span>Video Çözüm</span></a></li>
+
                     <li class="nav-item"><a class="nav-link active" href="../user/user.php"><i class="fas fa-user"></i><span>Profil</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="../logout.php"><i class="fa fa-arrow-circle-left"></i><span>Çıkış</span></a></li>
                 </ul>
@@ -213,14 +221,53 @@ if (empty($_GET['grade'])) {
                                         <button class="btn btn-primary" type="submit">Bildirim Oluştur</button>
                                     </form>
                                 </div>
-                            </div>                    
+                            </div>
                             <div class="card shadow mb-4">
+                                <?php
+                                $sql = "SELECT * FROM notify ORDER BY notify";
+                                $results = $db->query($sql);
+                                $notify = [];
+                                while ($row = $results->fetchArray()) {
+                                    if($row['mass'] == 'teacher'){
+                                        
+                                        array_push($notify, array($row['mass'], $row['notify'], $row['sender']));
+                                    }
+                                };
+                                ?>
                                 <div class="card-header py-3">
-                                    <h6 class="text-primary font-weight-bold m-0">Bildirimler</h6>
+                                    <h6 class="text-primary font-weight-bold m-0">Bildirimler <span class="badge badge-primary"><?php echo (count($notify) == 0) ? 0 : count($notify); ?></span></h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="alert alert-success">Yeni Bildirim Yok</div>
+                                    <?php
+                                    if (count($notify) == 0) {
+                                        echo '<div class="text-center">
+                                            <h4 class="text-muted">Bildirim Yok</h4>
+                                        </div>';
+                                    } else {
+                                        foreach ($notify as $key => $value) {
+                                            if ($value[2] == "kurum" && $value[0] == "teacher") {
+                                                echo "<div class='media'>
+                                            <span class='align-self-center dropdown no-arrow ' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                                <a class='btn btn-link btn-sm dropdown-toggle' data-toggle='dropdown' aria-expanded='false' type='button'>
+                                                    <img src='../assets/img/dogs/image8.jpeg' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>
+                                                </a>
+                                                
+    
+                                            </span>
+                                            <div class='media-body p-4'>
+                                                <h4>{$value[2]}</h4>
+                                                <p>{$value[1]}</p>
+                                            </div>
+                                        </div>";
+                                            } else {
+                                                
+                                            }
+                                        }
+                                    }
+
+                                    ?>
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -289,13 +336,12 @@ if (empty($_GET['grade'])) {
                                                             $sql = "SELECT * FROM `teacherreq` WHERE `graduate` = '11' AND `subject` = '" . $_SESSION['subject'] . "'";
                                                         } else if ($_GET['grade'] == "12") {
                                                             $sql = "SELECT * FROM `teacherreq` WHERE `graduate` = '12' AND `subject` = '" . $_SESSION['subject'] . "'";
-                                                        }else{
-
+                                                        } else {
                                                         }
                                                         //$sql = "SELECT * FROM teacherreq WHERE subject = '{$ID}';";
                                                         $results = $agent->prepare($sql);
                                                         $res = $results->execute();
-                                                        
+
                                                         //var_dump($res);
                                                         //$row = $res->fetchArray(SQLITE3_NUM);
                                                         //var_dump($row);
@@ -305,7 +351,7 @@ if (empty($_GET['grade'])) {
                                                             array_push($datar, array($row[0], $row[1], $row[2], $row[3]));
                                                         }
                                                         for ($i = 0; $i < count($datar); $i++) {
-                                                            
+
                                                             echo "<tr>";
                                                             echo "<td>"  . "{$datar[$i][1]}</td>";
                                                             echo "<td>{$datar[$i][0]}</td>";
