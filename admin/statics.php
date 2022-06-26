@@ -47,8 +47,16 @@ $folders = scandir($examdir);
 sort($folders);
 array_reverse($folders);
 $folders = array_diff($folders, [".", ".."]);
-if (empty($_GET['list'])) {
-    $_GET['list'] = 'student';
+$exlist = [];
+
+if (empty($_GET['type'])) {
+    $_GET['type'] = 'student';
+    
+}
+if (empty($_GET['q'])) {
+    $q = 'null';
+}else{
+    $q = $_GET['q'];
 }
 ?>
 <!DOCTYPE html>
@@ -136,108 +144,60 @@ if (empty($_GET['list'])) {
 
                     <div class="row mb-3">
                         <div class="col-lg-4">
-                            <div class="card text-center">
-                              <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs">
-                                  <li class="nav-item">
-                                    <a class="nav-link active" href="#">Active tab</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" href="#">Tab</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link disabled" href="#">Disabled tab</a>
-                                  </li>
-                                </ul>
-                              </div>
-                              <div class="card-body">
-                                <h4 class="card-title">Title</h4>
-                                <p class="card-text">Body</p>
-                              </div>
+                            <div class="card mb-3 shadow">
+                                <div class="card-header" >                                    
+                                    <a href='./statics.php?type=student' class="btn btn-large btn<?php echo ($_GET['type'] == 'student') ? '' : '-outline' ;?>-primary">
+                                            Öğrenci <span class="badge badge-<?php echo ($_GET['type'] == 'student') ? 'dark' : 'primary' ;?>"><?php echo count($datar);?></span>
+                                    </a>
+                                    <a href='./statics.php?type=teacher' class="btn btn-large btn<?php echo ($_GET['type'] == 'teacher') ? '' : '-outline' ;?>-primary">
+                                            Öğretmen <span class="badge badge-<?php echo ($_GET['type'] == 'teacher') ? 'dark' : 'primary' ;?>"><?php echo count($datam);?></span>
+                                    </a>
+                                    <a href='./statics.php?type=exams' class="btn btn-large btn<?php echo ($_GET['type'] == 'exams') ? '' : '-outline' ;?>-primary">
+                                            Sınav <span class="badge badge-<?php echo ($_GET['type'] == 'exams') ? 'dark' : 'primary' ;?>"><?php echo count($folders);?></span>
+                                    </a>
+                                    
+                                </div>
+                                <div class="card-body">
+                                    <?php 
+                                        if($_GET['type'] == 'student'){
+                                        for ($i=0; $i < count($datar); $i++) { 
+                                            if ($datar[$i][3] == 'peter') {
+                                                $pp = "../assets/img/dogs/image2.jpeg";
+                                            } else if ($datar[$i][3] == 'franko') {
+                                                $pp = "../assets/img/dogs/image3.jpeg";
+                                            } else if ($datar[$i][3] == 'ralph') {
+                                                $pp = "../assets/img/dogs/image4.jpeg";
+                                            } else if ($datar[$i][3] == 'jessi') {
+                                                $pp = "../assets/img/dogs/image5.jpeg";
+                                            } else if ($datar[$i][3] == 'leo') {
+                                                $pp = "../assets/img/dogs/image6.jpeg";
+                                            } else if ($datar[$i][3] == 'mike') {
+                                                $pp = "../assets/img/dogs/image7.jpeg";
+                                            }
+                                            
+                                            echo "<a class='media p-3 btn btn-primary my-3'>";
+                                            echo '<img class="mr-3 mt-3 rounded-circle" width="60" height="60" src=' . $pp . '>' . "{$datar[$i][1]}";
+                                            echo "{$datar[$i][0]}";                                                                                     
+                                            echo "</a>";
+                                        }
+                                        }
+                                    ?>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
-                            <div class="card mb-3" style="min-height:382px;">
+                        <div class="col-lg-8">
+                            <div class="card mb-3 shadow">
                                 <div class="card-header">
-                                    <input type="text" id="filters" class="form-control " placeholder="Aranan İsim">
+                                    <i class="fas fa-chart-area mr-1"></i>
+                                    Grafik
                                 </div>
-                                <div class="card-body text-left shadow" style="overflow-x:scroll;">
-                                    <table class="table my-0" id="dataTable">
-                                        <thead>
-                                            <tr>
-                                                <th>İsim</th>
-                                                <th>ID</th>
-                                                <th>Sınıf / Branş</th>
-                                                <th>İşlem</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            if ($_GET['list'] == 'student' || empty($_GET['list'])) {
-
-                                                for ($i = 0; $i < count($datar); $i++) {
-                                                    if ($datar[$i][3] == 'peter') {
-                                                        $pp = "../assets/img/dogs/image2.jpeg";
-                                                    } else if ($datar[$i][3] == 'franko') {
-                                                        $pp = "../assets/img/dogs/image3.jpeg";
-                                                    } else if ($datar[$i][3] == 'ralph') {
-                                                        $pp = "../assets/img/dogs/image4.jpeg";
-                                                    } else if ($datar[$i][3] == 'jessi') {
-                                                        $pp = "../assets/img/dogs/image5.jpeg";
-                                                    } else if ($datar[$i][3] == 'leo') {
-                                                        $pp = "../assets/img/dogs/image6.jpeg";
-                                                    } else if ($datar[$i][3] == 'mike') {
-                                                        $pp = "../assets/img/dogs/image7.jpeg";
-                                                    }
-                                                    echo "<tr>";
-                                                    echo "<td>" . '<img class="rounded-circle mr-2" width="30" height="30" src=' . $pp . '>' . "{$datar[$i][1]}</td>";
-                                                    echo "<td>{$datar[$i][0]}</td>";
-                                                    echo "<td>{$datar[$i][2]}</td>";
-                                                    echo "<td>
-                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a> &nbsp;
-                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-success'><i class='fas fa-chart-line'></i></a>
-                                                    </td>";
-                                                    echo "</tr>";
-                                                }
-                                            } else {
-                                                for ($i = 0; $i < count($datam); $i++) {
-                                                    if ($datam[$i][3] == 'peter') {
-                                                        $pp = "../assets/img/dogs/image2.jpeg";
-                                                    } else if ($datam[$i][3] == 'franko') {
-                                                        $pp = "../assets/img/dogs/image3.jpeg";
-                                                    } else if ($datam[$i][3] == 'ralph') {
-                                                        $pp = "../assets/img/dogs/image4.jpeg";
-                                                    } else if ($datam[$i][3] == 'jessi') {
-                                                        $pp = "../assets/img/dogs/image5.jpeg";
-                                                    } else if ($datam[$i][3] == 'leo') {
-                                                        $pp = "../assets/img/dogs/image6.jpeg";
-                                                    } else if ($datam[$i][3] == 'mike') {
-                                                        $pp = "../assets/img/dogs/image7.jpeg";
-                                                    }
-                                                    echo "<tr>";
-                                                    echo "<td>" . '<img class="rounded-circle mr-2" width="30" height="30" src=' . $pp . '>' . "{$datam[$i][1]}</td>";
-                                                    echo "<td>{$datam[$i][0]}</td>";
-                                                    echo "<td>{$datam[$i][2]}</td>";
-                                                    echo "<td>
-                                                    <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a>
-                                                    <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='text-danger'><i class='fas fa-chart-line'></i></a>
-                                                    </td>";
-                                                    echo "</tr>";
-                                                }
-                                            }
-
-                                            ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td><strong>İsim</strong></td>
-                                                <td><strong>ID</strong></td>
-                                                <td><strong>Sınıf / branş</strong></td>
-                                                <td><strong>İşlem</strong></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                <div class="card-body text-center">
+                                    <?php 
+                                    if($q == 'null'){
+                                        echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frog' style='font-size:80px;'></i><br>Listeleme için bir kişi veya sınav seçiniz.</div>";
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
