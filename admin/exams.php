@@ -177,7 +177,7 @@ $folders = array_diff($folders, [".", ".."]);
                                                             echo "<td scope='row'>" . $folders[$i] . "</td>";
                                                             echo "<td>
                                                             <a href='./gear.php?reqtype=video&type=perm&perm=0&path={$path}' class='btn btn-success'><i class='fas fa-lock-open' style='font-size:20px    ;'></i></a>&nbsp;
-                                                            <a href='./statics.php?id={$folders[$i]}&type=video' class='btn btn-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
+                                                            <a href='./statics.php?q={$folders[$i]}&type=exams' class='btn btn-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
                                                             </td>";
 
                                                             if ($istakefe == false) {
@@ -189,7 +189,7 @@ $folders = array_diff($folders, [".", ".."]);
                                                             echo "<td scope='row'>" . $folders[$i] . "</td>";
                                                             echo "<td>
                                                             <a href='./gear.php?reqtype=video&type=perm&perm=1&path={$path}' class='btn btn-danger'><i class='fas fa-lock' style='font-size:20px  ;'></i></a>&nbsp;
-                                                            <a href='./statics.php?id={$folders[$i]}&type=video' class='btn btn-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
+                                                            <a href='./statics.php?q={$folders[$i]}&type=exams' class='btn btn-success'><i class='fas fa-chart-line' style='font-size:20px    ;'></i></a>
                                                             </td>";
 
                                                             if ($istakefe == false) {

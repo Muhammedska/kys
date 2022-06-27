@@ -44,7 +44,7 @@ if ($_SESSION['isactive']) {
         $results = $analysis->prepare($sql);
         $res = $results->execute();
 
-        $sql = "INSERT INTO `log` (`mission`, `logtm`) VALUES ('{$_GET['name']} - {$_SESSION['username']} - {$_SESSION['subject']} talebi tamamlandı', '{$tarih}');";
+        $sql = "INSERT INTO `log` (`mission`, `logtm`,`user`) VALUES ('{$_GET['name']} - {$_SESSION['username']} - {$_SESSION['subject']} talebi tamamlandı', '{$tarih}','{$_SESSION['userid']}');";
         $results = $analysis->prepare($sql);
         $res = $results->execute();
         echo "<script>window.location.href='../teacher/user.php?ret=true&reqtype=delreq&name={$_GET['name']}'</script>";
@@ -52,6 +52,10 @@ if ($_SESSION['isactive']) {
     else if($_GET['reqtype'] == 'notify'){
         $analysis = new DbConnecter('../src/database/users.db');        
         $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '".str_replace("'",'"',$_GET['notifytext'])."', '{$_SESSION['userid']}');";
+        $results = $analysis->prepare($sql);
+        $res = $results->execute();
+
+        $sql = "INSERT INTO `log` (`mission`, `logtm`,`user`) VALUES ('{$_SESSION['username']} - Bildirim oluşturulma tamamlandı', '{$tarih}','{$_SESSION['userid']}');";
         $results = $analysis->prepare($sql);
         $res = $results->execute();
         echo "<script>window.location.href='../teacher/user.php?ret=true&reqtype=addnotify'</script>";

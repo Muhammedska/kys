@@ -4,7 +4,7 @@
 session_start();
 
 $ppnames = ["peter", "franko", "ralph", "jessi", "leo", "mike"];
-
+$tarih = date("Y-m-d h:i:sa");
 if ($_SESSION['isactive']) {
     class DbConnecter extends SQLite3
     {
@@ -39,6 +39,7 @@ if ($_SESSION['isactive']) {
         }
     }if($_GET['reqtype'] == 'lesson'){
         $analysis = new DbConnecter('../src/database/lessonsw.db');
+        $analysist = new DbConnecter('../src/database/users.db');
         $sql = "SELECT * FROM inlist WHERE stid = '{$ID}';";
         $results = $analysis->prepare($sql);
         $res = $results -> execute();
@@ -54,9 +55,16 @@ if ($_SESSION['isactive']) {
             $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
             $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
         }
+
+        $sql = "INSERT INTO `log` (`mission`, `logtm`,`user`) VALUES ('{$_SESSION['username']} - {$_GET['lesson']} randevu talebi oluşturma tamamlandı', '{$tarih}','{$_SESSION['userid']}');";
+        //$results = $analysis->prepare($sql);
+        $analysist->exec($sql);
+        //$res = $results->execute();
         echo "<script>window.location.href='../user/user.php?ret=true&reqtype=lesson'</script>";
+    }else {
+        echo "<script>window.location.href='../user/user.php'</script>";
+        //
     }
-    //echo "<script>window.location.href='../user/user.php'</script>";
 } else {
     echo "<script>window.location.href='../index.php'</script>";
 }

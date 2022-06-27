@@ -174,7 +174,7 @@ $folders = array_diff($folders, [".", ".."]);
                                 <div class="card-header">
                                     <input type="text" id="filters" class="form-control " placeholder="Aranan İsim">
                                 </div>
-                                <div class="card-body text-left shadow">
+                                <div class="card-body text-left shadow" style="overflow-x:scroll;">
                                     <table class="table my-0" id="dataTable">
                                         <thead>
                                             <tr>
@@ -205,7 +205,7 @@ $folders = array_diff($folders, [".", ".."]);
                                                 echo "<td>" . '<img class="rounded-circle mr-2" width="30" height="30" src=' . $pp . '>' . "{$datat[$i][1]}</td>";
                                                 echo "<td>{$datat[$i][0]}</td>";
                                                 echo "<td>{$datat[$i][2]}</td>";
-                                                echo "<td><a href='./gear.php?id={$datat[$i][0]}&reqtype=del&type=tea' class='text-danger'><i class='fa fa-trash'></i></a></td>";
+                                                echo "<td><a href='./gear.php?id={$datat[$i][0]}&reqtype=del&type=tea' class='btn-danger btn'><i class='fa fa-trash'></i></a></td>";
                                                 echo "</tr>";
                                             }
                                             ?>
