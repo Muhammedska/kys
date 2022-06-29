@@ -56,7 +56,7 @@ if ($_SESSION['isactive']) {
             $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
         }
 
-        $sql = "INSERT INTO `log` (`mission`, `logtm`,`user`) VALUES ('{$_SESSION['username']} - {$_GET['lesson']} randevu talebi oluşturma tamamlandı', '{$tarih}','{$_SESSION['userid']}');";
+        $sql = "INSERT INTO `log` (`mission`, `logtm`,`user`) VALUES ('{$_SESSION['username']} - {$_GET['lesson']} randevu talebi oluşturma tamamlandı', '{$tarih}','{$_SESSION['username']}');";
         //$results = $analysis->prepare($sql);
         $analysist->exec($sql);
         //$res = $results->execute();

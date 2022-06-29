@@ -3,7 +3,7 @@ session_start();
 if ($_SESSION['isactive'] == true) {
     if ($_SESSION['type'] == 'student') {
         echo "<script>window.location.href = '../user/user.php'</script>";
-    }elseif ($_SESSION['type'] == 'teacher') {
+    } elseif ($_SESSION['type'] == 'teacher') {
         echo "<script>window.location.href = '../teacher/user.php'</script>";
     } elseif ($_SESSION['type'] == 'kurum') {
     }
@@ -275,68 +275,40 @@ $folders = array_diff($folders, [".", ".."]);
                     </div>
                     <div class="row">
                         <div class="col-lg-6 mb-4">
+
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="text-primary font-weight-bold m-0">Projects</h6>
+                                    <h6 class="text-primary font-weight-bold m-0">Kayıt Günlüğü</h6>
                                 </div>
-                                <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server migration<span class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Sales tracking<span class="float-right">40%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Customer Database<span class="float-right">60%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-primary" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span class="sr-only">60%</span></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Payout Details<span class="float-right">80%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"><span class="sr-only">80%</span></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Account setup<span class="float-right">Complete!</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"><span class="sr-only">100%</span></div>
-                                    </div>
+                                <div class="form-group my-0  p-3">
+                                    <input type="text" name="" id="filters" class="form-control" placeholder="Filtre kelime giriniz">
                                 </div>
-                            </div>
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="text-primary font-weight-bold m-0">Todo List</h6>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <div class="row align-items-center no-gutters">
-                                            <div class="col mr-2">
-                                                <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">10:30 AM</span>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="formCheck-1"><label class="custom-control-label" for="formCheck-1"></label></div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="row align-items-center no-gutters">
-                                            <div class="col mr-2">
-                                                <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">11:30 AM</span>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="formCheck-2"><label class="custom-control-label" for="formCheck-2"></label></div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="row align-items-center no-gutters">
-                                            <div class="col mr-2">
-                                                <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">12:30 AM</span>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="formCheck-3"><label class="custom-control-label" for="formCheck-3"></label></div>
-                                            </div>
-                                        </div>
-                                    </li>
+                                <ul class="list-group list-group-flush" id="dataTable">
+                                    <?php
+                                    $sql = "SELECT * FROM log";
+                                    $results = $db->query($sql);
+                                    //$results = $res->execute();
+                                    $notify = [];
+                                    while ($row = $results->fetchArray()) {
+                                        array_push($notify, array($row['mission'], $row['logtm'], $row['user']));
+                                    };
+                                    $con = 1;
+                                    if (count($notify) == 0) {
+                                        echo "<div class='mb-4 my-4 p-4 text-center'><i class='fa fa-frown' style='font-size:80px;'></i><br> kayıt bulunamadı.</div>";
+                                    } else {
+                                        foreach (array_reverse($notify) as $key => $value) {
+                                            echo '<li class="list-group-item">';
+                                            echo '<div class="row align-items-center no-gutters">';
+                                            echo '<div class="col mr-2">';
+                                            echo '<h6 class="mb-0 text-dark"><strong>'.$value[0].'</strong></h6><span class="text-xs">'.$value[1].'</span>';
+                                            echo '</div>';
+                                            echo'</div></li>';
+                                            $con++;
+                                        }
+                                    }
+                                    ?>
+
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -409,6 +381,56 @@ $folders = array_diff($folders, [".", ".."]);
     <script src="../assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="../assets/js/theme.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#filters").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#dataTable div").filter(function() {
+                    if(!$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)){
+                        $('#undefineds').show();    
+                    }else if($(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)){
+                        $('#undefineds').hide();                                            
+                    }
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            $("#pwd").on("keyup", function() {
+                var valuex = $(this).val().toLowerCase();
+                if (IDS.indexOf(valuex) != -1) {
+                    console.log('found');
+                    document.getElementById("crash").style.display = "";
+                    document.getElementById("addstd").disabled = true;
+                } else {
+                    document.getElementById("crash").style.display = "none";
+                    document.getElementById("addstd").disabled = false;
+                }
+            });
+            $("#uname").on("keyup", function() {
+                var valuey = $(this).val().toLowerCase();
+                if (NS.indexOf(valuey) != -1) {
+                    console.log('found');
+                    document.getElementById("crashn").style.display = "";
+                    document.getElementById("addstd").disabled = true;
+                } else {
+                    document.getElementById("crashn").style.display = "none";
+                    document.getElementById("addstd").disabled = false;
+                }
+            });
+        });
+        console.log(IDS, NS)
+
+        function checkval() {
+            var value = document.getElementById("pwd").value;
+            if (IDS.indexOf(value) != -1) {
+                document.getElementById("crash").style.display = "";
+                document.getElementById("addstd").disabled = true;
+            } else {
+                document.getElementById("crash").style.display = "none";
+                document.getElementById("addstd").disabled = false;
+            }
+        }
+    </script>
+
 </body>
 
 </html>

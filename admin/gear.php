@@ -55,12 +55,14 @@ if ($_SESSION['isactive']) {
                 $res = $results->execute();
                 $row = $res->fetchArray(SQLITE3_NUM);
                 if ($row != false) {
+                    $analysis->busyTimeout(3000);
                     $com = $analysis->prepare("DROP TABLE l{$_GET['id']}") or die("<script>//window.location.href='../admin/adds.php?ret=false&reqtype=del&q=121'</script>");
                     $com->execute();
+                    
                     $analysis->exec("DELETE FROM inlist WHERE stid = '{$_GET['id']}';") or die("<script>//window.location.href='../admin/adds.php?ret=false&reqtype=del&q=121'</script>");
                 } else {
                 }
-                echo "<script>window.location.href='./adds.php?ret=true&reqtype=del'</script>";
+               echo "<script>window.location.href='./adds.php?ret=true&reqtype=del'</script>";
             } else if ($_GET['type'] == "tea") {
                 $agent = new DbConnecter('../src/database/users.db');
                 $sql = "DELETE FROM teacher WHERE ID = '{$_GET['id']}';";

@@ -24,7 +24,7 @@ $datax = [];
 $IDS = '[';
 $NS = '[';
 while ($row = $results->fetchArray()) {
-    $datax += [$row['ID']=>array($row['ID'], $row['name'], $row['grade'], $row['pp'])];
+    $datax += [$row['ID'] => array($row['ID'], $row['name'], $row['grade'], $row['pp'])];
     array_push($datar, array($row['ID'], $row['name'], $row['grade'], $row['pp']));
     //$datar += [];
     $IDS .= '"' . $row['ID'] . '",';
@@ -154,7 +154,7 @@ if (empty($_GET['q'])) {
                                         Öğretmen <span class="badge badge-<?php echo ($_GET['type'] == 'teacher') ? 'dark' : 'primary'; ?>"><?php echo count($datam); ?></span>
                                     </a>
                                     <a href='./statics.php?type=exams' class="btn btn-large btn<?php echo ($_GET['type'] == 'exams') ? '' : '-outline'; ?>-primary">
-                                        Sınav <span class="badge badge-<?php echo ($_GET['type'] == 'exams') ? 'dark' : 'primary'; ?>"><?php echo count(array_diff($folders,['.','..'])); ?></span>
+                                        Sınav <span class="badge badge-<?php echo ($_GET['type'] == 'exams') ? 'dark' : 'primary'; ?>"><?php echo count(array_diff($folders, ['.', '..'])); ?></span>
                                     </a>
 
                                 </div>
@@ -208,8 +208,8 @@ if (empty($_GET['q'])) {
                                     } else if ($_GET['type'] == 'exams') {
                                         for ($i = 0; $i < count($folders); $i++) {
                                             if (!($folders[$i] == '.') && !($folders[$i] == '..') && !($folders[$i] == "active.txt")) {
-                                                $upp = strtoupper($folders[$i]);                                                
-                                                echo "<a class='media text-left btn btn-primary my-3' href='./statics.php?type=exams&q=".$folders[$i]."'>";
+                                                $upp = strtoupper($folders[$i]);
+                                                echo "<a class='media text-left btn btn-primary my-3' href='./statics.php?type=exams&q=" . $folders[$i] . "'>";
                                                 echo '<i style="margin-top:auto;margin-bottom:auto;max-height:60px;max-widtht:60px;min-width:60px;" class="my-2 rounded-circle fas fa-file-alt fa-2x text-gray-300" width="60" height="60"></i>';
                                                 echo "<h4 style='margin-top:auto;margin-bottom:auto;'>{$upp}</h4>";
                                                 //echo "<p class='media-body'>{$datam[$i][2]}</p>";
@@ -223,7 +223,7 @@ if (empty($_GET['q'])) {
                         </div>
 
                         <div class="col-lg-8">
-                            <div class="card mb-3 shadow" style="<?php echo ($_GET['type'] == 'teacher') ? 'display:none;' : '' ;?>">
+                            <div class="card mb-3 shadow" style="<?php echo ($_GET['type'] == 'null') ? 'display:none;' : ''; ?>">
                                 <div class="card-header">
                                     <i class="fas fa-chart-area mr-1"></i>
                                     Grafik
@@ -232,6 +232,26 @@ if (empty($_GET['q'])) {
                                     <?php
                                     if ($q == 'null') {
                                         echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frog' style='font-size:80px;'></i><br>Listeleme için bir kişi veya sınav seçiniz.</div>";
+                                    } else {
+                                        if ($_GET['type'] == 'student') {
+                                            echo '<div class="d-flex">
+                                                    <canvas id="lessonGraph" width=300></canvas>
+                                                </div>
+                                                <div class="text-center small mt-4">
+                                                    <span class="mr-2"><i class="fas fa-circle text-primary"></i>&nbsp;Matematik</span>
+                                                    <span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Türkçe</span>
+                                                    <span class="mr-2"><i class="fas fa-circle text-info"></i>&nbsp;Geometri</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#BDE4A7;"></i>&nbsp;Kimya</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#7A9CC6;"></i>&nbsp;Fizik</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#9B2226;"></i>&nbsp;Biyoloji</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#BB3E03;"></i>&nbsp;Tarih</span>
+                                                    <span class="mr-2"><i class="fas fa-circle " style="color:#005F73;"></i>&nbsp;Coğrafya</span>
+                                                </div>';
+                                        } else if ($_GET['type'] == 'teacher') {
+                                            echo '<div class="d-flex">
+                                                    <canvas id="teacherstat" width=300></canvas>
+                                                </div>';
+                                        }
                                     }
                                     ?>
                                 </div>
@@ -247,14 +267,15 @@ if (empty($_GET['q'])) {
                                     </div>
                                     <div class='mb-4 my-4 p-4' id='undefineds' style="display:none;">
                                         <i class='fa fa-frog' style='font-size:80px;'></i><br>Filtrelenen içerik bulunamadı.
-                                    
+
                                     </div>
+
                                     <?php
                                     if ($q == 'null') {
                                         echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frog' style='font-size:80px;'></i><br>Kayıt Günlükleri için bir kişi veya sınav seçiniz.</div>";
-                                    }else {
-                                        if($_GET['type']=='student'){
-                                            $sql = "SELECT * FROM log WHERE user='{$q}'";
+                                    } else {
+                                        if ($_GET['type'] == 'student') {
+                                            $sql = "SELECT * FROM log WHERE user='{$datax[$q][1]}'";
                                             $results = $db->query($sql);
                                             //$results = $res->execute();
                                             $notify = [];
@@ -276,12 +297,11 @@ if (empty($_GET['q'])) {
                                                     echo "</div>";
                                                     echo "</div>";
                                                     echo "</div>";
-                                                    $con ++;
+                                                    $con++;
                                                 }
                                             }
-
-                                        }elseif ($_GET['type']=='teacher') {
-                                            $sql = "SELECT * FROM log WHERE user='{$q}'";
+                                        } elseif ($_GET['type'] == 'teacher') {
+                                            $sql = "SELECT * FROM log WHERE user='{$datat[$q][1]}'";
                                             $results = $db->query($sql);
                                             //$results = $res->execute();
                                             $notify = [];
@@ -293,25 +313,22 @@ if (empty($_GET['q'])) {
                                             if (count($notify) == 0) {
                                                 echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frown' style='font-size:80px;'></i><br>{$datat[$q][1]} için herhangi bir kayıt bulunamadı.</div>";
                                             } else {
-                                                foreach ($notify as $key => $value) {
-                                                    echo "<div class='media text-muted pt-3' id='dataTable'>";
-                                                    echo "<div class='media-body pb-3 mb-0 small lh-125 border-bottom border-gray'>";
-                                                    echo "<div class='d-flex justify-content-between align-items-center w-100' style='font-size:20px;'>";
-                                                    echo "<strong class='text-gray-dark'>{$value[1]} </strong>";
-                                                    echo "</div>";
-                                                    echo "<div class='d-flex justify-content-between align-items-center w-100' style='font-size:20px;'>";
-                                                    echo "<strong class='text-gray-dark'>{$value[0]}</strong>";
-                                                    echo "</div>";
-                                                    echo "</div>";
-                                                    echo "</div>";
-                                                    $con ++;
+                                                echo '<ul class="list-group list-group-flush text-left" id="dataTable">';
+                                                foreach (array_reverse($notify) as $key => $value) {
+                                                    echo '<li class="list-group-item">';
+                                                    echo '<div class="row align-items-center no-gutters">';
+                                                    echo '<div class="col mr-2">';
+                                                    echo '<h6 class="mb-0 text-dark"><span class="badge badge-primary">' . $con . '</span>&nbsp;&nbsp;<strong>' . $value[0] . '</strong></h6><span class="text-xs">' . $value[1] . '</span>';
+                                                    echo '</div>';
+                                                    echo '</div></li>';
+                                                    $con++;
                                                 }
+                                                echo '</ul>';
                                             }
-                                            
                                         }
-                                        
                                     }
                                     ?>
+
                                 </div>
                             </div>
                         </div>
@@ -341,10 +358,10 @@ if (empty($_GET['q'])) {
             $("#filters").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 $("#dataTable div").filter(function() {
-                    if(!$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)){
-                        $('#undefineds').show();    
-                    }else if($(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)){
-                        $('#undefineds').hide();                                            
+                    if (!$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)) {
+                        $('#undefineds').show();
+                    } else if ($(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)) {
+                        $('#undefineds').hide();
                     }
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
@@ -384,6 +401,133 @@ if (empty($_GET['q'])) {
                 document.getElementById("addstd").disabled = false;
             }
         }
+    </script>
+    <script>
+        <?php
+        if ($_GET['type'] == 'student' && $q != 'null') {
+            $lessons = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"];
+            $lesanalysis = "const lesanly = [";
+            $analysisGraph = new DbConnecter('../src/database/lessonsw.db');
+            $asql = "SELECT * FROM l{$q} ORDER BY lesson";
+            $aresults = $analysisGraph->query($asql);
+            $uniqlist = [];
+
+            while ($row = $aresults->fetchArray()) {
+                array_push($uniqlist, $row['lesson']);
+            }
+            $detialVal = [];
+            for ($i = 0; $i < count($lessons); $i++) {
+                $indix = 0;
+                for ($n = 0; $n < count($uniqlist); $n++) {
+                    if ($lessons[$i] == $uniqlist[$n]) {
+                        $indix++;
+                    }
+                }
+                array_push($detialVal, $indix);
+            }
+            for ($i = 0; $i < count($detialVal); $i++) {
+                if ($i + 1 == count($detialVal)) {
+                    $lesanalysis .= $detialVal[$i] . "]";
+                } else {
+                    $lesanalysis .= $detialVal[$i] . ",";
+                }
+            }
+            echo $lesanalysis . ";";
+        } ?>
+        var ctx = document.getElementById("lessonGraph");
+        let lessons = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"];
+        var mychart2 = new Chart(ctx, {
+            "type": "doughnut",
+            "data": {
+                "labels": lessons,
+                "datasets": [{
+                    "label": "",
+                    "backgroundColor": ["#4e73df", "#1cc88a", "#36b9cc", "#BDE4A7", "#7A9CC6", "#9B2226", "#BB3E03", "#005F73"],
+                    "borderColor": ["#ffffff", "#ffffff", "#ffffff"],
+                    "data": lesanly
+                }]
+            },
+            "options": {
+                "maintainAspectRatio": false,
+                "legend": {
+                    "display": false
+                },
+                "title": {}
+            }
+        })
+    </script>
+    <script>
+        <?php
+        if ($_GET['type'] == 'teacher' && $q != 'null') {
+            $months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+            $teacherw = "const teacherw = [";
+            $analysisGraph = new DbConnecter('../src/database/lessonsw.db');
+            $sql = "SELECT * FROM teacher WHERE ID = '{$q}';";
+            $results = $analysisGraph->prepare($sql);
+            $res = $results->execute();
+            $row = $res->fetchArray(SQLITE3_NUM);
+            if ($row != false){
+
+                $asql = "SELECT * FROM t{$q} ORDER BY month";
+                $aresults = $analysisGraph->query($asql);
+                $uniqteacher = [];
+    
+                while ($row = $aresults->fetchArray()) {
+                    array_push($uniqteacher, $row['month']);
+                }
+                $detialVal = [];
+                for ($i = 0; $i < count($months); $i++) {
+                    $indix = 0;
+                    for ($n = 0; $n < count($uniqteacher); $n++) {
+                        if ($months[$i] == $uniqteacher[$n]) {
+                            $indix++;
+                        }
+                    }
+                    array_push($detialVal, $indix);
+                }
+                for ($i = 0; $i < count($detialVal); $i++) {
+                    if ($i + 1 == count($detialVal)) {
+                        $teacherw .= $detialVal[$i] . "]";
+                    } else {
+                        $teacherw .= $detialVal[$i] . ",";
+                    }
+                }
+                echo $teacherw . ";";
+            }
+        }
+        ?>
+        var ctx = document.getElementById("teacherstat");
+        var config = new Chart(ctx, {
+            "type": 'line',
+            "data": {
+                "labels": ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+                "datasets": [{
+                    "label": "Öğretmen soru Çözüm sayısı",
+                    "backgroundColor": ["#4e73df", "#1cc88a", "#36b9cc", "#BDE4A7", "#7A9CC6", "#9B2226", "#BB3E03", "#005F73", '#0095a6', '#1b2252', '#25521b', '#826c1a'],
+                    "borderColor": ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
+                    "data": teacherw
+                }]
+            },
+            "options": {
+                "maintainAspectRatio": true,
+                "legend": {
+                    "display": false
+                },
+                "title": {}
+            },
+            //"options": {
+            //    "responsive": true,
+            //    "plugins": {
+            //        "legend": {
+            //            "position": 'top',
+            //        },
+            //        "title": {
+            //            "display": true,
+            //            "text": 'Chart.js Line Chart'
+            //        }
+            //    }
+            //},
+        })
     </script>
 </body>
 
