@@ -174,8 +174,8 @@ if (empty($_GET['list'])) {
                                                     echo "<td>{$datar[$i][0]}</td>";
                                                     echo "<td>{$datar[$i][2]}</td>";
                                                     echo "<td>
-                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a> &nbsp;
-                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='text-success'><i class='fas fa-chart-line'></i></a>
+                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='btn btn-lg btn-danger'><i class='fa fa-trash'></i></a> &nbsp;
+                                                    <a href='./statics.php?q={$datar[$i][0]}&type=student' class='btn btn-lg btn-success'><i class='fas fa-chart-line'></i></a>
                                                     </td>";
                                                     echo "</tr>";
                                                 }
@@ -199,8 +199,8 @@ if (empty($_GET['list'])) {
                                                     echo "<td>{$datam[$i][0]}</td>";
                                                     echo "<td>{$datam[$i][2]}</td>";
                                                     echo "<td>
-                                                    <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='text-danger'><i class='fa fa-trash'></i></a>
-                                                    <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='text-danger'><i class='fas fa-chart-line'></i></a>
+                                                    <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='btn btn-lg btn-danger'><i class='fa fa-trash'></i></a>
+                                                    <a href='./gear.php?q={$datam[$i][0]}&type=student'' class='btn btn-lg btn-success'><i class='fas fa-chart-line'></i></a>
                                                     </td>";
                                                     echo "</tr>";
                                                 }

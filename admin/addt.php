@@ -149,7 +149,7 @@ $folders = array_diff($folders, [".", ".."]);
                                             <div id="crash" style="display:none;">Bu Öğretmen numarası daha öncesinde eklenmiş.</div>
                                         </div>
                                         <div class="form-group">                                        
-                                            <label for="teachersubject">Öğretmen Sınıf Düzeyi:</label>
+                                            <label for="teachersubject">Öğretmen Branşı:</label>
                                             <select class="form-control" id="teachersubject" placeholder="Öğretmen Numarasını Giriniz" name="teachersubject" required>
                                                 <option value="matematik">Matematik</option>
                                                 <option value="turkce">Türkçe</option>

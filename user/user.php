@@ -441,12 +441,12 @@ while ($row = $results->fetchArray()) {
         }
         $lesanalysis = "const lesanly = [";
         $analysisGraph = new DbConnecter('../src/database/lessonsw.db');
-        $asql = "SELECT * FROM l{$_SESSION['userid']} ORDER BY lesson";
-        $aresults = $analysisGraph->query($asql);
+        $asql = "SELECT * FROM statsstudent WHERE ID='{$_SESSION['userid']}'";
+        $aresults = $agent->query($asql);
         $uniqlist = [];
 
         while ($row = $aresults->fetchArray()) {
-            array_push($uniqlist, $row['lesson']);
+            array_push($uniqlist, $row['subject']);
         }
         $detialVal = [];
         for ($i = 0; $i < count($lessons); $i++) {

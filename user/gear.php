@@ -40,21 +40,25 @@ if ($_SESSION['isactive']) {
     }if($_GET['reqtype'] == 'lesson'){
         $analysis = new DbConnecter('../src/database/lessonsw.db');
         $analysist = new DbConnecter('../src/database/users.db');
-        $sql = "SELECT * FROM inlist WHERE stid = '{$ID}';";
-        $results = $analysis->prepare($sql);
-        $res = $results -> execute();
-        $row = $res->fetchArray(SQLITE3_NUM);
-        
-        if($row != false){
-            $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");    
-            $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-        }
-        else{
-            $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-            $analysis->exec("CREATE TABLE l{$ID} (lesson TEXT)")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-            $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-            $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
-        }
+
+        $analysist->exec("INSERT INTO statsstudent (ID, subject) VALUES ('{$_SESSION['userid']}','{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");    
+
+        //$sql = "SELECT * FROM inlist WHERE stid = '{$ID}';";
+        //$results = $analysis->prepare($sql);
+        //$res = $results -> execute();
+        //$row = $res->fetchArray(SQLITE3_NUM);
+        //
+        //if($row != false){
+        //    $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");    
+        //    $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        //}
+        //else{
+        //    $agent->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$_SESSION['username']}','{$_SESSION['userid']}','{$_GET['lesson']}','{$_SESSION['graduate']}')") or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        //    $analysis->exec("CREATE TABLE l{$ID} (lesson TEXT)")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        //    $analysis->exec("INSERT INTO l{$ID}(lesson) VALUES ('{$_GET['lesson']}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        //    $analysis->exec("INSERT INTO inlist(stid) VALUES ('{$ID}') ")or die("<script>window.location.href='../user/user.php?ret=false&reqtype=lesson'</script>");
+        //}
 
         $sql = "INSERT INTO `log` (`mission`, `logtm`,`user`) VALUES ('{$_SESSION['username']} - {$_GET['lesson']} randevu talebi oluşturma tamamlandı', '{$tarih}','{$_SESSION['username']}');";
         //$results = $analysis->prepare($sql);

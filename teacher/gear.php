@@ -48,26 +48,27 @@ if ($_SESSION['isactive']) {
         $results = $analysis->prepare($sql);
         $res = $results->execute();
 
-        $analysisp = new DbConnecter('../src/database/lessonsw.db');
+        //$analysisp = new DbConnecter('../src/database/lessonsw.db');
         
         $year = date("Y");
         $month = date("m");
         $day = date("d");
         $week = date("W");
 
-        $sql = "SELECT * FROM teacher WHERE ID = '{$ID}';";
-        $results = $analysisp->prepare($sql);
-        $res = $results -> execute();
-        $row = $res->fetchArray(SQLITE3_NUM);
-        
-        if($row != false){                       
-            $analysisp->exec("INSERT INTO t{$ID}(stname, month, day, year, allt) VALUES ('{$_GET['name']}','{$month}','{$day}','{$year}','{$tarih}' ) ")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
-        }
-        else{           
-            $analysisp->exec("CREATE TABLE t{$ID} (stname TEXT, month TEXT, day TEXT, year TEXT, allt TEXT)")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
-            $analysisp->exec("INSERT INTO t{$ID}(stname, month, day, year, allt) VALUES ('{$_GET['name']}','{$month}','{$day}','{$year}','{$tarih}' ) ")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
-            $analysisp->exec("INSERT INTO teacher(ID) VALUES ('{$ID}') ")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
-        }
+        $analysis->exec("INSERT INTO statsteacher (teacher, stname, month, day, year, allt) VALUES ('{$_SESSION['userid']}','{$_GET['name']}','{$month}','{$day}','{$year}','{$tarih}' ) ")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
+        //$sql = "SELECT * FROM teacher WHERE ID = '{$ID}';";
+        //$results = $analysisp->prepare($sql);
+        //$res = $results -> execute();
+        //$row = $res->fetchArray(SQLITE3_NUM);
+        //
+        //if($row != false){                       
+        //    $analysisp->exec("INSERT INTO t{$ID}(stname, month, day, year, allt) VALUES ('{$_GET['name']}','{$month}','{$day}','{$year}','{$tarih}' ) ")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
+        //}
+        //else{           
+        //    $analysisp->exec("CREATE TABLE t{$ID} (stname TEXT, month TEXT, day TEXT, year TEXT, allt TEXT)")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
+        //    $analysisp->exec("INSERT INTO t{$ID}(stname, month, day, year, allt) VALUES ('{$_GET['name']}','{$month}','{$day}','{$year}','{$tarih}' ) ")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
+        //    $analysisp->exec("INSERT INTO teacher(ID) VALUES ('{$ID}') ")or die("<script>window.location.href='../teacher/user.php?ret=false&reqtype=lesson'</script>");
+        //}
         echo "<script>window.location.href='../teacher/user.php?ret=true&reqtype=delreq&name={$_GET['name']}'</script>";
     }
     else if($_GET['reqtype'] == 'notify'){

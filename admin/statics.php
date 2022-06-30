@@ -407,13 +407,13 @@ if (empty($_GET['q'])) {
         if ($_GET['type'] == 'student' && $q != 'null') {
             $lessons = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"];
             $lesanalysis = "const lesanly = [";
-            $analysisGraph = new DbConnecter('../src/database/lessonsw.db');
-            $asql = "SELECT * FROM l{$q} ORDER BY lesson";
-            $aresults = $analysisGraph->query($asql);
+           
+            $asql = "SELECT * FROM statsstudent WHERE ID='{$q}'";
+            $aresults = $db->query($asql);
             $uniqlist = [];
 
             while ($row = $aresults->fetchArray()) {
-                array_push($uniqlist, $row['lesson']);
+                array_push($uniqlist, $row['subject']);
             }
             $detialVal = [];
             for ($i = 0; $i < count($lessons); $i++) {
@@ -461,39 +461,31 @@ if (empty($_GET['q'])) {
         if ($_GET['type'] == 'teacher' && $q != 'null') {
             $months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
             $teacherw = "const teacherw = [";
-            $analysisGraph = new DbConnecter('../src/database/lessonsw.db');
-            $sql = "SELECT * FROM teacher WHERE ID = '{$q}';";
-            $results = $analysisGraph->prepare($sql);
-            $res = $results->execute();
-            $row = $res->fetchArray(SQLITE3_NUM);
-            if ($row != false){
+            $asql = "SELECT * FROM statsteacher WHERE teacher = '{$q}';";
+            $aresults = $db->query($asql);
+            $uniqteacher = [];
 
-                $asql = "SELECT * FROM t{$q} ORDER BY month";
-                $aresults = $analysisGraph->query($asql);
-                $uniqteacher = [];
-    
-                while ($row = $aresults->fetchArray()) {
-                    array_push($uniqteacher, $row['month']);
-                }
-                $detialVal = [];
-                for ($i = 0; $i < count($months); $i++) {
-                    $indix = 0;
-                    for ($n = 0; $n < count($uniqteacher); $n++) {
-                        if ($months[$i] == $uniqteacher[$n]) {
-                            $indix++;
-                        }
-                    }
-                    array_push($detialVal, $indix);
-                }
-                for ($i = 0; $i < count($detialVal); $i++) {
-                    if ($i + 1 == count($detialVal)) {
-                        $teacherw .= $detialVal[$i] . "]";
-                    } else {
-                        $teacherw .= $detialVal[$i] . ",";
-                    }
-                }
-                echo $teacherw . ";";
+            while ($row = $aresults->fetchArray()) {
+                array_push($uniqteacher, $row['month']);
             }
+            $detialVal = [];
+            for ($i = 0; $i < count($months); $i++) {
+                $indix = 0;
+                for ($n = 0; $n < count($uniqteacher); $n++) {
+                    if ($months[$i] == $uniqteacher[$n]) {
+                        $indix++;
+                    }
+                }
+                array_push($detialVal, $indix);
+            }
+            for ($i = 0; $i < count($detialVal); $i++) {
+                if ($i + 1 == count($detialVal)) {
+                    $teacherw .= $detialVal[$i] . "]";
+                } else {
+                    $teacherw .= $detialVal[$i] . ",";
+                }
+            }
+            echo $teacherw . ";";
         }
         ?>
         var ctx = document.getElementById("teacherstat");
