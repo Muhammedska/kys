@@ -1,2 +1,4 @@
-# SchoolManagemend
-School managemend system
+# KYS
+  KURUM YONETİM SİSTEMİ 
+İZİNSİZ TİCARİ OLARAK KULLANİLAMAZ
+TELİF HAKLARI SAKLIDIR.
