@@ -61,8 +61,8 @@ $carousel = $row[1];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Walle</title>
-    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <title><?php echo $corp ?></title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/maiin.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
@@ -120,17 +120,17 @@ $carousel = $row[1];
                     </div>
                 </nav>
                 <header class="d-flex masthead" style="position:relative;background-image:url('assets/img/bg-masthead.jpg');background-repeat: no-repeat; background-position: center;height:800px;margin-top:70px;" id='page-top'>
-                    <div class="container my-auto text-center">
+                    <div class="container my-auto text-center ">
                         <h1 class="mb-1"><?php echo $corp ?></h1>
                         <h3 class="mb-5">
                             <em>Özel Eğitim Kurumu</em>
                         </h3>
-                        <a class="btn btn-primary btn-xl js-scroll-trigger" role="button" href="#<?php echo ($carousel == 'active') ? 'myCarousel' : 'about;'; ?>"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" role="button" href="#<?php echo ($carousel == 'active') ? 'myCarousel' : 'about'; ?>"><i style='font-size:60px;' class="fa fa-angle-down" aria-hidden="true"></i></a>
                         <div class="overlay"></div>
                     </div>
                 </header>
 
-                <section class="my-1" style='display:<?php echo ($carousel == 'active') ? '' : 'none;'; ?>'>
+                <section class="" style='display:<?php echo ($carousel == 'active') ? '' : 'none;'; ?>'>
                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
                         <ul class="carousel-indicators">
@@ -189,22 +189,22 @@ $carousel = $row[1];
                         </a>
                     </div>
                 </section>
-                <section id="about" class="content-section">
+                <section id="about" class="content-section bg-light">
                     <div class="container text-center">
                         <div class="row">
-                            <div class="col-lg-10 mx-auto">
-                                <h1>Beş Nokta</h2>
-                                    <p class="lead mb-5">
-                                        <span>
-                                            Özel eğitim sektöründeki yerimizde öğrencilerimize
-                                        </span>
-                                    </p>
-                                    <a class="btn btn-dark btn-xl js-scroll-trigger" role="button" href="#services">Ne mi Vadediyoruz ?</a>
+                            <div class="col-lg-10 mx-auto mb-5 py-3 my-5">
+                                <h1><?php echo $corp; ?></h1>
+                                <p class="lead mb-5">
+                                    <span>
+                                        Özel eğitim sektöründeki yerimizde öğrencilerimize
+                                    </span>
+                                </p>
+                                <a class="btn btn-dark btn-xl js-scroll-trigger" role="button" href="#services">Ne mi Vadediyoruz ?</a>
                             </div>
                         </div>
                     </div>
                 </section>
-                <section class="container-fluid py-0">
+                <section class="container-fluid py-0" style='display:none;'>
                     <div class="row">
                         <div class="col-md-8 mb-3 bg-light shadow ">
 
@@ -253,31 +253,89 @@ $carousel = $row[1];
                 </section>
 
                 <section id="services" class="content-section bg-primary text-white text-center">
-                    <div class="container">
-                        <div class="content-section-heading">
-                            <h3 class="text-secondary mb-0">Beş Nokta</h3>
-                            <h2 class="mb-5">Eğitimde <b>Beş Nokta</b> Farkı</h2>
+                    <div class="container" height=600>
+                        <div class="content-section-heading p-4">
+                            <h3 class="text-light mb-0 my-4"><?php echo $corp; ?></h3>
+                            <h2 class="mb-5">Eğitimde <b><?php echo $corp; ?></b> Farkı</h2>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"> <i class="fa fa-angellist" aria-hidden="true"></i> </span>
+                        <div class="row my-4 p-4">
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+                                <span class="mx-auto service-icon rounded-circle mb-3" style="font-size:25px;"> <i class="fa fa-angellist" aria-hidden="true"></i> </span>
                                 <h4><strong>Koçluk Sistemi</strong></h4>
                                 <p class="mb-0 text-faded">Her öğrenciye destek olacak bir eğitim koçu.</p>
                             </div>
-                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"><i class="icon-pencil"></i></span>
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+                                <span class="mx-auto service-icon rounded-circle mb-3" style="font-size:25px;"><i class="icon-pencil"></i></span>
                                 <h4><strong>Ödev Takibi</strong></h4>
                                 <p class="mb-0 text-faded">Haftalık ödev takibi.</p>
                             </div>
-                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"><i class="fas fa-chalkboard-teacher    "></i></span>
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+                                <span class="mx-auto service-icon rounded-circle mb-3" style="font-size:25px;"><i class="fas fa-chalkboard-teacher    "></i></span>
                                 <h4><strong>Sınıflar</strong></h4>
                                 <p class="mb-0 text-faded"><span>Özel ders niteliği taşıyan sınıflar.</span></p>
                             </div>
-                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"> <i class="fas fa-book-reader    "></i> </span>
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+                                <span class="mx-auto service-icon rounded-circle mb-3" style="font-size:25px;"> <i class="fas fa-book-reader    "></i> </span>
                                 <h4><strong>Soru Çözümü</strong></h4>
                                 <p class="mb-0 text-faded">1 e 1 soru çözümü ve takip sistemi.</p>
                             </div>
                         </div>
-                        <div class='my-2'>
+                        <div class='my-2 mb-0 py-4'>
                             <a class="p-6  btn btn-dark btn-xl js-scroll-trigger" role="button" href="#portfolio">Neden Biz ?</a>
+                        </div>
+                    </div>
+                </section>
+                <section id="portfolio" class="content-section">
+                    <div class="container">
+                        <div class="content-section-heading text-center">
+                            <h3 class="text-secondary mb-0"><?php echo $corp;?></h3>
+                            <h2 class="mb-5">Neden Biz?</h2>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-lg-6">
+                                <span class="portfolio-item">
+                                    <div class="caption">
+                                        <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83; '>
+                                            <h2>Neden Biz?</h2>
+                                            <p style='color:black;'>Sabah 8:00 Akşam 10:00 arası gözetmen öğretmen eşliğinde etüt olanağı.</p>
+                                        </div>
+                                    </div>
+                                    <img class="img-fluid" src="assets/img/portfolio-1.jpg">
+                                </span>
+                            </div>
+                            <div class="col-lg-6">
+                                <a class="portfolio-item">
+                                    <div class="caption">
+                                        <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83;'>
+                                            <h2>Neden Biz?</h2>
+                                            <p style='color:black;'>Öğrencilerimize haftalık ödevlendirme ve ödev kontrolü.</p>
+                                        </div>
+                                    </div>
+                                    <img class="img-fluid" src="assets/img/portfolio-2.jpg">
+                                </a>
+                            </div>
+                            <div class="col-lg-6">
+                                <a class="portfolio-item">
+                                    <div class="caption">
+                                        <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83;'>
+                                            <h2>Neden Biz?</h2>
+                                            <p style='color:black;'>Her hafta AYT veya TYT denemeleri.</p>
+                                        </div>
+                                    </div>
+                                    <img class="img-fluid" src="assets/img/portfolio-3.jpg">
+                                </a>
+                            </div>
+                            <div class="col-lg-6">
+                                <a class="portfolio-item">
+                                    <div class="caption">
+                                        <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83;'>
+                                            <h2>Neden Biz?</h2>
+                                            <p style='color:black;'>Deneme sınavları ile belirlenen başarı sınıfları.</p>
+                                        </div>
+                                    </div>
+                                    <img class="img-fluid" src="assets/img/portfolio-4.jpg">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </section>
