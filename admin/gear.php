@@ -159,6 +159,13 @@ if ($_SESSION['isactive']) {
                 $res = $results->execute();
 
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
+            }else if($_GET['var'] == 'carousel'){
+                $agent = new DbConnecter('../src/database/users.db');                
+                $sql = "UPDATE `app` SET `val`='{$_GET['key']}' WHERE var = 'carousel' ;";
+                $results = $agent->prepare($sql);
+                $res = $results->execute();
+
+                echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
             }
 
         }else {

@@ -44,6 +44,12 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $corp = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='carousel'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$carousel = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -318,61 +324,24 @@ $corp = $row[1];
                                 </ul>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card text-white bg-primary shadow">
-                                        <div class="card-body">
-                                            <p class="m-0">Kurum İsmi</p>
-                                            <p class="text-white-50 small m-0"></p>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
-                                                <input type="text" name="reqtype" style='display:none' value='app'>
-                                                <input type="text" name="var" style='display:none' value='name'>
-                                                <input type="text" name="value" class="form-control" placeholder="Kurum ismi giriniz" value='<?php echo $corp ?>'>
-                                                <button class="btn btn-secondary" type="submit">Güncelle</button>
-                                            </form>
-                                        </div>
-                                    </div>
+                        <div class="col-lg-6">
+                            <div class="card shadow">
+                                <div class="card-header py-3">
+                                    <h6 class="text-primary font-weight-bold m-0">Kişiselleştirme</h6>
                                 </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card text-white bg-success shadow">
-                                        <div class="card-body">
-                                            <p class="m-0">Success</p>
-                                            <p class="text-white-50 small m-0">#1cc88a</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card text-white bg-info shadow">
-                                        <div class="card-body">
-                                            <p class="m-0">Info</p>
-                                            <p class="text-white-50 small m-0">#36b9cc</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card text-white bg-warning shadow">
-                                        <div class="card-body">
-                                            <p class="m-0">Warning</p>
-                                            <p class="text-white-50 small m-0">#f6c23e</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card text-white bg-danger shadow">
-                                        <div class="card-body">
-                                            <p class="m-0">Danger</p>
-                                            <p class="text-white-50 small m-0">#e74a3b</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card text-white bg-secondary shadow">
-                                        <div class="card-body">
-                                            <p class="m-0">Secondary</p>
-                                            <p class="text-white-50 small m-0">#858796</p>
-                                        </div>
-                                    </div>
+                                <div class="card-body">
+                                    <p class="m-0">Kurum İsmi</p>                                    
+                                    <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                        <input type="text" name="reqtype" style='display:none' value='app'>
+                                        <input type="text" name="var" style='display:none' value='name'>
+                                        <input type="text" name="value" class="form-control" placeholder="Kurum ismi giriniz" value='<?php echo $corp ?>'>
+                                        <button class="btn btn-primary" type="submit">Güncelle</button>
+                                    </form>
+                                    <hr>
+                                    <span>
+                                        <span class='btn-lg disable'>Resim Slaytı <?php echo ($carousel == 'active') ? 'Aktif' : 'Pasif' ;?></span>
+                                          &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($carousel == 'active') ? 'warning' : 'secondary' ;?>' href='./gear.php?reqtype=app&var=carousel&key=<?php echo ($carousel == 'active') ? 'pasif' : 'active' ;?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
+                                    </span>
                                 </div>
                             </div>
                         </div>

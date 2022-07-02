@@ -48,6 +48,12 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $corp = strtoupper($row[1]);
+
+$sql = "SELECT * FROM app WHERE var='carousel'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$carousel = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -66,6 +72,11 @@ $corp = strtoupper($row[1]);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="/assets/js/theme.js"></script>
     <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 
 </head>
 
@@ -73,7 +84,7 @@ $corp = strtoupper($row[1]);
     <div id="">
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
-                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow topbar fixed-top">
                     <div class="container-fluid">
                         <div class="form-inline d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                             <?php echo $corp ?>
@@ -105,114 +116,139 @@ $corp = strtoupper($row[1]);
                         </ul>
                     </div>
                 </nav>
-                <div class="container-fluid">
-                    <section class="container-fluid py-0 my-4">
-                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                            <!-- Indicators -->
-                            <ul class="carousel-indicators">
-                                <?php
-                                $examdir = "./src/img/carousel/";
-                                $folders = scandir($examdir);
-                                $imlip = [];
-                                for ($i = 0; $i < count($folders); $i++) {
-                                    if ($folders[$i] == '.') {
-                                    } else if ($folders[$i] == '..') {
-                                    } else if ($folders[$i] == '...') {
-                                    } else {
-                                        array_push($imlip, $folders[$i]);
-                                    }
+                <header class="d-flex masthead" style="position:relative;background-image:url('assets/img/bg-masthead.jpg');background-repeat: no-repeat;background-attachment:fixed;  background-position: center;height:800px;margin-top:70px;" id='page-top'>
+                    <div class="container my-auto text-center">
+                        <h1 class="mb-1"><?php echo $corp ?></h1>
+                        <h3 class="mb-5">
+                            <em>Özel Eğitim Kurumu</em>
+                        </h3>
+                        <a class="btn btn-primary btn-xl js-scroll-trigger" role="button" href="#<?php echo ($carousel == 'active') ? 'myCarousel' : 'about;'; ?>"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                        <div class="overlay"></div>
+                    </div>
+                </header>
+
+                <section class="my-1" style='display:<?php echo ($carousel == 'active') ? '' : 'none;'; ?>'>
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ul class="carousel-indicators">
+                            <?php
+                            $examdir = "./src/img/carousel/";
+                            $folders = scandir($examdir);
+                            $imlip = [];
+                            for ($i = 0; $i < count($folders); $i++) {
+                                if ($folders[$i] == '.') {
+                                } else if ($folders[$i] == '..') {
+                                } else if ($folders[$i] == '...') {
+                                } else {
+                                    array_push($imlip, $folders[$i]);
                                 }
+                            }
 
-                                $diffar = $imlip;
-                                //var_dump($diffar);
-                                for ($i = 0; $i < count($diffar); $i++) {
-                                    if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
-                                    } else {
-                                        $isac = ($i == 0) ? 'active' : '';
-                                        echo '<li data-target="#myCarousel" data-slide-to="' . $i . '" class="' . $isac . '"></li>';
-                                    }
+                            $diffar = $imlip;
+                            //var_dump($diffar);
+                            for ($i = 0; $i < count($diffar); $i++) {
+                                if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
+                                } else {
+                                    $isac = ($i == 0) ? 'active' : '';
+                                    echo '<li data-target="#myCarousel" data-slide-to="' . $i . '" class="' . $isac . '"></li>';
                                 }
-                                ?>
-                            </ul>
+                            }
+                            ?>
+                        </ul>
 
-                            <!-- Wrapper for slides -->
-                            <div class="carousel-inner text-center bg-dark" style="min-height:274px;height:fit-content;max-height:600px; width:100%;">
-                                <?php
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner text-center bg-dark" style="min-height:274px;height:fit-content;max-height:600px; width:100%;">
+                            <?php
 
-                                for ($i = 0; $i < count($diffar); $i++) {
-                                    if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
-                                    } else {
-                                        $isac = ($i == 0) ? 'active' : '';
-                                        $biga = strtoupper(str_replace(['.jpeg', '.png', '.jpg'], '', $diffar[$i]));
-                                        echo '<div class="carousel-item align-center ' . $isac . '" style="position:relative; width:100%; margin:auto">
+                            for ($i = 0; $i < count($diffar); $i++) {
+                                if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
+                                } else {
+                                    $isac = ($i == 0) ? 'active' : '';
+                                    $biga = strtoupper(str_replace(['.jpeg', '.png', '.jpg'], '', $diffar[$i]));
+                                    echo '<div class="carousel-item align-center ' . $isac . '" style="position:relative; width:100%; margin:auto">
                                                 <img src="' . $examdir . $diffar[$i] . '"  style="min-height:279px;height:fit-content;max-height:600px;position:relative">
                                                 <div class="carousel-caption">
                                                     <h3>' . $biga . '</h3>                                                    
                                                 </div>
                                             </div>';
-                                    }
                                 }
-                                ?>
+                            }
+                            ?>
 
-                            </div>
-
-                            <!-- Left and right controls -->
-                            <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </a>
                         </div>
-                    </section>
-                    <section class="container-fluid py-0">
+
+                        <!-- Left and right controls -->
+                        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    </div>
+                </section>
+                <section id="about" class="content-section">
+                    <div class="container text-center">
                         <div class="row">
-                            <div class="col-md-8 mb-3 bg-light shadow ">
-
-
+                            <div class="col-lg-10 mx-auto">
+                                <h1>Beş Nokta</h2>
+                                    <p class="lead mb-5">
+                                        <span>
+                                            Özel eğitim sektöründeki yerimizde öğrencilerimize
+                                        </span>
+                                    </p>
+                                    <a class="btn btn-dark btn-xl js-scroll-trigger" role="button" href="#services">Ne mi Vadediyoruz ?</a>
                             </div>
-                            <div class="col-md-4 mb-3 shadow">
-                                <div>
-                                    <h4>Duyurular</h4>
-                                </div>
-                                <?php
-                                $sql = "SELECT * FROM notify ORDER BY notify";
-                                $results = $db->query($sql);
-                                $notify = [];
-                                while ($row = $results->fetchArray()) {
-                                    if ($row['mass'] == 'all') {
+                        </div>
+                    </div>
+                </section>
+                <section class="container-fluid py-0">
+                    <div class="row">
+                        <div class="col-md-8 mb-3 bg-light shadow ">
 
-                                        array_push($notify, array($row['mass'], $row['notify'], $row['sender']));
-                                    }
-                                };
-                                ?>
 
-                                <?php
-                                if (count($notify) == 0) {
-                                    echo '<div class="text-center">
+                        </div>
+                        <div class="col-md-4 mb-3 shadow">
+                            <div>
+                                <h4>Duyurular</h4>
+                            </div>
+                            <?php
+                            $sql = "SELECT * FROM notify ORDER BY notify";
+                            $results = $db->query($sql);
+                            $notify = [];
+                            while ($row = $results->fetchArray()) {
+                                if ($row['mass'] == 'all') {
+
+                                    array_push($notify, array($row['mass'], $row['notify'], $row['sender']));
+                                }
+                            };
+                            ?>
+
+                            <?php
+                            if (count($notify) == 0) {
+                                echo '<div class="text-center">
                                             <h4 class="text-muted">Bildirim Yok</h4>
                                         </div>';
-                                } else {
-                                    foreach ($notify as $key => $value) {
-                                        if ($value[2] == "kurum") {
-                                            echo "<div class='media'>                                                    
+                            } else {
+                                foreach ($notify as $key => $value) {
+                                    if ($value[2] == "kurum") {
+                                        echo "<div class='media'>                                                    
                                                             <div class='media-body p-4'>
                                                                 <h4>{$value[2]}</h4>
                                                                 <p>{$value[1]}</p>
                                                             </div>
                                                           </div>";
-                                        } else {
-                                        }
+                                    } else {
                                     }
                                 }
+                            }
 
-                                ?>
+                            ?>
 
 
-                            </div>
                         </div>
-                    </section>
-                </div>
+                    </div>
+                </section>
+
             </div>
         </div>
 
@@ -226,5 +262,6 @@ $corp = strtoupper($row[1]);
 
 
 </body>
+
 
 </html>
