@@ -360,7 +360,7 @@ $corp = $row[1];
                                                             echo "<td>"  . "{$datar[$i][1]}</td>";
                                                             echo "<td>{$datar[$i][0]}</td>";
                                                             //echo "<td>{$datar[$i][2]}</td>";
-                                                            echo "<td><a href='./gear.php?id={$datar[$i][1]}&name={$datar[$i][0]}&reqtype=del&subject={$_SESSION['subject']}' class='text-danger'><i class='fa fa-trash'></i></a></td>";
+                                                            echo "<td><a href='./gear.php?id={$datar[$i][1]}&name={$datar[$i][0]}&reqtype=del&subject={$_SESSION['subject']}' class='btn btn-lg btn-danger'><i class='fa fa-trash'></i></a></td>";
                                                             echo "</tr>";
                                                         }
                                                         ?>

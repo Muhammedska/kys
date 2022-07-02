@@ -336,7 +336,7 @@ $notshow = $row[1];
                                     <h6 class="text-primary font-weight-bold m-0">Kişiselleştirme</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p class="m-0">Kurum İsmi</p>                                    
+                                    <p class="m-0">Kurum İsmi</p>
                                     <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
                                         <input type="text" name="reqtype" style='display:none' value='app'>
                                         <input type="text" name="var" style='display:none' value='name'>
@@ -345,17 +345,85 @@ $notshow = $row[1];
                                     </form>
                                     <hr>
                                     <span>
-                                        <span class='btn-lg disable'>Resim Slaytı <?php echo ($carousel == 'active') ? 'Aktif' : 'Pasif' ;?></span>
-                                          &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($carousel == 'active') ? 'warning' : 'secondary' ;?>' href='./gear.php?reqtype=app&var=carousel&key=<?php echo ($carousel == 'active') ? 'pasif' : 'active' ;?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
+                                        <span class='btn-lg disable'>Resim Slaytı <?php echo ($carousel == 'active') ? 'Aktif' : 'Pasif'; ?></span>
+                                        &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($carousel == 'active') ? 'warning' : 'secondary'; ?>' href='./gear.php?reqtype=app&var=carousel&key=<?php echo ($carousel == 'active') ? 'pasif' : 'active'; ?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
                                     </span>
                                     <hr>
                                     <span>
-                                        <span class='btn-lg disable'>Bildirimler <?php echo ($notshow == 'active') ? 'Aktif' : 'Pasif' ;?></span>
-                                          &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($notshow == 'active') ? 'warning' : 'secondary' ;?>' href='./gear.php?reqtype=app&var=notify&key=<?php echo ($notshow == 'active') ? 'pasif' : 'active' ;?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
+                                        <span class='btn-lg disable'>Bildirimler <?php echo ($notshow == 'active') ? 'Aktif' : 'Pasif'; ?></span>
+                                        &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($notshow == 'active') ? 'warning' : 'secondary'; ?>' href='./gear.php?reqtype=app&var=notify&key=<?php echo ($notshow == 'active') ? 'pasif' : 'active'; ?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
                                     </span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 mb-3 my-4">
+                            <div class="card shadow mb-3">
+                                <div class="card-header py-3">
+                                    <h6 class="text-primary font-weight-bold m-0">Resim Slaytı</h6>
+                                </div>
+                                <div class='card-body'>
+                                    <div class='form-group'>
+                                        <form action="./gear.php" method="post" enctype="multipart/form-data">
+                                            Select image to upload:
+                                            <input type="text" name="reqtype" value="fileupload" style="display:none;">
+                                            <input type="file" name="fileToUpload" id="fileToUpload">
+                                            <input type="submit" value="Upload Image" name="submit">
+                                        </form>
+                                    </div>
+                                    <div class="my-4" style="max-height:600px;overflow-y:scroll;overflow-x:scroll;">
+                                        <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;margin:center;">
+                                            <thead style='position:sticky'>
+                                                <tr>
+                                                    <th width=60>#</th>
+                                                    <th width=100>Resim</th>
+                                                    <th>İşlem</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-left">
+                                                <?php
+                                                $examdir = "../src/img/carousel/";
+                                                $folders = scandir($examdir);
+                                                $imlip = [];
+                                                for ($i = 0; $i < count($folders); $i++) {
+                                                    if ($folders[$i] == '.') {
+                                                    } else if ($folders[$i] == '..') {
+                                                    } else if ($folders[$i] == '...') {
+                                                    } else {
+                                                        array_push($imlip, $folders[$i]);
+                                                    }
+                                                }
+
+                                                $diffar = $imlip;
+                                                //var_dump($diffar);
+                                                for ($i = 0; $i < count($diffar); $i++) {
+                                                    if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
+                                                    } else {
+                                                        echo '<tr>';
+                                                        echo '<td>' . ($i + 1) . '</td>';
+                                                        echo '<td><img src="../src/img/carousel/' . $diffar[$i] . '" width=100></td>';
+                                                        echo '<td>
+                                                    <form method="get" action="./gear.php">
+                                                    <input type="text" name="reqtype" value="caro" style="display:none">
+                                                    <input type="text" name="type" value="update" style="display:none">
+                                                    <input type="text" name="newname" value="' . str_replace(['.jpeg', '.jpg', '.png'], '', $diffar[$i]) . '" >
+                                                    <input type="text" name="oldname" value="' . $diffar[$i] . '" style="display:none">
+                                                    <button class="btn btn-primary">Güncelle</button>
+                                                    </form>
+                                                    <a href="./gear.php?reqtype=caro&type=del&imfile=' . $diffar[$i] . '" class="btn btn-danger">Sil</a>
+                                                    </td>';
+                                                        echo '</tr>';
+                                                    }
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
