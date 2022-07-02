@@ -41,7 +41,11 @@ $datat = [];
 while ($row = $results->fetchArray()) {
     $datat += [$row['ID'] => array($row['ID'], $row['name'], $row['lesson'], $row['pp'])];
 };
-
+$sql = "SELECT * FROM app WHERE var='name'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$corp = $row[1];
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +87,7 @@ while ($row = $results->fetchArray()) {
                     <div class="container-fluid">
                         <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <div class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            WALLE
+                            <?php echo $corp?>
                         </div>
                         <!-- <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                             <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">

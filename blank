@@ -1,0 +1,151 @@
+<div id="demo" class="carousel slide" data-ride="carousel">
+
+                                    <!-- Indicators -->
+                                    <ul class="carousel-indicators">
+                                        <?php
+                                        $examdir = "./src/img/carousel/";
+                                        $folders = scandir($examdir);
+                                        sort($folders);
+                                        $diffar = array_diff($folders, array('.', '..'));
+                                        var_dump($diffar);
+                                        for ($i = 0; $i < count($diffar); $i++) {
+                                            echo $i . ' ' . $diffar[$i] . '<br>';
+                                            echo '<li data-target="#demo" data-slide-to="' . $i . '" class="' . (($i == 0) ? 'active' : '') . '"></li>';
+                                        }
+                                        ?>
+
+                                    </ul>
+                                    <div class="carousel-inner">
+                                        <?php
+
+                                        for ($i = 0; $i < count($diffar); $i++) {
+                                            echo '<div style="max-height: 500px;width:auto;" class="carousel-item ' . (($i == 0) ? 'active' : '') . '">';
+                                            echo '<img src="' . $examdir . $diffar[$i] . '" class="d-block w-100" style="margin:auto;width:100%;height:auto;" alt="...">';
+                                            echo '</div>';
+                                        }
+                                        ?>
+
+                                    </div>
+
+                                    <!-- Left and right controls -->
+                                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                    </a>
+
+                                </div>
+                                <div class="container bg-dark">
+                                    <?php
+                                    $examdir = "./src/img/carousel/";
+                                    $folders = scandir($examdir);
+                                    $imlip = [];
+                                    for ($i = 0; $i < count($folders); $i++) {
+                                        if ($folders[$i] == '.') {
+                                        } else if ($folders[$i] == '..') {
+                                        } else if ($folders[$i] == '...') {
+                                        } else {
+                                            array_push($imlip, $folders[$i]);
+                                        }
+                                    }
+
+                                    $diffar = $imlip;
+                                    //var_dump($diffar);
+                                    for ($i = 0; $i < count($diffar); $i++) {
+                                        if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
+                                        } else {
+                                            echo '<div class="mySlides text-center">
+                                                    <div class="numbertext">' . $i . ' /' . count($diffar) . '</div>
+                                                    <img src="' . $examdir . $diffar[$i] . '" style="height:auto;max-height:600px;margin:auto; width:100%; position:relative;">
+                                                  </div>';
+                                        }
+                                    }
+                                    ?>
+
+
+                                    <!-- Next and previous buttons -->
+                                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                                    <!-- Image text -->
+                                    <div class="caption-container">
+                                        <p id="caption"></p>
+                                    </div>
+
+                                    <!-- Thumbnail images -->
+                                    <div class="row container">
+                                        <?php
+                                        for ($i = 0; $i < count($diffar); $i++) {
+                                            if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
+                                            } else {
+                                                echo '<div class="column">
+                                                        <img class="demo cursor" src="' . $examdir . $diffar[$i] . '" style="width:100%;" onclick="currentSlide(' . $i . ')" alt="The Woods">
+                                                      </div>';
+                                            }
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                    <!-- Indicators -->
+                                    <ul class="carousel-indicators">
+                                        <?php
+                                        $examdir = "./src/img/carousel/";
+                                        $folders = scandir($examdir);
+                                        $imlip = [];
+                                        for ($i = 0; $i < count($folders); $i++) {
+                                            if ($folders[$i] == '.') {
+                                            } else if ($folders[$i] == '..') {
+                                            } else if ($folders[$i] == '...') {
+                                            } else {
+                                                array_push($imlip, $folders[$i]);
+                                            }
+                                        }
+
+                                        $diffar = $imlip;
+                                        //var_dump($diffar);
+                                        for ($i = 0; $i < count($diffar); $i++) {
+                                            if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
+                                            } else {
+                                                $isac = ($i == 0) ? 'active' : '';
+                                                echo '<li data-target="#myCarousel" data-slide-to="' . $i . '" class="' . $isac . '"></li>';
+                                            }
+                                        }
+                                        ?>
+                                    </ul>
+
+                                    <!-- Wrapper for slides -->
+                                    <div class="carousel-inner" style="height:600px;">
+                                        <?php
+
+                                        for ($i = 0; $i < count($diffar); $i++) {
+                                            if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
+                                            } else {
+                                                $isac = ($i == 0) ? 'active' : '';
+                                                $biga = strtoupper(str_replace(['.jpeg', '.png', '.jpg'], '', $diffar[$i]));
+                                                echo '<div class="carousel-item ' . $isac . '" style="position:relative; width:auto; max-height:fit-content;">
+                                                <img src="' . $examdir . $diffar[$i] . '"  style="width:auto;height:auto">
+                                                <div class="carousel-caption">
+                                                    <h3>' . $biga . '</h3>                                                    
+                                                </div>
+                                            </div>';
+                                            }
+                                        }
+                                        ?>
+
+                                    </div>
+
+                                    <!-- Left and right controls -->
+                                    <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                    </a>
+                                </div>

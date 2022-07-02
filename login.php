@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 class DbConnecter extends SQLite3
 {
     function __construct($path)
@@ -39,6 +40,20 @@ if ($_GET['logintype'] == "student") {
         } else if ($row[3] == 'mike') {
             $_SESSION['pp'] = "../assets/img/dogs/image7.jpeg";
         }
+
+        setcookie('sessionisopened', 'true', 0, "/");
+        setcookie('type', 'student', 0, "/");
+        setcookie('userid', $row[0], 0, "/");
+        setcookie('username', $row[1], 0, "/");
+        setcookie('graduate', $row[2], 0, "/");
+        setcookie('pp', $_SESSION['pp'], 0, "/");
+        
+        $_COOKIE['type'] = 'student';
+        $_COOKIE['userid'] = $row[0];
+        $_COOKIE['username'] = $row[1];
+        $_COOKIE['graduate'] = $row[2];
+        $_COOKIE['pp'] = $_SESSION['pp'];
+        $_COOKIE['sessionisopened'] = 'true';
         echo "<script>window.location.href='./user/user.php'</script>";
     } else {
         echo "<script>window.location.href='./login.html'</script>";
@@ -72,6 +87,19 @@ if ($_GET['logintype'] == "student") {
         } else if ($row[3] == 'mike') {
             $_SESSION['pp'] = "../assets/img/dogs/image7.jpeg";
         }
+        setcookie('type', 'teacher',0, "/");
+        setcookie('userid', $row[0],0, "/");
+        setcookie('username', $row[1],0, "/");
+        setcookie('subject', $row[2],0, "/");
+        setcookie('pp', $_SESSION['pp'],0, "/");
+        setcookie('sessionisopened', 'true',0, "/");
+
+        $_COOKIE['type'] = 'teacher';
+        $_COOKIE['userid'] = $row[0];
+        $_COOKIE['username'] = $row[1];
+        $_COOKIE['subject'] = $row[2];
+        $_COOKIE['pp'] = $_SESSION['pp'];
+        $_COOKIE['sessionisopened'] = 'true';
         echo "<script>window.location.href='./teacher/user.php'</script>";
     } else {
         echo "<script>window.location.href='./login.html'</script>";
@@ -84,6 +112,18 @@ if ($_GET['logintype'] == "student") {
         $_SESSION['username'] = "kurum";
         $_SESSION['graduate'] = "kurum";
         $_SESSION['pp'] = "../assets/img/dogs/image8.jpeg";
+        setcookie('type', 'kurum', 0, "/");
+        setcookie('userid', 'kurum', 0, "/");
+        setcookie('username', 'kurum', 0, "/");
+        setcookie('graduate', 'kurum', 0, "/");
+        setcookie('pp', '../assets/img/dogs/image8.jpeg', 0, "/");
+        setcookie('sessionisopened', 'true', 0, "/");
+        $_COOKIE['type'] = 'kurum';
+        $_COOKIE['userid'] = "kurum";
+        $_COOKIE['username'] = "kurum";
+        $_COOKIE['graduate'] = "kurum";
+        $_COOKIE['pp'] = $_SESSION['pp'];
+        $_COOKIE['sessionisopened'] = 'true';
         echo "<script>window.location.href='./admin/admin.php'</script>";
     }else{
         echo "<script>window.location.href='./login.html'</script>";

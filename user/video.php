@@ -26,6 +26,11 @@ while ($row = $res->fetchArray()) {
     //var_dump($row);    
     array_push($waitlist, $row[2]);
 }
+$sql = "SELECT * FROM app WHERE var='name'";
+$results = $agent->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$corp = $row[1];
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +77,7 @@ while ($row = $res->fetchArray()) {
                     <div class="container-fluid">
                         <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <div class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            WALLE
+                            <?php echo $corp ?>
                         </div>
                         <ul class="nav navbar-nav flex-nowrap ml-auto">
 
@@ -191,14 +196,21 @@ while ($row = $res->fetchArray()) {
                                             <?PHP
                                             if (count($isopened) != 0) {
                                                 $finder = scandir($dirname . "matematik");
-                                                array_diff($finder, [".", ".."]);
-                                                for ($i = 0; $i < count($finder); $i++) {
-                                                    $checkdir = $dirname . "/matematik" . "/" . $finder[$i];
-                                                    if (is_file($checkdir)) {
-                                                        $link = str_replace('.jpeg', "", $finder[$i]);
-                                                        echo "<a class='alert btn-primary btn text-left ' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=matematik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                
+                                                if (count($finder) != 0) {
+                                                  
+                                                    for ($i = 0; $i <count($finder); $i++) {
+                                                        $checkdir = $dirname . "/matematik" . "/" . $finder[$i];
+                                                        if (is_file($checkdir)) {
+                                                            $link = str_replace(['.jpeg', '.mp4', '.m4v', '.mov', '.mkv'], "", $finder[$i]);
+                                                            echo "<a class='alert btn-primary btn text-left ' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=matematik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                        }
                                                     }
+                                                } else {
+
+                                                    echo "<div class='mb-4 my-4 p-4 text-center'><i class='fa fa-frog' style='font-size:80px;'></i><br>Listeleme için bir kişi veya sınav seçiniz.</div>";
                                                 }
+
                                             }
                                             ?>
                                         </div>
@@ -211,14 +223,19 @@ while ($row = $res->fetchArray()) {
                                             <?PHP
                                             if (count($isopened) != 0) {
                                                 $finder = scandir($dirname . "fizik");
-                                                array_diff($finder, [".", ".."]);
-                                                for ($i = 0; $i < count($finder); $i++) {
-                                                    $checkdir = $dirname . "/fizik" . "/" . $finder[$i];
-                                                    if (is_file($checkdir)) {
-                                                        $link = str_replace('.jpeg', "", $finder[$i]);
-                                                        echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=fizik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                
+                                                if (count($finder) != 0) {
+                                                    for ($i = 0; $i < count($finder); $i++) {
+                                                        $checkdir = $dirname . "/fizik" . "/" . $finder[$i];
+                                                        if (is_file($checkdir)) {
+                                                            $link = str_replace(['.jpeg', '.mp4', '.m4v', '.mov', '.mkv'], "", $finder[$i]);
+                                                            echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=fizik&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                        }
                                                     }
+                                                } else {
+                                                    echo "<div class='mb-4 my-4 p-4 text-center'><i class='fa fa-frog' style='font-size:80px;'></i><br>Listeleme için bir kişi veya sınav seçiniz.</div>";
                                                 }
+                                                
                                             }
                                             ?>
                                         </div>
@@ -231,15 +248,21 @@ while ($row = $res->fetchArray()) {
                                             <?PHP
                                             if (count($isopened) != 0) {
                                                 $finder = scandir($dirname . "kimya");
-                                                array_diff($finder, [".", ".."]);
-                                                for ($i = 0; $i < count($finder); $i++) {
-                                                    $checkdir = $dirname . "/kimya" . "/" . $finder[$i];
-                                                    if (is_file($checkdir)) {
-                                                        $link = str_replace('.jpeg', "", $finder[$i]);
-                                                        echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=kimya&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                
+                                                if (count($finder)!=0) {
+                                                    for ($i = 0; $i <count($finder); $i++) {
+                                                        $checkdir = $dirname . "/kimya" . "/" . $finder[$i];
+                                                        if (is_file($checkdir)) {
+                                                            $link = str_replace(['.jpeg', '.mp4', '.m4v', '.mov', '.mkv'], "", $finder[$i]);
+                                                            echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=kimya&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                        }
                                                     }
                                                 }
-                                            }
+                                                else {
+                                                    echo "<div class='mb-4 my-4 p-4 text-center'><i class='fa fa-frog' style='font-size:80px;'></i><br>Listeleme için bir kişi veya sınav seçiniz.</div>";
+                                                }
+                                                
+                                            } 
                                             ?>
                                         </div>
                                     </div>
@@ -251,15 +274,20 @@ while ($row = $res->fetchArray()) {
                                             <?PHP
                                             if (count($isopened) != 0) {
                                                 $finder = scandir($dirname . "biyoloji");
-                                                array_diff($finder, [".", ".."]);
-                                                for ($i = 0; $i < count($finder); $i++) {
-                                                    $checkdir = $dirname . "/biyoloji" . "/" . $finder[$i];
-                                                    if (is_file($checkdir)) {
-                                                        $link = str_replace('.jpeg', "", $finder[$i]);
-                                                        echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=biyoloji&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                             
+                                                if (count($finder) != 0) {
+                                                    for ($i = 0; $i <count($finder); $i++) {
+                                                        $checkdir = $dirname . "/biyoloji" . "/" . $finder[$i];
+                                                        if (is_file($checkdir)) {
+                                                            $link = str_replace(['.jpeg', '.mp4', '.m4v', '.mov', '.mkv'], "", $finder[$i]);
+                                                            echo "<a class='alert btn-primary btn text-left' style='width:100%; position:relative;' href='./view.php?file={$finder[$i]}&name=biyoloji&dir={$dirname}&examname={$examname}'><i class='fa fa-arrow-right'></i>&nbsp; {$link} &nbsp;</a>";
+                                                        }
                                                     }
                                                 }
-                                            }
+                                                else {
+                                                    echo "<div class='mb-4 my-4 p-4 text-center'><i class='fa fa-frog' style='font-size:80px;'></i><br>Listeleme için bir kişi veya sınav seçiniz.</div>";
+                                                }
+                                            } 
                                             ?>
                                         </div>
                                     </div>

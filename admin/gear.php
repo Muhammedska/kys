@@ -151,7 +151,17 @@ if ($_SESSION['isactive']) {
                 rmdir($folder_path);
                 echo "<script>window.location.href='../admin/exams.php?ret=true&reqtype=deldir'</script>";
             }
-        } else {
+        }else if($_GET['reqtype'] == 'app'){
+            if($_GET['var'] == 'name'){
+                $agent = new DbConnecter('../src/database/users.db');                
+                $sql = "UPDATE `app` SET `val`='{$_GET['value']}' WHERE var = 'name' ;";
+                $results = $agent->prepare($sql);
+                $res = $results->execute();
+
+                echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
+            }
+
+        }else {
             echo "<script>window.location.href='./admin.php'</script>";
         }
     } else {

@@ -38,6 +38,12 @@ $folders = scandir($examdir);
 sort($folders);
 array_reverse($folders);
 $folders = array_diff($folders, [".", ".."]);
+
+$sql = "SELECT * FROM app WHERE var='name'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$corp = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -80,7 +86,7 @@ $folders = array_diff($folders, [".", ".."]);
                     <div class="container-fluid">
                         <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <div class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            WALLE
+                            <?php echo $corp ?>
                         </div>
                         <ul class="nav navbar-nav flex-nowrap ml-auto">
                             <div class="d-none d-sm-block topbar-divider"></div>
@@ -300,15 +306,15 @@ $folders = array_diff($folders, [".", ".."]);
                                             echo '<li class="list-group-item">';
                                             echo '<div class="row align-items-center no-gutters">';
                                             echo '<div class="col mr-2">';
-                                            echo '<h6 class="mb-0 text-dark"><strong>'.$value[0].'</strong></h6><span class="text-xs">'.$value[1].'</span>';
+                                            echo '<h6 class="mb-0 text-dark"><strong>' . $value[0] . '</strong></h6><span class="text-xs">' . $value[1] . '</span>';
                                             echo '</div>';
-                                            echo'</div></li>';
+                                            echo '</div></li>';
                                             $con++;
                                         }
                                     }
                                     ?>
 
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -317,8 +323,14 @@ $folders = array_diff($folders, [".", ".."]);
                                 <div class="col-lg-6 mb-4">
                                     <div class="card text-white bg-primary shadow">
                                         <div class="card-body">
-                                            <p class="m-0">Primary</p>
-                                            <p class="text-white-50 small m-0">#4e73df</p>
+                                            <p class="m-0">Kurum İsmi</p>
+                                            <p class="text-white-50 small m-0"></p>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='name'>
+                                                <input type="text" name="value" class="form-control" placeholder="Kurum ismi giriniz" value='<?php echo $corp ?>'>
+                                                <button class="btn btn-secondary" type="submit">Güncelle</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -386,10 +398,10 @@ $folders = array_diff($folders, [".", ".."]);
             $("#filters").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 $("#dataTable div").filter(function() {
-                    if(!$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)){
-                        $('#undefineds').show();    
-                    }else if($(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)){
-                        $('#undefineds').hide();                                            
+                    if (!$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)) {
+                        $('#undefineds').show();
+                    } else if ($(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)) {
+                        $('#undefineds').hide();
                     }
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });

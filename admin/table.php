@@ -50,6 +50,11 @@ $folders = array_diff($folders, [".", ".."]);
 if (empty($_GET['list'])) {
     $_GET['list'] = 'student';
 }
+$sql = "SELECT * FROM app WHERE var='name'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$corp = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -93,7 +98,7 @@ if (empty($_GET['list'])) {
                     <div class="container-fluid">
                         <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <div class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            WALLE
+                            <?php echo $corp?>
                         </div>
                         <ul class="nav navbar-nav flex-nowrap ml-auto">
                             <div class="d-none d-sm-block topbar-divider"></div>
@@ -200,7 +205,7 @@ if (empty($_GET['list'])) {
                                                     echo "<td>{$datam[$i][2]}</td>";
                                                     echo "<td>
                                                     <a href='./gear.php?id={$datam[$i][0]}&reqtype=del' class='btn btn-lg btn-danger'><i class='fa fa-trash'></i></a>
-                                                    <a href='./gear.php?q={$datam[$i][0]}&type=student'' class='btn btn-lg btn-success'><i class='fas fa-chart-line'></i></a>
+                                                    <a href='./statics.php?q={$datam[$i][0]}&type=teacher'' class='btn btn-lg btn-success'><i class='fas fa-chart-line'></i></a>
                                                     </td>";
                                                     echo "</tr>";
                                                 }
