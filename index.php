@@ -116,7 +116,7 @@ $carousel = $row[1];
                         </ul>
                     </div>
                 </nav>
-                <header class="d-flex masthead" style="position:relative;background-image:url('assets/img/bg-masthead.jpg');background-repeat: no-repeat;background-attachment:fixed;  background-position: center;height:800px;margin-top:70px;" id='page-top'>
+                <header class="d-flex masthead" style="position:relative;background-image:url('assets/img/bg-masthead.jpg');background-repeat: no-repeat; background-position: center;height:800px;margin-top:70px;" id='page-top'>
                     <div class="container my-auto text-center">
                         <h1 class="mb-1"><?php echo $corp ?></h1>
                         <h3 class="mb-5">
@@ -249,9 +249,53 @@ $carousel = $row[1];
                     </div>
                 </section>
 
+                <section id="services" class="content-section bg-primary text-white text-center">
+                    <div class="container">
+                        <div class="content-section-heading">
+                            <h3 class="text-secondary mb-0">Beş Nokta</h3>
+                            <h2 class="mb-5">Eğitimde <b>Beş Nokta</b> Farkı</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"> <i class="fa fa-angellist" aria-hidden="true"></i> </span>
+                                <h4><strong>Koçluk Sistemi</strong></h4>
+                                <p class="mb-0 text-faded">Her öğrenciye destek olacak bir eğitim koçu.</p>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"><i class="icon-pencil"></i></span>
+                                <h4><strong>Ödev Takibi</strong></h4>
+                                <p class="mb-0 text-faded">Haftalık ödev takibi.</p>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"><i class="fas fa-chalkboard-teacher    "></i></span>
+                                <h4><strong>Sınıflar</strong></h4>
+                                <p class="mb-0 text-faded"><span>Özel ders niteliği taşıyan sınıflar.</span></p>
+                            </div>
+                            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0"><span class="mx-auto service-icon rounded-circle mb-3"> <i class="fas fa-book-reader    "></i> </span>
+                                <h4><strong>Soru Çözümü</strong></h4>
+                                <p class="mb-0 text-faded">1 e 1 soru çözümü ve takip sistemi.</p>
+                            </div>
+                        </div>
+                        <div class='my-2'>
+                            <a class="p-6  btn btn-dark btn-xl js-scroll-trigger" role="button" href="#portfolio">Neden Biz ?</a>
+                        </div>
+                    </div>
+                </section>
+                <section id='creator' class="d-flex " style='position:relative;background-color:#9900BE;color:black; background-image: url("https://avatars.githubusercontent.com/u/81029510?s=400&u=76f58bc809770b4309245a0fd3f1b3806d6739a3&v=4");background-repeat: no-repeat;  background-position: left;height:400px;'>
+                    <div class="container text-center" style='margin:auto;'>
+                        <div class="row">
+                            <div class="col-lg-10 mx-auto">
+                                <h1>Çözelti Software</h1>
+                                <p class="lead mb-5">
+                                    <span>
+                                        Bu Web Sayfası Çözelti Software Tarafından geliştirilmiştir.
+                                    </span>
+                                </p>
+                                <a href="https://github.com/Muhammedska" class='btn text-light ' height=70><i class="fab fa-github" style='font-size:60px;'></i></a>
+                                <a href="https://www.instagram.com/cozeltisoftware/" class='btn text-light ' height=70><i class="fab fa-instagram" style='font-size:60px;'></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
-
         <footer class="bg-white sticky-footer">
             <div class="container my-auto">
                 <div class="text-center my-auto copyright"><span>Copyright © Walle 2022 & BY: Çözelti Software</span></div>
@@ -260,7 +304,31 @@ $carousel = $row[1];
     </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
 
+    <script>
+        function detectMob() {
+            const toMatch = [
+                /Android/i,
+                /webOS/i,
+                /iPhone/i,
+                /iPad/i,
+                /iPod/i,
+                /BlackBerry/i,
+                /Windows Phone/i
+            ];
 
+            return toMatch.some((toMatchItem) => {
+                return navigator.userAgent.match(toMatchItem);
+            });
+        }
+
+
+        /* System Runners */
+
+        if (detectMob() == true) {
+            document.getElementById('creator').style.color = 'white';
+
+        }
+    </script>
 </body>
 
 
