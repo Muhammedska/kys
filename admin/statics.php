@@ -1,4 +1,7 @@
 <?PHP
+
+use DbConnecter as GlobalDbConnecter;
+
 session_start();
 if ($_SESSION['isactive'] == true) {
     if ($_SESSION['type'] == 'kurum') {
@@ -59,11 +62,14 @@ if (empty($_GET['q'])) {
 } else {
     $q = $_GET['q'];
 }
+
 $sql = "SELECT * FROM app WHERE var='name'";
 $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $corp = $row[1];
+
+$exlesson = ["biyoloji", "fizik", "kimya", "matematik"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -107,7 +113,7 @@ $corp = $row[1];
                     <div class="container-fluid">
                         <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <div class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <?php echo $corp?>
+                            <?php echo $corp ?>
                         </div>
                         <ul class="nav navbar-nav flex-nowrap ml-auto">
                             <div class="d-none d-sm-block topbar-divider"></div>
@@ -256,6 +262,48 @@ $corp = $row[1];
                                             echo '<div class="d-flex">
                                                     <canvas id="teacherstat" width=300></canvas>
                                                 </div>';
+                                        } else if ($_GET['type'] == 'exams') {
+                                            echo '<style>
+                                            html{
+                                                
+                                                scroll-behavior: smooth;
+                                            }
+                                            /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  backkground-color:  rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 10px;
+}
+                                            </style>';
+                                            echo '<body data-spy=""scroll" data-target="#scrollspy" data-offset="1" style="scroll-behavior: smooth;">';
+                                            echo '<nav class="navbar navbar-expand-sm bg-primary navbar-primary"  id="scrollspy" style="position:static;border-radius:50px;"><ul class="navbar-nav">';
+                                            foreach ($exlesson as $l) {
+                                                //$retVal = ($l == 'biyoloji') ? 'active' : '' ;
+                                                $retVal = '';
+                                                echo '<li class="nav-item"><a class="nav-link text-light' . $retVal . '" href="#' . $l . '">' . $l . '</a></li>';
+                                            }
+                                            echo '</ul></nav>';
+                                            echo "<div style='overflow-y:scroll;height:600px;'>";
+                                            foreach ($exlesson as $l) {
+                                                $biga = strtoupper($l);
+                                                echo '<div id="' . $l . '" class="container-fluid " style="padding-top:70px;padding-bottom:70px;overflow-x:scroll;">
+                                                <h1>' . $biga . '</h1>
+                                                <div class="d-flex ">
+                                                    <canvas id="myChart' . $l . '" width=300></canvas>
+                                                </div>
+                                              </div>';
+                                            }
+                                            echo '</div></body>';
                                         }
                                     }
                                     ?>
@@ -330,8 +378,33 @@ $corp = $row[1];
                                                 }
                                                 echo '</ul>';
                                             }
-                                        }elseif ($_GET['type'] == 'exams') {
-                                            
+                                        } elseif ($_GET['type'] == 'exams') {
+                                            $path = '../src/video/exams/';
+                                            $con = 0;
+                                            if ($_GET['type'] == 'exams' && $q != 'null') {
+                                                if (is_dir($path . $q)) {
+                                                    $exdb = new DbConnecter($path . $q . '/info.db');
+                                                    foreach ($exlesson as $l) {
+                                                        $sql = "SELECT * FROM {$l} ";
+                                                        $results = $exdb->query($sql);
+                                                        if(!($results->fetchArray() == false)){
+                                                            $s = [];
+                                                            while ($row = $results->fetchArray()) {
+                                                                array_push($s,['videoname' => $row['videoname'], 'watcher' => $row['watcher'], 'date' => $row['date']]);
+                                                            }
+                                                            foreach (array_reverse($s) as $key => $value) {
+                                                                echo '<li class="list-group-item">';
+                                                                echo '<div class="row align-items-center no-gutters">';
+                                                                echo '<div class="col mr-2 text-left">';
+                                                                echo '<h6 class="mb-0 text-dark"><span class="badge badge-primary">' . $con . '</span>&nbsp;&nbsp;<strong>' . $value['videoname'] . '</strong> - '.$datax[$value['watcher']][1].'</h6><span class="text-xs">' . $value['date'] . '</span>';
+                                                                echo '</div>';
+                                                                echo '</div></li>';
+                                                                $con++;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                     ?>
@@ -414,7 +487,7 @@ $corp = $row[1];
         if ($_GET['type'] == 'student' && $q != 'null') {
             $lessons = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"];
             $lesanalysis = "const lesanly = [";
-           
+
             $asql = "SELECT * FROM statsstudent WHERE ID='{$q}'";
             $aresults = $db->query($asql);
             $uniqlist = [];
@@ -527,6 +600,81 @@ $corp = $row[1];
             //    }
             //},
         })
+    </script>
+    <script>
+        <?php
+
+        $path = '../src/video/exams/';
+        if ($_GET['type'] == 'exams' && $q != 'null') {
+            if (is_dir($path . $q)) {
+                $exdb = new DbConnecter($path . $q . '/info.db');
+                foreach ($exlesson as $l) {
+                    $exams = "const exams{$l} = [";
+                    $examw = "const examw{$l} = [";
+                    foreach (scandir($path . $q . '/' . $l) as $file) {
+
+
+                        if (is_file($path . $q . '/' . $l . '/' . $file)) {
+                            $exams .= '"' . str_replace(['.jpeg', '.mp4', '.m4v', '.mov', '.mkv'], "", $file) . '",';
+
+                            $sql = "SELECT * FROM {$l} WHERE videoname = '{$file}';";
+                            $results = $exdb->query($sql);
+                            $row = $results->fetchArray();
+                            if ($row == false) {
+                                $examw .= 0 . ",";
+                            } else {
+
+                                $examw .= count($row) . ',';
+                            }
+                        }
+                    }
+                    $exams .= "];";
+                    $examw .= "];";
+                    echo $exams;
+                    echo $examw;
+                    echo "
+                    var typex = 'line'
+                    var ctx = document.getElementById('myChart{$l}');
+                    var myChart = new Chart(ctx, {
+                        type: typex,
+                        data: {
+                            labels: exams{$l},
+                            datasets: [{
+                                label: '# defa izlendi',
+                                data: examw{$l},
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.3)',
+                                    'rgba(54, 162, 235, 0.3)',
+                                    'rgba(255, 206, 86, 0.3)',
+                                    'rgba(75, 192, 192, 0.3)',
+                                    'rgba(153, 102, 255, 0.3)',
+                                    'rgba(255, 159, 64, 0.3)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                    ";
+                }
+            }
+        }
+
+        ?>
     </script>
 </body>
 
