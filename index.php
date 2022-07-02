@@ -102,7 +102,7 @@ $carousel = $row[1];
 
                                         echo '<a class="nav-link"  href="' . $t . '">
                                         <span class=" d-lg-inline mr-2 text-gray-600 small">' . $_SESSION['username'] . '</span>
-                                        <img class="border rounded-circle img-profile " src="' . $_SESSION['pp'] . '">
+                                        <img class="border rounded-circle img-profile " height=50 width=50 src="' . $_SESSION['pp'] . '">
                                     </a>';
                                     } else {
                                         echo '<a class="nav-link" href="./login.html">

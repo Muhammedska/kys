@@ -50,6 +50,12 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $carousel = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='notify'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$notshow = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -190,7 +196,7 @@ $carousel = $row[1];
                                 <div class="card-header py-3">
                                     <h6 class="text-primary font-weight-bold m-0">Bildirimler <span class="badge badge-primary"><?php echo (count($notify) == 0) ? 0 : count($notify); ?></span></h6>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" style="max-height:400px;overflow-y:scroll;">
                                     <?php
                                     if (count($notify) == 0) {
                                         echo '<div class="text-center">
@@ -295,7 +301,7 @@ $carousel = $row[1];
                                 <div class="form-group my-0  p-3">
                                     <input type="text" name="" id="filters" class="form-control" placeholder="Filtre kelime giriniz">
                                 </div>
-                                <ul class="list-group list-group-flush" id="dataTable">
+                                <ul class="list-group list-group-flush" id="dataTable" style='max-height:400px;overflow-y:scroll;'>
                                     <?php
                                     $sql = "SELECT * FROM log";
                                     $results = $db->query($sql);
@@ -341,6 +347,11 @@ $carousel = $row[1];
                                     <span>
                                         <span class='btn-lg disable'>Resim Slaytı <?php echo ($carousel == 'active') ? 'Aktif' : 'Pasif' ;?></span>
                                           &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($carousel == 'active') ? 'warning' : 'secondary' ;?>' href='./gear.php?reqtype=app&var=carousel&key=<?php echo ($carousel == 'active') ? 'pasif' : 'active' ;?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
+                                    </span>
+                                    <hr>
+                                    <span>
+                                        <span class='btn-lg disable'>Bildirimler <?php echo ($notshow == 'active') ? 'Aktif' : 'Pasif' ;?></span>
+                                          &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($notshow == 'active') ? 'warning' : 'secondary' ;?>' href='./gear.php?reqtype=app&var=notify&key=<?php echo ($notshow == 'active') ? 'pasif' : 'active' ;?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
                                     </span>
                                 </div>
                             </div>
