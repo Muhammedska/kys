@@ -43,6 +43,14 @@ if ($_COOKIE['sessionisopened'] == 'true') {
 }
 
 $db = new DbConnecter('./src/database/users.db');
+
+$sql = "SELECT * FROM notify WHERE mass = 'all'";
+$results = $db->query($sql);
+$notify = [];
+while ($row = $results->fetchArray()) {
+    array_push($notify, $row['notify']);
+};
+
 $sql = "SELECT * FROM app WHERE var='name'";
 $results = $db->prepare($sql);
 $res = $results->execute();
@@ -54,6 +62,12 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $carousel = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='notify'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$notshow = $row[1];
 
 $sql = "SELECT * FROM app WHERE var='why1'";
 $results = $db->prepare($sql);
@@ -102,6 +116,8 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $map = $row[1];
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -132,6 +148,43 @@ $map = $row[1];
 </head>
 
 <body id="page-top">
+    <div class="modal fade" id="notify">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Bildirimler & Duyurular</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <?php
+                    if ($notshow == 'active') {
+                        foreach (array_reverse($notify) as $not) {
+                            echo "<div class='media'>
+                            <span class='align-self-center dropdown no-arrow ' class='align-self-center mr-3 rounded-circle' style='width:60px;height:60px;'>                            
+                                    <i class='align-self-center mr-3 rounded-circle fa fa-bullhorn' style='font-size:60px;'></i>
+                            </span>
+                            <div class='media-body p-4'>
+                                <h4>Genel Duyuru</h4>
+                                <p>{$not}</p>
+                            </div>
+                        </div>";;
+                        }
+                    } 
+                    ?>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <div id="">
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
@@ -237,6 +290,7 @@ $map = $row[1];
                         </a>
                     </div>
                 </section>
+
                 <section id="about" class="content-section bg-light">
                     <div class="container text-center">
                         <div class="row">
@@ -390,7 +444,7 @@ $map = $row[1];
                 <section id="maps" class="content-section" style='position:relative;background-color:#9900BE;color:white; background-image: url("assets/img/map.png");background-repeat: inline-repeat;  background-position: center;height:580px;'>
                     <div class="container">
                         <div class="row">
-                            <div class="col bg-dark align-item-center my-3"  >
+                            <div class="col bg-dark align-item-center my-3">
                                 <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;margin-top:center; margin-bottom:center;">
                                     <tbody class="text-left">
                                         <tr>
@@ -469,6 +523,9 @@ $map = $row[1];
             document.getElementById('creator').style.color = 'white';
 
         }
+        <?php if ($notshow == 'active' AND count($notify) != 0) {
+            echo '$(document).ready(function() {' . '$("#notify").modal("show");' . ' });';
+        } ?>
     </script>
 </body>
 
