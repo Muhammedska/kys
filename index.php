@@ -143,6 +143,24 @@ $map = $row[1];
         html {
             scroll-behavior: smooth;
         }
+
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            backkground-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: grey;
+            border-radius: 10px;
+        }
     </style>
 
 </head>
@@ -173,7 +191,7 @@ $map = $row[1];
                             </div>
                         </div>";;
                         }
-                    } 
+                    }
                     ?>
                 </div>
 
@@ -462,9 +480,9 @@ $map = $row[1];
                                             <td style="color:white;">:</td>
                                             <td style="color:white;"><?php echo $email; ?></td>
                                         </tr>
-
                                     </tbody>
                                 </table>
+
                             </div>
                             <div class="col my-3">
                                 <iframe src="<?php echo $map ?>" width="auto" height="356" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -523,7 +541,7 @@ $map = $row[1];
             document.getElementById('creator').style.color = 'white';
 
         }
-        <?php if ($notshow == 'active' AND count($notify) != 0) {
+        <?php if ($notshow == 'active' and count($notify) != 0) {
             echo '$(document).ready(function() {' . '$("#notify").modal("show");' . ' });';
         } ?>
     </script>
