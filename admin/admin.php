@@ -105,6 +105,12 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $map = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='token'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$token = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -230,6 +236,28 @@ $map = $row[1];
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-left-warning py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col mr-2">
+                                            <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Uygulama Tokeni</span></div>
+                                            <div class="text-dark font-weight-bold h6 mb-0"><span id='token'><?php echo $token ?></span></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a class='btn ' href="./gear.php?reqtype=app&var=token">
+                                                <i class="fas fa-sync fa-2x text-gray-300"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a class='btn ' onclick='CopyToClipboard("token") ' data-toggle="popover" data-placement="top" title="Kopyalama Başarılı" data-content="<?php echo $token ?>">
+                                                <i class="fas fa-copy fa-2x text-gray-300"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-7 col-xl-8">
@@ -350,7 +378,7 @@ $map = $row[1];
                                 <div class="form-group my-0  p-3">
                                     <input type="text" name="" id="filters" class="form-control" placeholder="Filtre kelime giriniz">
                                 </div>
-                                <ul class="list-group list-group-flush" id="dataTable" style='max-height:400px;overflow-y:scroll;'>
+                                <ul class="list-group list-group-flush" id="dataTable" style='max-height:594px;overflow-y:scroll;'>
                                     <?php
                                     $sql = "SELECT * FROM log";
                                     $results = $db->query($sql);
@@ -361,7 +389,7 @@ $map = $row[1];
                                     };
                                     $con = 1;
                                     if (count($notify) == 0) {
-                                        echo "<div class='mb-4 my-4 p-4 text-center'><i class='fa fa-frown' style='font-size:80px;'></i><br> kayıt bulunamadı.</div>";
+                                        echo "<div class='mb-4 my-4 p-4 text-center'><i class='fa fa-frog' style='font-size:80px;'></i><br> kayıt bulunamadı.</div>";
                                     } else {
                                         foreach (array_reverse($notify) as $key => $value) {
                                             echo '<li class="list-group-item">';
@@ -386,7 +414,7 @@ $map = $row[1];
                                 </div>
                                 <div class="card-body">
                                     <p class="m-0">Kurum İsmi</p>
-                                    <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                    <form action="./gear.php" method="get" class=' container-fluid'>
                                         <input type="text" name="reqtype" style='display:none' value='app'>
                                         <input type="text" name="var" style='display:none' value='name'>
                                         <input type="text" name="value" class="form-control" placeholder="Kurum ismi giriniz" value='<?php echo $corp ?>'>
@@ -405,18 +433,18 @@ $map = $row[1];
                                     <hr>
                                     <h3>Neden Biz? Bölümü</h3>
                                     <div class='row container-fluid'>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <p>1. Kısım</p>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why1'>
                                                 <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why1 ?></textarea>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <p>2. Kısım</p>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why2'>
                                                 <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why2 ?></textarea>
@@ -425,18 +453,18 @@ $map = $row[1];
                                         </div>
                                     </div>
                                     <div class='row container-fluid'>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <p>3. Kısım</p>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why3'>
                                                 <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why3 ?></textarea>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <p>4. Kısım</p>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why4'>
                                                 <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why4 ?></textarea>
@@ -447,18 +475,18 @@ $map = $row[1];
                                     <hr>
                                     <h3>Map & İletişim Bölümü</h3>
                                     <div class='row container-fluid'>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <label>Telefon numarası:</label>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='phone'>
                                                 <input type='phone' name="value" class="form-control" placeholder="Telefon numarası giriniz" value='<?php echo $phone ?>'></input>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <label>E-posta:</label>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='email'>
                                                 <input type='email' name="value" class="form-control" placeholder="Telefon numarası giriniz" value='<?php echo $email ?>'></input>
@@ -467,18 +495,18 @@ $map = $row[1];
                                         </div>
                                     </div>
                                     <div class='row container-fluid'>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <label>Adres:</label>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='address'>
                                                 <textarea name="value" class="form-control" placeholder="Açık adres giriniz"><?php echo $address ?></textarea>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
-                                        <div class='col my-3'>
+                                        <div class='col my-0'>
                                             <label>Google maps konum linki:</label>
-                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                            <form action="./gear.php" method="get" class=' container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='map'>
                                                 <input type='text' name="value" class="form-control" placeholder="google maps ten konumun linkini koyunuz" value='<?php echo $map ?>'></input>
@@ -574,6 +602,22 @@ $map = $row[1];
     <script src="../assets/js/bs-init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
     <script src="../assets/js/theme.js"></script>
+    <script>
+        function CopyToClipboard(id) {
+            var r = document.createRange();
+            r.selectNode(document.getElementById(id));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(r);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            $(document).ready(function() {
+                $('[data-toggle="popover"]').popover();
+                setTimeout(function() {
+                    $('[data-toggle="popover"]').popover('hide');
+                }, 1000);
+            });
+        }
+    </script>
     <script>
         $(document).ready(function() {
             $("#filters").on("keyup", function() {

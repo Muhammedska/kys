@@ -337,7 +337,7 @@ $exlesson = ["biyoloji", "fizik", "kimya", "matematik"];
                                             };
                                             $con = 1;
                                             if (count($notify) == 0) {
-                                                echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frown' style='font-size:80px;'></i><br>{$datax[$q][1]} için herhangi bir kayıt bulunamadı.</div>";
+                                                echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frog' style='font-size:80px;'></i><br>{$datax[$q][1]} için herhangi bir kayıt bulunamadı.</div>";
                                             } else {
                                                 foreach ($notify as $key => $value) {
                                                     echo "<div class='media text-muted pt-3' id='dataTable'>";
@@ -364,7 +364,7 @@ $exlesson = ["biyoloji", "fizik", "kimya", "matematik"];
                                             $con = 1;
                                             array_reverse($notify);
                                             if (count($notify) == 0) {
-                                                echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frown' style='font-size:80px;'></i><br>{$datat[$q][1]} için herhangi bir kayıt bulunamadı.</div>";
+                                                echo "<div class='mb-4 my-4 p-4'><i class='fa fa-frog' style='font-size:80px;'></i><br>{$datat[$q][1]} için herhangi bir kayıt bulunamadı.</div>";
                                             } else {
                                                 echo '<ul class="list-group list-group-flush text-left" id="dataTable">';
                                                 foreach (array_reverse($notify) as $key => $value) {

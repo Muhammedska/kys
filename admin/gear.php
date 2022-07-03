@@ -173,21 +173,32 @@ if ($_SESSION['isactive']) {
                 $res = $results->execute();
 
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
-            }else if($_GET['var'] == 'why1' OR $_GET['var'] == 'why2' OR $_GET['var'] == 'why3' OR $_GET['var'] == 'why4' ){
+            } else if ($_GET['var'] == 'why1' or $_GET['var'] == 'why2' or $_GET['var'] == 'why3' or $_GET['var'] == 'why4') {
                 $agent = new DbConnecter('../src/database/users.db');
-                $val = str_replace(['"',"'"],'`',$_GET['value']);
+                $val = str_replace(['"', "'"], '`', $_GET['value']);
                 $sql = "UPDATE `app` SET `val`='{$val}' WHERE var = '{$_GET['var']}' ;";
                 $results = $agent->prepare($sql);
                 $res = $results->execute();
 
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
-            }else if($_GET['var'] == 'phone' OR $_GET['var'] == 'address' OR $_GET['var'] == 'map' OR $_GET['var'] == 'email' ){
+            } else if ($_GET['var'] == 'phone' or $_GET['var'] == 'address' or $_GET['var'] == 'map' or $_GET['var'] == 'email') {
                 $agent = new DbConnecter('../src/database/users.db');
-                $val = str_replace(['"',"'"],'`',$_GET['value']);
+                $val = str_replace(['"', "'"], '`', $_GET['value']);
                 $sql = "UPDATE `app` SET `val`='{$val}' WHERE var = '{$_GET['var']}' ;";
                 $results = $agent->prepare($sql);
                 $res = $results->execute();
 
+                echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
+            } else if ($_GET['var'] == 'token') {
+                $arr = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9'];
+                $newtoken = '';
+                for ($i=0; $i < 13; $i++) { 
+                    $newtoken .= $arr[array_rand($arr)];                    
+                }
+                $agent = new DbConnecter('../src/database/users.db');                
+                $sql = "UPDATE `app` SET `val`='{$newtoken}' WHERE var = '{$_GET['var']}' ;";
+                $results = $agent->prepare($sql);
+                $res = $results->execute();
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
             }
         } else if ($_GET['reqtype'] == 'caro') {
