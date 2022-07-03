@@ -173,6 +173,14 @@ if ($_SESSION['isactive']) {
                 $res = $results->execute();
 
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
+            }else if($_GET['var'] == 'why1' OR $_GET['var'] == 'why2' OR $_GET['var'] == 'why3' OR $_GET['var'] == 'why4' ){
+                $agent = new DbConnecter('../src/database/users.db');
+                $val = str_replace(['"',"'"],'`',$_GET['value']);
+                $sql = "UPDATE `app` SET `val`='{$val}' WHERE var = '{$_GET['var']}' ;";
+                $results = $agent->prepare($sql);
+                $res = $results->execute();
+
+                echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
             }
         } else if ($_GET['reqtype'] == 'caro') {
             $path = '../src/img/carousel/';

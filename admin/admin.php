@@ -56,6 +56,55 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $notshow = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why1'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why1 = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why2'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why2 = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why3'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why3 = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why4'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why4 = $row[1];
+
+
+$sql = "SELECT * FROM app WHERE var='address'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$address = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='phone'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$phone = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='email'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$email = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='email'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$map = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -353,6 +402,50 @@ $notshow = $row[1];
                                         <span class='btn-lg disable'>Bildirimler <?php echo ($notshow == 'active') ? 'Aktif' : 'Pasif'; ?></span>
                                         &nbsp;&nbsp;<a class='btn btn-lg btn-<?php echo ($notshow == 'active') ? 'warning' : 'secondary'; ?>' href='./gear.php?reqtype=app&var=notify&key=<?php echo ($notshow == 'active') ? 'pasif' : 'active'; ?>'><i class="fa fa-lightbulb" aria-hidden="true"></i></a>
                                     </span>
+                                    <hr>
+                                    <h3>Neden Biz? Bölümü</h3>
+                                    <div class='row container-fluid'>
+                                        <div class='col my-3'>
+                                            <p>1. Kısım</p>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='why1'>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why1 ?></textarea>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                        <div class='col my-3'>
+                                            <p>2. Kısım</p>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='why2'>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why2 ?></textarea>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class='row container-fluid'>
+                                        <div class='col my-3'>
+                                            <p>3. Kısım</p>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='why3'>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why3 ?></textarea>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                        <div class='col my-3'>
+                                            <p>4. Kısım</p>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='why4'>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why4 ?></textarea>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    
                                 </div>
                             </div>
                         </div>

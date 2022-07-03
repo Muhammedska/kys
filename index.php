@@ -54,6 +54,54 @@ $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $carousel = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why1'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why1 = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why2'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why2 = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why3'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why3 = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='why4'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$why4 = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='address'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$address = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='phone'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$phone = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='email'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$email = $row[1];
+
+$sql = "SELECT * FROM app WHERE var='email'";
+$results = $db->prepare($sql);
+$res = $results->execute();
+$row = $res->fetchArray(SQLITE3_NUM);
+$map = $row[1];
 ?>
 <!DOCTYPE html>
 <html>
@@ -288,7 +336,7 @@ $carousel = $row[1];
                 <section id="portfolio" class="content-section">
                     <div class="container">
                         <div class="content-section-heading text-center">
-                            <h3 class="text-secondary mb-0"><?php echo $corp;?></h3>
+                            <h3 class="text-secondary mb-0"><?php echo $corp; ?></h3>
                             <h2 class="mb-5">Neden Biz?</h2>
                         </div>
                         <div class="row no-gutters">
@@ -297,7 +345,7 @@ $carousel = $row[1];
                                     <div class="caption">
                                         <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83; '>
                                             <h2>Neden Biz?</h2>
-                                            <p style='color:black;'>Sabah 8:00 Akşam 10:00 arası gözetmen öğretmen eşliğinde etüt olanağı.</p>
+                                            <p style='color:black;'><?php echo $why1 ?></p>
                                         </div>
                                     </div>
                                     <img class="img-fluid" src="assets/img/portfolio-1.jpg">
@@ -308,7 +356,7 @@ $carousel = $row[1];
                                     <div class="caption">
                                         <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83;'>
                                             <h2>Neden Biz?</h2>
-                                            <p style='color:black;'>Öğrencilerimize haftalık ödevlendirme ve ödev kontrolü.</p>
+                                            <p style='color:black;'><?php echo $why2 ?></p>
                                         </div>
                                     </div>
                                     <img class="img-fluid" src="assets/img/portfolio-2.jpg">
@@ -319,7 +367,7 @@ $carousel = $row[1];
                                     <div class="caption">
                                         <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83;'>
                                             <h2>Neden Biz?</h2>
-                                            <p style='color:black;'>Her hafta AYT veya TYT denemeleri.</p>
+                                            <p style='color:black;'><?php echo $why3 ?></p>
                                         </div>
                                     </div>
                                     <img class="img-fluid" src="assets/img/portfolio-3.jpg">
@@ -330,7 +378,7 @@ $carousel = $row[1];
                                     <div class="caption">
                                         <div class="caption-content p-2" style='border-radius:15px;background-color: #a7ddfa83;'>
                                             <h2>Neden Biz?</h2>
-                                            <p style='color:black;'>Deneme sınavları ile belirlenen başarı sınıfları.</p>
+                                            <p style='color:black;'><?php echo $why4 ?></p>
                                         </div>
                                     </div>
                                     <img class="img-fluid" src="assets/img/portfolio-4.jpg">
@@ -339,7 +387,38 @@ $carousel = $row[1];
                         </div>
                     </div>
                 </section>
-                <section id='creator' class="d-flex " style='position:relative;background-color:#9900BE;color:black; background-image: url("https://avatars.githubusercontent.com/u/81029510?s=400&u=76f58bc809770b4309245a0fd3f1b3806d6739a3&v=4");background-repeat: no-repeat;  background-position: left;height:400px;'>
+                <section id="maps" class="content-section" style='position:relative;background-color:#9900BE;color:white; background-image: url("assets/img/map.png");background-repeat: inline-repeat;  background-position: center;height:580px;'>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col bg-dark">
+                                <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;margin:center;">
+                                    <tbody class="text-left">
+                                        <tr>
+                                            <td style="color:white;">Adres</td>
+                                            <td style="color:white;">:</td>
+                                            <td style="color:white;"><?php echo $address; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:white;">Telefon</td>
+                                            <td style="color:white;">:</td>
+                                            <td style="color:white;"><?php echo $phone; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:white;">E-Posta</td>
+                                            <td style="color:white;">:</td>
+                                            <td style="color:white;"><?php echo $email; ?></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <iframe src="<? echo $map ?>" width="600" height="356" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id='creator' class="d-flex " style='position:relative;background-color:#9900BE;color:white; background-image: url("https://avatars.githubusercontent.com/u/81029510?s=400&u=76f58bc809770b4309245a0fd3f1b3806d6739a3&v=4");background-repeat: no-repeat;  background-position: left;height:400px;'>
                     <div class="container text-center" style='margin:auto;'>
                         <div class="row">
                             <div class="col-lg-10 mx-auto">
@@ -357,8 +436,9 @@ $carousel = $row[1];
                 </section>
             </div>
         </div>
-        <footer class="bg-white sticky-footer">
-            <div class="container my-auto">
+        <footer class="bg-white sticky-footer bg-dark">
+            <div class="container-fluid my-auto bg-dark my-4 p-5" style='color:gray'>
+
                 <div class="text-center my-auto copyright"><span>Copyright © Walle 2022 & BY: Çözelti Software</span></div>
             </div>
         </footer>
