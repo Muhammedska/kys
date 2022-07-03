@@ -100,7 +100,7 @@ $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $email = $row[1];
 
-$sql = "SELECT * FROM app WHERE var='email'";
+$sql = "SELECT * FROM app WHERE var='map'";
 $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
@@ -410,7 +410,7 @@ $map = $row[1];
                                             <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why1'>
-                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why1 ?></textarea>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why1 ?></textarea>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
@@ -419,7 +419,7 @@ $map = $row[1];
                                             <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why2'>
-                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why2 ?></textarea>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why2 ?></textarea>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
@@ -430,7 +430,7 @@ $map = $row[1];
                                             <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why3'>
-                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why3 ?></textarea>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why3 ?></textarea>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
@@ -439,13 +439,53 @@ $map = $row[1];
                                             <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
                                                 <input type="text" name="reqtype" style='display:none' value='app'>
                                                 <input type="text" name="var" style='display:none' value='why4'>
-                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz" ><?php echo $why4 ?></textarea>
+                                                <textarea name="value" class="form-control" placeholder="Neden bölümü giriniz"><?php echo $why4 ?></textarea>
                                                 <button class="btn btn-primary" type="submit">Güncelle</button>
                                             </form>
                                         </div>
                                     </div>
                                     <hr>
-                                    
+                                    <h3>Map & İletişim Bölümü</h3>
+                                    <div class='row container-fluid'>
+                                        <div class='col my-3'>
+                                            <label>Telefon numarası:</label>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='phone'>
+                                                <input type='phone' name="value" class="form-control" placeholder="Telefon numarası giriniz" value='<?php echo $phone ?>'></input>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                        <div class='col my-3'>
+                                            <label>E-posta:</label>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='email'>
+                                                <input type='email' name="value" class="form-control" placeholder="Telefon numarası giriniz" value='<?php echo $email ?>'></input>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class='row container-fluid'>
+                                        <div class='col my-3'>
+                                            <label>Adres:</label>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='address'>
+                                                <textarea name="value" class="form-control" placeholder="Açık adres giriniz"><?php echo $address ?></textarea>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                        <div class='col my-3'>
+                                            <label>Google maps konum linki:</label>
+                                            <form action="./gear.php" method="get" class='d-inline-flex container-fluid'>
+                                                <input type="text" name="reqtype" style='display:none' value='app'>
+                                                <input type="text" name="var" style='display:none' value='map'>
+                                                <input type='text' name="value" class="form-control" placeholder="google maps ten konumun linkini koyunuz" value='<?php echo $map ?>'></input>
+                                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

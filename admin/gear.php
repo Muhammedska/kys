@@ -181,6 +181,14 @@ if ($_SESSION['isactive']) {
                 $res = $results->execute();
 
                 echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
+            }else if($_GET['var'] == 'phone' OR $_GET['var'] == 'address' OR $_GET['var'] == 'map' OR $_GET['var'] == 'email' ){
+                $agent = new DbConnecter('../src/database/users.db');
+                $val = str_replace(['"',"'"],'`',$_GET['value']);
+                $sql = "UPDATE `app` SET `val`='{$val}' WHERE var = '{$_GET['var']}' ;";
+                $results = $agent->prepare($sql);
+                $res = $results->execute();
+
+                echo "<script>window.location.href='../admin/admin.php?ret=true&reqtype=app'</script>";
             }
         } else if ($_GET['reqtype'] == 'caro') {
             $path = '../src/img/carousel/';

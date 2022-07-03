@@ -97,7 +97,7 @@ $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
 $email = $row[1];
 
-$sql = "SELECT * FROM app WHERE var='email'";
+$sql = "SELECT * FROM app WHERE var='map'";
 $results = $db->prepare($sql);
 $res = $results->execute();
 $row = $res->fetchArray(SQLITE3_NUM);
@@ -390,8 +390,8 @@ $map = $row[1];
                 <section id="maps" class="content-section" style='position:relative;background-color:#9900BE;color:white; background-image: url("assets/img/map.png");background-repeat: inline-repeat;  background-position: center;height:580px;'>
                     <div class="container">
                         <div class="row">
-                            <div class="col bg-dark">
-                                <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;margin:center;">
+                            <div class="col bg-dark align-item-center my-3"  >
+                                <table class="table table-borderless text-left table-hover table-stripped" style="border-radius:10px;margin-top:center; margin-bottom:center;">
                                     <tbody class="text-left">
                                         <tr>
                                             <td style="color:white;">Adres</td>
@@ -412,8 +412,8 @@ $map = $row[1];
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col">
-                                <iframe src="<? echo $map ?>" width="600" height="356" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <div class="col my-3">
+                                <iframe src="<?php echo $map ?>" width="auto" height="356" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </div>
                     </div>
