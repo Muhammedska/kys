@@ -186,7 +186,7 @@ QPushButton:pressed{
      <string/>
     </property>
     <property name="maxLength">
-     <number>13</number>
+     <number>12333</number>
     </property>
     <property name="placeholderText">
      <string>Alan Adınız</string>
@@ -314,7 +314,7 @@ QPushButton:pressed{
      <string>Gönder</string>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit">
+   <widget class="QPlainTextEdit" name="nottext">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -327,6 +327,9 @@ QPushButton:pressed{
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="placeholderText">
+     <string>Bildirim metni giriniz</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="syprex">
@@ -525,6 +528,36 @@ QPushButton:pressed{
       <height>64</height>
      </size>
     </property>
+   </widget>
+   <widget class="QComboBox" name="mass">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>221</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>Genel</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Öğrenci</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Öğretmen</string>
+     </property>
+    </item>
    </widget>
   </widget>
  </widget>

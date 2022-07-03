@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>WALLE</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>favicon.svg</normaloff>favicon.svg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow{    background-color: #9900BE;
+    color: white};</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="base" native="true">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>20</y>
+      <width>400</width>
+      <height>540</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>1</horstretch>
+      <verstretch>1</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>400</width>
+      <height>540</height>
+     </size>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>81</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>favicon.svg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>0</y>
+       <width>81</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>81029510.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>10</y>
+       <width>221</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Impact</family>
+       <pointsize>41</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white</string>
+     </property>
+     <property name="text">
+      <string>WALLE</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="syprex">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>480</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>SYPREX COM RUNNER</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="syprexrunner">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>480</y>
+       <width>91</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:#14213d;
+	border-radius:15px;
+	color:#FCA311;
+	transition: all  500ms;
+}
+QPushButton::hover{
+	background-color:#FCA311 ;
+	border-radius:15px;
+	color:#14213d;
+	transition: all 100ms;
+}
+QPushButton:pressed{
+	background-color:#e5e5e5 ;
+	border-radius:15px;
+	color:#fffff;
+	transition: all 100ms;
+}
+  </string>
+     </property>
+     <property name="text">
+      <string>RUN</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="uid">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>240</y>
+       <width>361</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit{background-color:#EDE7E3;border-radius:60px}</string>
+     </property>
+     <property name="maxLength">
+      <number>13</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>Öğrenci ID</string>
+     </property>
+     <property name="cursorMoveStyle">
+      <enum>Qt::LogicalMoveStyle</enum>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>125</x>
+       <y>80</y>
+       <width>150</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Impact</family>
+       <pointsize>41</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>users-solid.svg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="login">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>320</y>
+       <width>301</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	background-color:#14213d;
+	border-radius:15px;
+	color:#FCA311;
+	transition: all  500ms;
+}
+QPushButton::hover{
+	background-color:#FCA311 ;
+	border-radius:15px;
+	color:#14213d;
+	transition: all 100ms;
+}
+QPushButton:pressed{
+	background-color:#e5e5e5 ;
+	border-radius:15px;
+	color:#fffff;
+	transition: all 100ms;
+}
+  </string>
+     </property>
+     <property name="text">
+      <string>Giriş Yap</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
