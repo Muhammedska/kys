@@ -129,9 +129,11 @@ class student_login(QtWidgets.QMainWindow):
 
         self.base.move(int((w-400)/2),int((h-540)/2))
         self.syprexrunner.clicked.connect(self.syprexcomrunner)
-        self.login.clicked.connect(self.login)
-    def login(self):
-        None
+        self.login.clicked.connect(self.login_)
+
+    def login_(self):
+        r = requests.get(webad+'/rgx/core.php',{'token':tokenx,'type':'istudent','id':self.uid.text()})
+        print(r.content.decode('utf-8'))
     def syprexcomrunner(self):
         syprex_command = 'BengiSuARTZ'
         syprex_text = self.syprex.text()

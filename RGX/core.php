@@ -73,5 +73,35 @@ if ($_GET['token'] == $token) {
         $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '" . str_replace("'", '"', $_GET['notifytext']) . "', 'kurum');";
         $results = $db->prepare($sql);
         $res = $results->execute();
+    } else if ($_GET['type'] == 'istudent') {
+        $ID = $_GET['id'];
+        $sql = "SELECT * FROM student WHERE ID = '{$ID}';";
+        $results = $db->prepare($sql);
+        $res = $results->execute();
+        $row = $res->fetchArray(SQLITE3_NUM);
+
+        if ($row != false) {
+            $lessons = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"];
+            $sql = "SELECT * FROM teacherreq WHERE stid = '{$ID}';";
+            $results = $db->prepare($sql);
+            $res = $results->execute();
+            //$row = $res->fetchArray(SQLITE3_NUM);
+            //var_dump($row);
+            $waitlist = [];
+            $q = '';
+            while ($row = $res->fetchArray()) {
+                //var_dump($row);    
+                array_push($waitlist, $row[2]);
+                $q .= $row[2] . ',';
+            }
+            if (strlen($q) > 0) {
+                $q = substr($q, 0, -1);
+                echo $q;
+            } else {
+                echo "0";
+            }
+        } else {
+            echo "error";
+        }
     }
 }
