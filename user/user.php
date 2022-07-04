@@ -204,7 +204,7 @@ $corp = $row[1];
                                 $results = $db->query($sql);
                                 $notify = [];
                                 while ($row = $results->fetchArray()) {
-                                    if ($row['mass'] == 'teacher') {
+                                    if ($row['mass'] == 'student') {
 
                                         array_push($notify, array($row['mass'], $row['notify'], $row['sender']));
                                     }

@@ -92,7 +92,8 @@ if ($_GET['token'] == $token) {
             while ($row = $res->fetchArray()) {
                 //var_dump($row);    
                 array_push($waitlist, $row[2]);
-                $q .= $row[2] . ',';
+                $b = $row[2];
+                $q .=  $b. ',';
             }
             if (strlen($q) > 0) {
                 $q = substr($q, 0, -1);
@@ -103,5 +104,19 @@ if ($_GET['token'] == $token) {
         } else {
             echo "error";
         }
+    } else if($_GET['type'] == 'reqadd'){
+        $ID = $_GET['id'];
+        $tarih = date("Y-m-d h:i:sa");
+        $sql = "SELECT * FROM student WHERE ID = '{$ID}';";
+        $results = $db->prepare($sql);
+        $res = $results->execute();
+        $row = $res->fetchArray(SQLITE3_NUM);
+        $name = $row[1];
+        $grade = $row[2];
+        $db->exec("INSERT INTO statsstudent (ID, subject) VALUES ('{$ID}','{$_GET['lesson']}') ");
+        $db->exec("INSERT INTO teacherreq(sname,stid,subject,graduate) VALUES ('{$name}','{$ID}','{$_GET['lesson']}','{$grade}')") ;
+        $sql = "INSERT INTO `log` (`mission`, `logtm`,`user`) VALUES ('{$name} - {$_GET['lesson']} randevu talebi oluşturma tamamlandı | WALLE DESKTOP APP', '{$tarih}','{$name}');";        
+        $db->exec($sql);
+        echo "success";    
     }
 }

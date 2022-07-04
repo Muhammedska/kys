@@ -14,12 +14,13 @@ import csv
 import urllib3
 
 urllib3.disable_warnings()
-global tokenx,webad,con
+global tokenx,webad,con,reqte,stuidd
 db_path = './app.db'
 con = sqlite3.connect(db_path)
 tokenx = con.execute("""SELECT * FROM app WHERE var='token'""").fetchall()[0][1]
 webad = con.execute("""SELECT * FROM app WHERE var='web'""").fetchall()[0][1]
-
+reqte = []
+stuidd = ''
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
@@ -115,7 +116,7 @@ class Ui(QtWidgets.QMainWindow):
         syprex_text = self.syprex.text()
         if  syprex_text == syprex_command:
             self.stu = student_login()
-            self.stu.show()
+            self.stu.showFullScreen()
             self.close()
 
 
@@ -127,13 +128,29 @@ class student_login(QtWidgets.QMainWindow):
         h = QtWidgets.QDesktopWidget().screenGeometry().height()
         w = QtWidgets.QDesktopWidget().screenGeometry().width()
 
+        flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(flags)
+
         self.base.move(int((w-400)/2),int((h-540)/2))
         self.syprexrunner.clicked.connect(self.syprexcomrunner)
         self.login.clicked.connect(self.login_)
 
     def login_(self):
+        global reqte,stuidd
         r = requests.get(webad+'/rgx/core.php',{'token':tokenx,'type':'istudent','id':self.uid.text()})
-        print(r.content.decode('utf-8'))
+        rqm = r.content.decode('utf-8')
+
+        if rqm != 'error':
+            stuidd = self.uid.text()
+            rqq = r.content.decode('utf-8').split(',')
+            reqte = rqq
+            self.reqcretor = student()
+            self.reqcretor.showFullScreen()
+            self.close()
+        else:
+            QMessageBox.warning(self,'WALLE','Bu '+self.uid.text()+' Öğrenci Kayıtlı değil')
+            self.uid.setText('')
+        print()
     def syprexcomrunner(self):
         syprex_command = 'BengiSuARTZ'
         syprex_text = self.syprex.text()
@@ -144,11 +161,56 @@ class student_login(QtWidgets.QMainWindow):
 class student(QtWidgets.QMainWindow):
     def __init__(self):
         super(student, self).__init__()
-        uic.loadUi('./student.ui', self)
+        uic.loadUi('./stuf.ui', self)
+
+        flags = QtCore.Qt.WindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(flags)
+
+        h = QtWidgets.QDesktopWidget().screenGeometry().height()
+        w = QtWidgets.QDesktopWidget().screenGeometry().width()
+        self.base.move(int((w-400)/2),int((h-540)/2))
+        self.syprexrunner.clicked.connect(self.syprexcomrunner)
+        self.send.clicked.connect(self.sendreq)
+        self.qses.clicked.connect(self.sesclose)
+
+        les = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"]
+        nidix = 0
+        for i in les:
+            if i not in reqte:
+                self.reqlist.addItem(i.upper())
+                nidix += 1
+        if nidix == 0:
+            QMessageBox.information(self,'WALLE','Tüm derslerden önceden randevu alınmıştır.')
+    def sendreq(self):
+        rm = self.reqlist.currentText().lower()
+        r = requests.get(webad+'/rgx/core.php',{'token':tokenx,'type':'reqadd','id':stuidd,'lesson':rm})
+        if r.content.decode('utf-8') == 'success':
+            QMessageBox.information(self,'WALLE',self.reqlist.currentText()+' Talebiniz alınmıştır.\nİYİ GÜNLER DİLERİZ')
+            self.reqlist.clear()
+            reqte.append(rm)
+            les = ["matematik", "turkce", "geometri", "kimya", "fizik", "biyoloji", "tarih", "cografya"]
+            nidix = 0
+            for i in les:
+                if i not in reqte:
+                    self.reqlist.addItem(i.upper())
+                    nidix += 1
+            if nidix == 0:
+                QMessageBox.information(self, 'WALLE', 'Tüm derslerden randevu alınmıştır.')
+    def sesclose(self):
+        global stuidd
+        stuidd = ''
+        self.stu = student_login()
+        self.stu.showFullScreen()
+        self.close()
+    def syprexcomrunner(self):
+        syprex_command = '25032022'
+        syprex_text = self.syprex.text()
+        if syprex_text == syprex_command:
+            self.close()
 
 if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
-    window = student_login()
-    window.showFullScreen()
+    window = Ui()
+    window.show()
     app.exec_()
