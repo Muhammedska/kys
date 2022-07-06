@@ -119,4 +119,8 @@ if ($_GET['token'] == $token) {
         $db->exec($sql);
         echo "success";    
     }
+
+}else if(empty($_GET['token'])){
+    echo "error";
+}else{
 }
