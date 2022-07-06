@@ -179,7 +179,7 @@ $corp = $row[1];
                                                     echo "<td>{$datar[$i][0]}</td>";
                                                     echo "<td>{$datar[$i][2]}</td>";
                                                     echo "<td>
-                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del' class='btn btn-lg btn-danger'><i class='fa fa-trash'></i></a> &nbsp;
+                                                    <a href='./gear.php?id={$datar[$i][0]}&reqtype=del&type=st' class='btn btn-lg btn-danger'><i class='fa fa-trash'></i></a> &nbsp;
                                                     <a href='./statics.php?q={$datar[$i][0]}&type=student' class='btn btn-lg btn-success'><i class='fas fa-chart-line'></i></a>
                                                     </td>";
                                                     echo "</tr>";
