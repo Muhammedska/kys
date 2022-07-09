@@ -123,7 +123,13 @@ $map = $row[1];
 <html>
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="description" content="<?php echo $corp?> Özel Eğitim Kurumu Eğitim için en iyisi">
+    <meta name="keywords" content="Ders, Dershane, Eğitim, Özel Kurs, Vip Eğitim, Mersin, Beş Nokta, ">
+    <meta name="author" content="Çözelti Software">
+    <meta name="designer" content="Çözelti Software">
+    <meta name="og:image" content="./favicon.svg"/>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title><?php echo $corp ?></title>
     <link rel="stylesheet" href="/assets/bootstrap/css/maiin.css">
@@ -281,20 +287,24 @@ $map = $row[1];
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner text-center bg-dark" style="min-height:274px;height:fit-content;max-height:600px; width:100%;">
                             <?php
-
+                            $vahset = '[';
                             for ($i = 0; $i < count($diffar); $i++) {
                                 if (($diffar == '.') && ($diffar == '..') && ($diffar == '...')) {
                                 } else {
                                     $isac = ($i == 0) ? 'active' : '';
                                     $biga = strtoupper(str_replace(['.jpeg', '.png', '.jpg'], '', $diffar[$i]));
+                                    $bb = str_replace(['-', ' ', '"', "`", ",", ":", "!", "^", "+", "/", "#"], '', $biga);
                                     echo '<div class="carousel-item align-center ' . $isac . '" style="position:relative; width:100%; margin:auto">
-                                                <img src="' . $examdir . $diffar[$i] . '"  style="min-height:279px;height:fit-content;max-height:600px;position:relative">
+                                                <img id="' . $bb . '" src="' . $examdir . $diffar[$i] . '" style="height: auto;">
                                                 <div class="carousel-caption">
                                                     <h3>' . $biga . '</h3>                                                    
                                                 </div>
                                             </div>';
+                                    $vahset .= '"' . $bb . '",';
                                 }
                             }
+                            $vahset .= ']';
+                            echo '<script>var vahset = ' . $vahset . ';console.log(vahset);</script>';
                             ?>
 
                         </div>
@@ -539,7 +549,17 @@ $map = $row[1];
 
         if (detectMob() == true) {
             document.getElementById('creator').style.color = 'white';
-
+            var i = 0;
+            for (m = 0; m < vahset.length; m++) {
+                console.log(vahset[m]);
+                document.getElementById(vahset[m]).style.width = window.innerWidth + 'px';
+            }
+        }else{
+            var i = 0;
+            for (m = 0; m < vahset.length; m++) {
+                console.log(vahset[m]);
+                document.getElementById(vahset[m]).style.height = '600px';
+            }
         }
         <?php if ($notshow == 'active' and count($notify) != 0) {
             echo '$(document).ready(function() {' . '$("#notify").modal("show");' . ' });';
