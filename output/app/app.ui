@@ -131,7 +131,10 @@ QPushButton:pressed{
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit{background-color:#EDE7E3;}</string>
+     <string notr="true">QLineEdit{border-radius: 20px;background-color:#EDE7E3;}
+
+
+</string>
     </property>
     <property name="maxLength">
      <number>13</number>
@@ -180,7 +183,7 @@ QPushButton:pressed{
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLineEdit{background-color:#EDE7E3;}</string>
+     <string notr="true">QLineEdit{border-radius: 20px;background-color:#EDE7E3;}</string>
     </property>
     <property name="text">
      <string/>
