@@ -178,7 +178,7 @@ class student(QtWidgets.QMainWindow):
         for i in les:
             if i not in reqte:
                 self.reqlist.addItem(i.upper())
-                nidix += 1
+                nidix +=  1
         if nidix == 0:
             QMessageBox.information(self,'WALLE','Tüm derslerden önceden randevu alınmıştır.')
     def sendreq(self):
