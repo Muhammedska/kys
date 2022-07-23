@@ -69,7 +69,9 @@ class Ui(QtWidgets.QMainWindow):
             if len(m) == 0:
 
                 break
-            r = requests.get(webad+'rgx/core.php',params={"token":tokenx,"type":"add","t":"student","id":m[0],"name":m[1],"grade":m[2]})
+            r = requests.get(webad+'/rgx/core.php',params={"token":tokenx,"type":"add","t":"student","id":m[0],"name":m[1],"grade":m[2]},timeout=1)        
+            self.progressBar.setValue(int(q/lens*100))
+            self.sysoutput.appendPlainText(i+'  '+str(r.content.decode("utf-8"))+'\n')
             if str(r.content.decode("utf-8")) == "success":
                 q+=1
             else:
