@@ -37,6 +37,9 @@ if ($_SESSION['isactive']) {
 
                 $sql = "DELETE FROM statstudent WHERE ID = '{$_GET['id']}'";
                 $agent->exec($sql);
+
+                $sql = "DELETE FROM teacherreq WHERE stid = '{$_GET['id']}'";
+                $agent->exec($sql);
                 //$res = $results->execute() or die("<script>window.location.href='./adds.php?ret=false&reqtype=del&q=120'</script>");
 
                 echo "<script>window.location.href='./adds.php?ret=true&reqtype=del'</script>";

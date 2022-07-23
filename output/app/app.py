@@ -11,6 +11,7 @@ import requests
 import sys
 from bs4 import BeautifulSoup
 import csv
+import pandas
 import urllib3
 
 urllib3.disable_warnings()
@@ -53,43 +54,80 @@ class Ui(QtWidgets.QMainWindow):
     def upload(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "","Excel Files (*.csv)", options=options)
-        file = open(fileName,'r',encoding='UTF-8').read().replace('\ufeff','').split('\n')
-        lens = len(file)
-        q = 0
-        index = 0
-        f = 0
-        indi =[]
-        for i in file:
-            if len(i) == 0:
-                break
-            self.setWindowTitle(str(q)+' Kişi yüklendi | '+str(f)+' Kişi Yüklenemedi ')
-            m = i.split(';')
+        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "","Excel Files (*.xlsx);; Excel Files (*.csv)", options=options)
+        if fileName.endswith('.csv'):
+            file = open(fileName, 'r', encoding='UTF-8').read().replace('\ufeff', '').split('\n')
+            lens = len(file)
+            q = 0
+            index = 0
+            f = 0
+            indi = []
+            for i in file:
+                if len(i) == 0:
+                    break
+                self.setWindowTitle(str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi ')
+                m = i.split(';')
 
-            if len(m) == 0:
-
-                break
-            r = requests.get(webad+'rgx/core.php',params={"token":tokenx,"type":"add","t":"student","id":m[0],"name":m[1],"grade":m[2]})
-            if str(r.content.decode("utf-8")) == "success":
-                q+=1
+                if len(m) == 0:
+                    break
+                r = requests.get(webad + '/rgx/core.php',params={"token": tokenx, "type": "add", "t": "student", "id": m[0], "name": m[1],"grade": m[2]}, timeout=1)
+                self.progressBar.setValue(int(q / lens * 100))
+                self.sysoutput.appendPlainText(i + '  ' + str(r.content.decode("utf-8")) + '\n')
+                if str(r.content.decode("utf-8")) == "success":
+                    q += 1
+                else:
+                    f += 1
+                    indi.append(index)
+                index += 1
+            log = open('logoutupload.txt', 'w', encoding='UTF-8')
+            log.write(str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi \n')
+            for i in indi:
+                log.write(file[i] + '\n')
+            log.close()
+            if len(indi) == 0:
+                QMessageBox.information(self, 'WALLE', str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi ')
             else:
-                f+=1
-                indi.append(index)
-            index+=1
-        log = open('logoutupload.txt','w',encoding='UTF-8')
-        log.write(str(q)+' Kişi yüklendi | '+str(f)+' Kişi Yüklenemedi \n')
-        for i in indi:
-            log.write(file[i]+'\n')
-        log.close()
-        if len(indi) == 0:
-            QMessageBox.information(self,'WALLE',str(q)+' Kişi yüklendi | '+str(f)+' Kişi Yüklenemedi ')
-        else:
-            QMessageBox.warning(self,'WALLE',str(q)+' Kişi yüklendi | '+str(f)+' Kişi Yüklenemedi \n Bazı kişiler aktarılırken sorun ile karşılaşıldı.\n karşıya yükleme kayıt günlüğü açılacaktır.')
-        self.showMinimized()
-        os.system('notepad ./logoutupload.txt')
+                QMessageBox.warning(self, 'WALLE', str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi \n Bazı kişiler aktarılırken sorun ile karşılaşıldı.\n karşıya yükleme kayıt günlüğü açılacaktır.')
+        elif fileName.endswith('.xlsx'):
+            file = pandas.read_excel(open(fileName,'rb'),header=None)
+            dataList = file.values.tolist()
+            lens = len(dataList)
+            q = 0
+            index = 0
+            f = 0
+            indi = []
+            for i in dataList:
+                if len(i) == 0:
+                    break
+                self.setWindowTitle(str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi ')
+
+                r = requests.get(webad + '/rgx/core.php',params={"token": tokenx, "type": "add", "t": "student", "id": i[0], "name": i[1],"grade": i[2]}, timeout=1)
+                self.progressBar.setValue(int(q / lens * 100))
+                self.sysoutput.appendPlainText(str(i[0] )+ '  ' +i[1] + '  ' +str(i[2]) + '  ' + str(r.content.decode("utf-8")) + '\n')
+                if str(r.content.decode("utf-8")) == "success":
+                    q += 1
+                else:
+                    f += 1
+                    indi.append(index)
+                index += 1
+            log = open('logoutupload.txt', 'w', encoding='UTF-8')
+            log.write(str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi \n')
+            for i in indi:
+                log.write(str(dataList[i]) + '\n')
+            log.close()
+            if len(indi) == 0:
+                QMessageBox.information(self, 'WALLE', str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi ')
+                sspdx = True
+            else:
+                QMessageBox.warning(self, 'WALLE', str(q) + ' Kişi yüklendi | ' + str(f) + ' Kişi Yüklenemedi \n Bazı kişiler aktarılırken sorun ile karşılaşıldı.\n karşıya yükleme kayıt günlüğü açılacaktır.')
+
+        if fileName != '' and sspdx == False:
+            self.showMinimized()
+            os.system('notepad ./logoutupload.txt')
     def takelogic(self):
-        r = requests.get(webad + 'rgx/core.php',params={"token": tokenx, "type": "getlog"})
+        r = requests.get(webad + '/rgx/core.php',params={"token": tokenx, "type": "getlog"},timeout=1)
         m = r.content.decode('UTF-8')
+        self.sysoutput.appendPlainText('Log Kayıtları alındı'+ '\n')
         log = open('weblog.txt', 'w', encoding='UTF-8')
         log.write(m)
         log.close()
@@ -108,7 +146,7 @@ class Ui(QtWidgets.QMainWindow):
         if len(text) == 0 :
             QMessageBox.warning(self, 'WALLE', 'Bildirim metni Girilmemiş')
         else:
-            r = requests.get(webad + 'rgx/core.php', params={"token": tokenx, "type": "sendnotify", "mass":mas,"notifytext":text})
+            r = requests.get(webad + '/rgx/core.php', params={"token": tokenx, "type": "sendnotify", "mass":mas,"notifytext":text},timeout=1)
             self.nottext.setPlainText("")
             QMessageBox.information(self,'WALLE','Bildirim Yollandı')
     def syprexcomrunner(self):
@@ -118,8 +156,13 @@ class Ui(QtWidgets.QMainWindow):
             self.stu = student_login()
             self.stu.showFullScreen()
             self.close()
-
-
+        elif syprex_text == 'cleanstudent':
+            r = requests.get(webad + '/rgx/core.php', params={"token": tokenx, "type": "clearstudent"},timeout=1)
+            m = r.content.decode('UTF-8')
+            if m == 'success':
+                self.sysoutput.appendPlainText('Öğrenci Kayıtlatı temizlendi\n')
+            else:
+                self.sysoutput.appendPlainText(m+'\n')
 
 class student_login(QtWidgets.QMainWindow):
     def __init__(self):
@@ -137,7 +180,7 @@ class student_login(QtWidgets.QMainWindow):
 
     def login_(self):
         global reqte,stuidd
-        r = requests.get(webad+'/rgx/core.php',{'token':tokenx,'type':'istudent','id':self.uid.text()})
+        r = requests.get(webad+'/rgx/core.php',{'token':tokenx,'type':'istudent','id':self.uid.text()},timeout=1)
         rqm = r.content.decode('utf-8')
 
         if rqm != 'error':
@@ -178,12 +221,12 @@ class student(QtWidgets.QMainWindow):
         for i in les:
             if i not in reqte:
                 self.reqlist.addItem(i.upper())
-                nidix += 1
+                nidix +=  1
         if nidix == 0:
             QMessageBox.information(self,'WALLE','Tüm derslerden önceden randevu alınmıştır.')
     def sendreq(self):
         rm = self.reqlist.currentText().lower()
-        r = requests.get(webad+'/rgx/core.php',{'token':tokenx,'type':'reqadd','id':stuidd,'lesson':rm})
+        r = requests.get(webad+'/rgx/core.php',{'token':tokenx,'type':'reqadd','id':stuidd,'lesson':rm},timeout=1)
         if r.content.decode('utf-8') == 'success':
             QMessageBox.information(self,'WALLE',self.reqlist.currentText()+' Talebiniz alınmıştır.\nİYİ GÜNLER DİLERİZ')
             self.reqlist.clear()

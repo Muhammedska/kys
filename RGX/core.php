@@ -41,13 +41,11 @@ if ($_GET['token'] == $token) {
     if ($_GET['type'] == 'add') {
         if ($_GET['t'] == 'student') {
             $sql = "INSERT INTO student (ID, name, grade, pp) VALUES ('" . $_GET['id'] . "', '" . $_GET['name'] . "', '" . $_GET['grade'] . "', '" . 'franko' . "')";
-            $results = $db->prepare($sql);
-            $res = $results->execute();
+            $db->exec($sql);
             echo 'success';
         } else if ($_GET['t'] == 'teacher') {
             $sql = "INSERT INTO teacher (ID, name, lesson, pp) VALUES ('" . $_GET['id'] . "', '" . $_GET['name'] . "', '" . $_GET['lesson'] . "', '" . 'franko' . "')";
-            $results = $db->prepare($sql);
-            $res = $results->execute();
+            $db->exec($sql);            
             echo 'success';
         } else {
             echo 'error';
@@ -69,10 +67,19 @@ if ($_GET['token'] == $token) {
                 $con++;
             }
         }
-    } else if ($_GET['type'] == 'sendnotify') {
+    }else if($_GET['type'] == 'clearstudent' ){
+        $sql = "DELETE FROM student";
+        $db->exec($sql) or die('öğrenci listesi silinirken hata oluştu');
+        $sql = "DELETE FROM statsstudent";
+        $db->exec($sql) or die('öğrenci istatistik listesi silinirken hata oluştu');
+        $sql = "DELETE FROM teacherreq";
+        $db->exec($sql) or die('öğretmen istek listesi silinirken hata oluştu');
+        echo 'success';
+
+    }else if ($_GET['type'] == 'sendnotify') {
         $sql = "INSERT INTO `notify` (`mass`, `notify`, `sender`) VALUES ('{$_GET['mass']}', '" . str_replace("'", '"', $_GET['notifytext']) . "', 'kurum');";
-        $results = $db->prepare($sql);
-        $res = $results->execute();
+       $db->exec($sql);
+        
     } else if ($_GET['type'] == 'istudent') {
         $ID = $_GET['id'];
         $sql = "SELECT * FROM student WHERE ID = '{$ID}';";
